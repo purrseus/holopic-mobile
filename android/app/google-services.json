@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "901644783750",
+    "project_id": "holopic-nt99",
+    "storage_bucket": "holopic-nt99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901644783750:android:61803b59050587feef0107",
+        "android_client_info": {
+          "package_name": "com.holopic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901644783750-tlhumdmi3e79qkbtjpqio5o99djvccgb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.holopic",
+            "certificate_hash": "4532c5a6181cceba045e8ff7ac0fef93d8476de2"
+          }
+        },
+        {
+          "client_id": "901644783750-g851spqhcpe6ros7r8525c9evljo4534.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVy1W0u0y26n5qYfFI7SXaLqRb7T1XEvI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901644783750-g851spqhcpe6ros7r8525c9evljo4534.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
