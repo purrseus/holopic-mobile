@@ -1,21 +1,15 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, View } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import BottomTabBar from './tab-bar';
+import { HoloScreen } from '@constants';
 
-const Tab = createBottomTabNavigator();
-// tab navigator, this file is app STACK
+const Stack = createStackNavigator();
+
 const AppStack = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="Test"
-        component={() => (
-          <View>
-            <Text>Tab</Text>
-          </View>
-        )}
-      />
-    </Tab.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen name={HoloScreen.TAB_BAR} component={BottomTabBar} />
+    </Stack.Navigator>
   );
 };
 

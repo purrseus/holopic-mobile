@@ -1,5 +1,9 @@
 {
   "translation": {
-    "Hello": "Xin chào"
+    "welcomeButton": "Bắt đầu",
+    "welcomeTitle1": "Chào mừng đến với Holopic",
+    "welcomeTitle2": "Chia sẻ những bức ảnh yêu thích của bạn đến với mọi người",
+    "welcomeTitle3": "Lấy cảm hứng từ mọi nơi trên internet",
+    "next": "Tiếp theo"
   }
 }

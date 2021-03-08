@@ -42,7 +42,7 @@ connectionInstance.interceptors.response.use(
     }
 
     if (__DEV__) {
-      console.log('API response error:', error);
+      console.error('API response error:', error);
     }
 
     if (error.response?.data?.message) {

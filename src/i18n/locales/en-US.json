@@ -1,5 +1,9 @@
 {
   "translation": {
-    "Hello": "Hello"
+    "welcomeButton": "Get started",
+    "welcomeTitle1": "Welcome to Holopic",
+    "welcomeTitle2": "Share your favorites photos with everyone",
+    "welcomeTitle3": "Get inspired from anywhere on the internet",
+    "next": "Next"
   }
 }
