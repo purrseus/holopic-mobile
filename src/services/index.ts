@@ -5,14 +5,20 @@ import axios, {
   AxiosError,
 } from 'axios';
 import Config from 'react-native-config';
-import HolopicApi from './holopic-api';
+import { getNewAccessToken } from './holopic-api';
 
-export let refreshToken: string = '';
+export const data: { refreshToken: string } = {
+  refreshToken: '',
+};
 
 const connectionInstance: AxiosInstance = axios.create({
   baseURL: Config.HOLOPIC_API_URL,
-  timeout: 20_000,
+  timeout: 20000,
 });
+
+export const setToken = (token: string) => {
+  connectionInstance.defaults.headers.Authorization = token;
+};
 
 connectionInstance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
@@ -26,16 +32,15 @@ connectionInstance.interceptors.request.use(
 connectionInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     if (response.headers.authorization) {
-      connectionInstance.defaults.headers.Authorization =
-        response.headers.authorization;
+      setToken(response.headers.authorization);
     }
     return response;
   },
   async (error: AxiosError) => {
-    if (error.response?.status === 401 && refreshToken !== '') {
+    if (error.response?.status === 401 && data.refreshToken !== '') {
       const originalRequest: AxiosRequestConfig = error.config;
-      const newAccessToken: AxiosResponse = await HolopicApi.refreshToken(
-        refreshToken,
+      const newAccessToken: AxiosResponse = await getNewAccessToken(
+        data.refreshToken,
       );
       originalRequest.headers.Authorization = newAccessToken;
       return connectionInstance.request(originalRequest);

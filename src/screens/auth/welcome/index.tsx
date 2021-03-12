@@ -10,7 +10,7 @@ import {
   Title,
   Pagination,
   Dot,
-  StyledHoloButton,
+  NextButton,
 } from './styles';
 import { Dimensions, FlatList, ListRenderItem } from 'react-native';
 import Moments from '@assets/images/Moments.svg';
@@ -18,8 +18,9 @@ import Photos from '@assets/images/Photos.svg';
 import PhonePhotos from '@assets/images/Phone-photos.svg';
 import { SvgProps } from 'react-native-svg';
 import theme from '@theme';
+import { gradientPreset } from '@components/holo-button';
 
-const WIDTH = Dimensions.get('window').width;
+const WIDTH: number = Dimensions.get('window').width;
 
 interface IWelcomeScreenContent {
   title: string;
@@ -49,7 +50,7 @@ const WelcomeScreen = () => {
     },
   ];
 
-  const renderItem: ListRenderItem<IWelcomeScreenContent> = ({ item }) => {
+  const _renderItem: ListRenderItem<IWelcomeScreenContent> = ({ item }) => {
     return (
       <Content>
         <TextContainer>
@@ -60,13 +61,13 @@ const WelcomeScreen = () => {
     );
   };
 
-  const handleFlatListScroll = (x: number) => {
+  const _handleSwipeGesture = (x: number) => {
     if (Math.ceil(x) % Math.ceil(WIDTH) === 0) {
       setCurrentIndex(+Math.round(x / WIDTH));
     }
   };
 
-  const handleOnPress = () => {
+  const _onNext = () => {
     if (index === welcomeScreenContent.length) {
       dispatch(hideWelcomeScreen());
       return;
@@ -88,8 +89,8 @@ const WelcomeScreen = () => {
           nativeEvent: {
             contentOffset: { x },
           },
-        }) => handleFlatListScroll(x)}
-        renderItem={renderItem}
+        }) => _handleSwipeGesture(x)}
+        renderItem={_renderItem}
         horizontal
         snapToInterval={WIDTH}
         disableScrollViewPanResponder
@@ -104,30 +105,27 @@ const WelcomeScreen = () => {
         ))}
       </Pagination>
 
-      <StyledHoloButton
+      <NextButton
         title={
           index === welcomeScreenContent.length ? t('welcomeButton') : t('next')
         }
-        // eslint-disable-next-line react-native/no-inline-styles
-        titleStyle={{
-          fontFamily: 'Quicksand-Bold',
-          fontSize: 20,
-          fontWeight: '600',
-          lineHeight: 26,
-          color: theme.colors.black,
-        }}
         bgColor={theme.colors.lightGray}
         {...(index === welcomeScreenContent.length && {
-          gradient: {
-            colors: [theme.colors.lightBlue1, theme.colors.lightBlue2],
-            start: { x: 0, y: 0 },
-            end: { x: 1, y: 0 },
-          },
+          gradient: gradientPreset,
+          titleColor: theme.colors.white,
         })}
         rightIcon={
-          <Icon name="arrowright" size={26} color={theme.colors.black} />
+          <Icon
+            name="arrowright"
+            size={26}
+            color={
+              index === welcomeScreenContent.length
+                ? theme.colors.white
+                : theme.colors.black
+            }
+          />
         }
-        onPress={handleOnPress}
+        onPress={_onNext}
       />
     </Container>
   );

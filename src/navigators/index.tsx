@@ -1,44 +1,52 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { PersistPartial } from 'redux-persist/es/persistReducer';
+import Toast from 'react-native-easy-toast';
 
-import { useAppSelector } from '@store/store';
-import { IAuthState } from '@store/slices/auth';
-import { AuthStatus, HoloScreen } from '@constants';
-import AppStack from './app-stack';
-import WelcomeScreen from '@screens/Welcome';
-import LoginScreen from '@screens/Auth';
+import OverlayLoading from '@components/overlay-loading';
+import { HoloScreen } from '@constants';
+import AuthStack from './auth-stack';
+import { useAppDispatch, useAppSelector } from '@store/store';
+import { commonActions } from '@store/slices/common';
+import { StyleSheet } from 'react-native';
 
 const Stack = createStackNavigator();
 
-const Loading = () => <View />;
-
 const RootStack = () => {
-  const authState: IAuthState & PersistPartial = useAppSelector(
-    state => state.auth,
-  );
+  const toastRef = useRef<any>(null);
+  const dispatch = useAppDispatch();
+  const toast = useAppSelector(state => state.common.toast);
+
+  useEffect(() => {
+    if (toast.message !== '') {
+      toastRef?.current?.show(toast.message, toast.duration || 2000);
+      dispatch(commonActions.showToast({ message: '' }));
+    }
+  }, [dispatch, toast.duration, toast.message]);
 
   return (
-    <Stack.Navigator headerMode="none">
-      {authState.status === AuthStatus.VERIFYING && (
-        <Stack.Screen name={HoloScreen.LOADING} component={Loading} />
-      )}
-
-      {authState.status === AuthStatus.FIST_TIME_LOGIN &&
-        authState.showWelcomeScreen && (
-          <Stack.Screen name={HoloScreen.WELCOME} component={WelcomeScreen} />
-        )}
-
-      {authState.status === AuthStatus.UNAUTHORIZED && (
-        <Stack.Screen name={HoloScreen.LOGIN} component={LoginScreen} />
-      )}
-
-      {authState.status === AuthStatus.LOGGED_IN && (
-        <Stack.Screen name={HoloScreen.APP_STACK} component={AppStack} />
-      )}
-    </Stack.Navigator>
+    <>
+      <Stack.Navigator headerMode="none">
+        <Stack.Screen name={HoloScreen.AUTH_STACK} component={AuthStack} />
+      </Stack.Navigator>
+      <Toast
+        ref={toastRef}
+        fadeInDuration={200}
+        fadeOutDuration={200}
+        opacity={0.7}
+        textStyle={styles.toastText}
+      />
+      <OverlayLoading />
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  toastText: {
+    fontFamily: 'Quicksand-Medium',
+    color: 'white',
+    fontSize: 16,
+    lineHeight: 20,
+  },
+});
 
 export default RootStack;

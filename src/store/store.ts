@@ -14,9 +14,11 @@ import {
 
 import rootSaga from './sagas';
 import authReducer from './slices/auth';
+import commonReducer from './slices/common';
 
 const rootReducer = {
   auth: authReducer,
+  common: commonReducer,
 };
 
 const sagaMiddleware = createSagaMiddleware();

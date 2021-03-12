@@ -7,6 +7,7 @@ interface IHoloAppTheme {
     black: HexColor;
     white: HexColor;
     disabled: HexColor;
+    darkGray: HexColor;
     lightGray: HexColor;
     lightBlue1: HexColor;
     lightBlue2: HexColor;
@@ -18,11 +19,12 @@ const theme: IHoloAppTheme = {
   colors: {
     black: '#06060C',
     white: '#FFFFFF',
-    disabled: '#979696',
-    lightGray: '#eeeeee',
-    lightBlue1: '#a1c4fd',
-    lightBlue2: '#c2e9fb',
-    primary: '#5692e2',
+    disabled: '#cac9c9',
+    darkGray: '#666666',
+    lightGray: '#efefef',
+    lightBlue1: '#7fbfff',
+    lightBlue2: '#a1c4fd',
+    primary: '#7aa0fa',
   },
 };
 

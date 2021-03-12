@@ -3,8 +3,6 @@ import React, { ReactNode } from 'react';
 import {
   TouchableWithoutFeedbackProps,
   TouchableWithoutFeedback,
-  StyleProp,
-  TextStyle,
 } from 'react-native';
 import { LinearGradientProps } from 'react-native-linear-gradient';
 
@@ -20,22 +18,38 @@ export enum SizeButton {
   SMALL = 'small',
 }
 
-interface Props extends TouchableWithoutFeedbackProps {
+interface IGradientPreset {
+  colors: string[];
+  start: Record<'x' | 'y', number>;
+  end: Record<'x' | 'y', number>;
+}
+
+export const gradientPreset: IGradientPreset = {
+  colors: [theme.colors.lightBlue1, theme.colors.lightBlue2],
+  start: { x: 0, y: 0 },
+  end: { x: 1, y: 0 },
+};
+export interface Props extends TouchableWithoutFeedbackProps {
   size?: SizeButton;
   title: string;
-  titleStyle?: StyleProp<TextStyle>;
+  titleColor?: string;
+  titleSize?: number;
   bgColor?: string;
   gradient?: LinearGradientProps;
+  shadow?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  style?: any;
 }
 
 const HoloButton = ({
   size = SizeButton.MEDIUM,
   title,
-  titleStyle,
+  titleColor,
+  titleSize,
   bgColor = theme.colors.primary,
   gradient,
+  shadow,
   leftIcon,
   rightIcon,
   style,
@@ -43,25 +57,25 @@ const HoloButton = ({
   ...props
 }: Props) => {
   return (
-    <Container {...{ bgColor, style, size, disabled }}>
-      <TouchableWithoutFeedback disabled={disabled} {...props}>
+    <TouchableWithoutFeedback disabled={disabled} {...props}>
+      <Container {...{ bgColor, shadow, style, size, disabled }}>
         {gradient && !disabled ? (
           <StyledLinearGradient {...gradient}>
             <ContentContainer>
               {leftIcon}
-              <Title style={titleStyle}>{title}</Title>
+              <Title {...{ titleColor, titleSize }}>{title}</Title>
               {rightIcon}
             </ContentContainer>
           </StyledLinearGradient>
         ) : (
           <ContentContainer>
             {leftIcon}
-            <Title style={titleStyle}>{title}</Title>
+            <Title {...{ titleColor, titleSize }}>{title}</Title>
             {rightIcon}
           </ContentContainer>
         )}
-      </TouchableWithoutFeedback>
-    </Container>
+      </Container>
+    </TouchableWithoutFeedback>
   );
 };
 

@@ -48,6 +48,6 @@ export const Dot = styled.View<{ index: number; currentIndex: number }>`
     currentIndex === index && 'transform: scale(1.5);'}
 `;
 
-export const StyledHoloButton = styled(HoloButton)`
+export const NextButton = styled(HoloButton)`
   margin-horizontal: 30px;
 `;

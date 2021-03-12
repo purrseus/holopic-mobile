@@ -4,6 +4,16 @@
     "welcomeTitle1": "Chào mừng đến với Holopic",
     "welcomeTitle2": "Chia sẻ những bức ảnh yêu thích của bạn đến với mọi người",
     "welcomeTitle3": "Lấy cảm hứng từ mọi nơi trên internet",
-    "next": "Tiếp theo"
+    "next": "Tiếp theo",
+    "welcome": "Chào mừng",
+    "headingLoginScreen": "Nhập số điện thoại của bạn để tiếp tục",
+    "titleCountriesDialCodeScreen": "Chọn quốc gia của bạn",
+    "phoneNumber": "SĐT của bạn...",
+    "searchCountry": "Tìm kiếm quốc gia...",
+    "verification": "Xác minh",
+    "headingVerifyOTPScreen": "Chúng tôi đã gửi cho bạn một mã SMS",
+    "login": "Đăng nhập",
+    "resendOTPCodeButton": "Không nhận được mã?",
+    "authCommonErrorMessage": "Xin lỗi, có lỗi xảy ra"
   }
 }

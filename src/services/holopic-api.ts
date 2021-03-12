@@ -1,14 +1,21 @@
 import { AxiosResponse } from 'axios';
 import connectionInstance from './index';
 
-interface IHolopicApi {
-  refreshToken: (refreshToken: string) => Promise<AxiosResponse>;
+export interface IToken {
+  token: {
+    accessToken: string;
+    refreshToken: string;
+  };
 }
 
-const HolopicApi = {} as IHolopicApi;
+type TRefreshToken = (refreshToken: string) => Promise<AxiosResponse>;
 
-HolopicApi.refreshToken = refreshToken => {
-  return connectionInstance.post('/auth/refresh-token', { refreshToken });
-};
+type TLoginWithPhoneNumber = (data: {
+  idToken: string;
+}) => Promise<AxiosResponse<IToken>>;
 
-export default HolopicApi;
+export const getNewAccessToken: TRefreshToken = refreshToken =>
+  connectionInstance.post('/auth/refresh-token', { refreshToken });
+
+export const loginWithPhoneNumber: TLoginWithPhoneNumber = data =>
+  connectionInstance.post('/auth/login/phone-number', data);

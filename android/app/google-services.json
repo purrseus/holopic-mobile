@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "901644783750",
-    "project_id": "holopic-nt99",
-    "storage_bucket": "holopic-nt99.appspot.com"
+    "project_number": "532970672747",
+    "project_id": "holopic-tnd99",
+    "storage_bucket": "holopic-tnd99.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:901644783750:android:61803b59050587feef0107",
+        "mobilesdk_app_id": "1:532970672747:android:030de6b6dbae0d5cda172e",
         "android_client_info": {
           "package_name": "com.holopic"
         }
       },
       "oauth_client": [
         {
-          "client_id": "901644783750-tlhumdmi3e79qkbtjpqio5o99djvccgb.apps.googleusercontent.com",
+          "client_id": "532970672747-1dk19m3l4c8adu09v3rgv7kb55jado5j.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.holopic",
-            "certificate_hash": "4532c5a6181cceba045e8ff7ac0fef93d8476de2"
+            "certificate_hash": "586db01dcc3e4e36ed4af949ce3598c80297fea3"
           }
         },
         {
-          "client_id": "901644783750-g851spqhcpe6ros7r8525c9evljo4534.apps.googleusercontent.com",
+          "client_id": "532970672747-19dmqp7nf2ipgup3214e6aiaknnludfc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCVy1W0u0y26n5qYfFI7SXaLqRb7T1XEvI"
+          "current_key": "AIzaSyA5uVsOlsO115igf2IxQCGX-2LXBnQb6ZY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "901644783750-g851spqhcpe6ros7r8525c9evljo4534.apps.googleusercontent.com",
+              "client_id": "532970672747-19dmqp7nf2ipgup3214e6aiaknnludfc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

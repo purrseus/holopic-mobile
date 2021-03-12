@@ -4,6 +4,16 @@
     "welcomeTitle1": "Welcome to Holopic",
     "welcomeTitle2": "Share your favorites photos with everyone",
     "welcomeTitle3": "Get inspired from anywhere on the internet",
-    "next": "Next"
+    "next": "Next",
+    "welcome": "Welcome",
+    "headingLoginScreen": "Insert your phone number to continue",
+    "titleCountriesDialCodeScreen": "Select your country",
+    "phoneNumber": "Your phone number...",
+    "searchCountry": "Search country...",
+    "verification": "Verification",
+    "headingVerifyOTPScreen": "We send you an SMS code",
+    "login": "Login",
+    "resendOTPCodeButton": "Code not received?",
+    "authCommonErrorMessage": "Sorry, something went wrong"
   }
 }

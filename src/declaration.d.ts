@@ -6,3 +6,4 @@ declare module '*.svg' {
 }
 
 declare module 'react-native-shadow';
+declare module 'react-native-smooth-pincode-input';

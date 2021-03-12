@@ -8,6 +8,7 @@ import { store, persistor } from '@store/store';
 import RootStack from '@navigators';
 import { ThemeProvider } from 'styled-components';
 import theme from '@theme';
+import { navigationRef } from '@navigators/navigation-ref';
 
 if (UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -19,7 +20,7 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider theme={theme}>
           <StatusBar backgroundColor="white" barStyle="dark-content" />
-          <NavigationContainer>
+          <NavigationContainer ref={navigationRef}>
             <RootStack />
           </NavigationContainer>
         </ThemeProvider>
