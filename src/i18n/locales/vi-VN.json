@@ -14,6 +14,10 @@
     "headingVerifyOTPScreen": "Chúng tôi đã gửi cho bạn một mã SMS",
     "login": "Đăng nhập",
     "resendOTPCodeButton": "Không nhận được mã?",
-    "authCommonErrorMessage": "Xin lỗi, có lỗi xảy ra"
+    "authCommonErrorMessage": "Xin lỗi, có lỗi xảy ra",
+    "close": "Đóng",
+    "uploadImage": "Tải ảnh lên",
+    "openGallery": "Mở Thư viện ảnh",
+    "openCamera": "Mở máy ảnh"
   }
 }

@@ -5,16 +5,20 @@ import { BoxShadow } from 'react-native-shadow';
 import Icon from 'react-native-vector-icons/Feather';
 import { AnimatedUploadImageButton, StyledLinearGradient } from './styles';
 
-const UploadImageButton = () => {
+interface Props {
+  onPress: () => void;
+}
+
+const UploadImageButton = ({ onPress }: Props) => {
   const shadowOpt: any = {
     width: 46,
     height: 46,
     color: theme.colors.lightBlue1,
-    border: 10,
+    border: 12,
     radius: 23,
-    opacity: 0.4,
+    opacity: 0.5,
     x: 0,
-    y: 5,
+    y: 4,
     style: {
       transform: [{ translateY: -20 }],
       justifyContent: 'center',
@@ -26,7 +30,7 @@ const UploadImageButton = () => {
 
   const _onPressIn = () => {
     Animated.timing(scale, {
-      toValue: 0.85,
+      toValue: 0.9,
       duration: 150,
       useNativeDriver: false,
     }).start();
@@ -40,17 +44,15 @@ const UploadImageButton = () => {
     }).start();
   };
 
-  const _onPress = () => {
-    console.log('Upload Image');
-  };
-
   return (
     <BoxShadow setting={shadowOpt}>
       <AnimatedUploadImageButton style={{ transform: [{ scale }] }}>
         <Pressable
           onPressIn={_onPressIn}
           onPressOut={_onPressOut}
-          onPress={_onPress}
+          onPress={() => {
+            setTimeout(onPress, 200);
+          }}
         >
           <StyledLinearGradient
             colors={[theme.colors.lightBlue1, theme.colors.bluePurple]}

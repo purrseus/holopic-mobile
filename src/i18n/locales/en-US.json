@@ -14,6 +14,10 @@
     "headingVerifyOTPScreen": "We send you an SMS code",
     "login": "Login",
     "resendOTPCodeButton": "Code not received?",
-    "authCommonErrorMessage": "Sorry, something went wrong"
+    "authCommonErrorMessage": "Sorry, something went wrong",
+    "close": "Close",
+    "uploadImage": "Upload a photos",
+    "openGallery": "Open gallery",
+    "openCamera": "Open camera"
   }
 }

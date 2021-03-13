@@ -21,7 +21,7 @@ import { useAppDispatch, useAppSelector } from '@store/store';
 import { authActions } from '@store/slices/auth';
 import { commonActions } from '@store/slices/common';
 
-type VerifyOTPScreenRouteProp = RouteProp<
+type TVerifyOTPScreenRouteProp = RouteProp<
   LoginStackParamsList,
   HoloScreen.VERIFY_OTP
 >;
@@ -31,7 +31,7 @@ const VerifyOTPScreen = () => {
   const [OTPCode, setOTPCode] = useState<string>('');
   const [resendCount, setResendCount] = useState<number>(0);
   const { goBack } = useNavigation();
-  const { params }: VerifyOTPScreenRouteProp = useRoute();
+  const { params }: TVerifyOTPScreenRouteProp = useRoute();
   const { error, phonePrefix } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
 

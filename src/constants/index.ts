@@ -9,6 +9,8 @@ export enum HoloScreen {
   VERIFY_OTP = 'VerifyOTP',
 
   APP_STACK = 'AppStack',
+  UPLOAD_PHOTO = 'UploadPhoto',
+
   TAB_BAR = 'TabBar',
   HOME = 'Home',
   SEARCH = 'Search',

@@ -1,6 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from '@react-navigation/stack';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
 
 import { useAppSelector } from '@store/store';
@@ -20,7 +23,10 @@ const AuthStack = () => {
   );
 
   return (
-    <Stack.Navigator headerMode="none">
+    <Stack.Navigator
+      headerMode="none"
+      screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}
+    >
       {authState.status === AuthStatus.VERIFYING && (
         <Stack.Screen name={HoloScreen.LOADING} component={Loading} />
       )}

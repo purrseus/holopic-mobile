@@ -8,8 +8,8 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.white};
   justify-content: space-around;
   align-items: center;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 `;
 
 export const Tab = styled.View`
@@ -36,4 +36,36 @@ export const StyledLinearGradient = styled(LinearGradient)`
   border-radius: 999px;
   justify-content: center;
   align-items: center;
+`;
+
+export const BottomSheetContainer = styled.View`
+  flex: 1;
+  padding: 0px 20px;
+  background-color: ${({ theme }) => theme.colors.white};
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+`;
+
+export const BottomSheetTitle = styled.Text`
+  font-family: 'Quicksand-Bold';
+  font-size: 18px;
+  text-align: center;
+  padding: 8px 0px;
+`;
+
+export const BottomSheetListItem = styled.View`
+  flex: 1;
+`;
+
+export const BottomSheetItem = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 0px;
+  margin: 8px 0px;
+`;
+
+export const BottomSheetItemTitle = styled.Text`
+  font-family: 'Quicksand-Bold';
+  font-size: 18px;
+  margin-left: 8px;
 `;
