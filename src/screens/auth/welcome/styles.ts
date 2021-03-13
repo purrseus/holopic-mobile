@@ -50,4 +50,5 @@ export const Dot = styled.View<{ index: number; currentIndex: number }>`
 
 export const NextButton = styled(HoloButton)`
   margin-horizontal: 30px;
+  elevation: 0;
 `;

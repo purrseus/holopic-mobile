@@ -7,7 +7,7 @@ const Stack = createStackNavigator();
 
 const AppStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator headerMode="none">
       <Stack.Screen name={HoloScreen.TAB_BAR} component={BottomTabBar} />
     </Stack.Navigator>
   );

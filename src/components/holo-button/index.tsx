@@ -1,4 +1,4 @@
-import theme from '@theme';
+import theme, { HexColor } from '@theme';
 import React, { ReactNode } from 'react';
 import {
   TouchableWithoutFeedbackProps,
@@ -32,9 +32,9 @@ export const gradientPreset: IGradientPreset = {
 export interface Props extends TouchableWithoutFeedbackProps {
   size?: SizeButton;
   title: string;
-  titleColor?: string;
+  titleColor?: HexColor;
   titleSize?: number;
-  bgColor?: string;
+  bgColor?: HexColor;
   gradient?: LinearGradientProps;
   shadow?: boolean;
   leftIcon?: ReactNode;

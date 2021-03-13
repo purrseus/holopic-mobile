@@ -6,7 +6,7 @@
     "android": "react-native run-android --variant=debug",
     "prod:android": "react-native run-android --variant=release",
     "ios": "react-native run-ios",
-    "start": "react-native start --reset-cache",
+    "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .ts,.tsx --fix",
     "prettier": "prettier --config ./.prettierrc.js --ignore-path ./.gitignore --write . -c",

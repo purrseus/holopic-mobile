@@ -30,9 +30,12 @@ const RootStack = () => {
       </Stack.Navigator>
       <Toast
         ref={toastRef}
+        positionValue={180}
         fadeInDuration={200}
         fadeOutDuration={200}
         opacity={0.7}
+        //@ts-ignore
+        style={styles.toastStyle}
         textStyle={styles.toastText}
       />
       <OverlayLoading />
@@ -41,6 +44,10 @@ const RootStack = () => {
 };
 
 const styles = StyleSheet.create({
+  toastStyle: {
+    borderRadius: 99,
+    paddingHorizontal: 18,
+  },
   toastText: {
     fontFamily: 'Quicksand-Medium',
     color: 'white',

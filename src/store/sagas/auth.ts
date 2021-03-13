@@ -10,6 +10,7 @@ import { getNavigation } from '@navigators/navigation-ref';
 import { IToken, loginWithPhoneNumber } from '@services/holopic-api';
 import { AxiosResponse } from 'axios';
 import { data, setToken } from '@services';
+import i18n from 'i18next';
 
 function* handleVerifyTokenRequest() {
   const { showWelcomeScreen, refreshToken } = yield select(
@@ -50,7 +51,7 @@ function* handleVerifyPhoneNumberRequest({ payload }: PayloadAction<string>) {
   } catch (error) {
     yield put(authActions.verifyPhoneNumberFailed());
     yield put(
-      commonActions.showToast({ message: 'Sorry, something went wrong' }),
+      commonActions.showToast({ message: i18n.t('authCommonErrorMessage') }),
     );
   } finally {
     yield put(commonActions.hideOverlayLoading());
@@ -88,7 +89,7 @@ function* handleVerifyOTPRequest(
       yield put(authActions.loginFailed());
       yield put(
         // commonActions.showToast({ message: 'Invalid code', duration: 3000 }),
-        commonActions.showToast({ message: 'Sorry, something went wrong' }),
+        commonActions.showToast({ message: i18n.t('authCommonErrorMessage') }),
       );
     } finally {
       yield put(commonActions.hideOverlayLoading());

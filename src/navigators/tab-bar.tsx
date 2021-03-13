@@ -1,19 +1,21 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, View } from 'react-native';
+import { HoloScreen } from '@constants';
+import HomeScreen from '@screens/home';
+import CustomBottomTab from './custom-bottom-tab';
+import SearchScreen from '@screens/search';
+import ProfileScreen from '@screens/profile';
+import LikesScreen from '@screens/likes';
 
 const Tab = createBottomTabNavigator();
+
 const BottomTabBar = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="Test"
-        component={() => (
-          <View>
-            <Text>Tab</Text>
-          </View>
-        )}
-      />
+    <Tab.Navigator tabBar={props => <CustomBottomTab {...props} />}>
+      <Tab.Screen name={HoloScreen.HOME} component={HomeScreen} />
+      <Tab.Screen name={HoloScreen.SEARCH} component={SearchScreen} />
+      <Tab.Screen name={HoloScreen.LIKES} component={LikesScreen} />
+      <Tab.Screen name={HoloScreen.PROFILE} component={ProfileScreen} />
     </Tab.Navigator>
   );
 };

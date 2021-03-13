@@ -4,7 +4,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Keyboard, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/Entypo';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 import {
   Container,
@@ -52,7 +52,7 @@ const VerifyOTPScreen = () => {
       );
       dispatch(
         commonActions.showToast({
-          message: 'resending code...',
+          message: 'Resending code...',
           duration: 3000,
         }),
       );
@@ -69,7 +69,7 @@ const VerifyOTPScreen = () => {
     <Container>
       <TouchableWithoutFeedback onPress={() => goBack()}>
         <BackButton>
-          <Icon name="left" size={30} />
+          <Icon name="chevron-left" size={30} />
         </BackButton>
       </TouchableWithoutFeedback>
 
