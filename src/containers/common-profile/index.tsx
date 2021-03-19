@@ -17,7 +17,6 @@ import {
   PhotoList,
   Photo,
   EmptyDescription,
-  ErrorDescription,
 } from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {
@@ -31,10 +30,13 @@ import numeral from 'numeral';
 import { IPhoto } from '@services/photo';
 import FastImage from 'react-native-fast-image';
 import Empty from '@assets/images/empty.svg';
-import Error from '@assets/images/error.svg';
 import LottieView from 'lottie-react-native';
+import { useNavigation } from '@react-navigation/native';
+import { HoloScreen } from '@constants';
+import CommonError from '@components/common-error';
 
 interface Props extends Partial<IProfile> {
+  uid?: string;
   avatarUrl?: string;
   following?: boolean | number;
   followers?: number;
@@ -45,6 +47,7 @@ interface Props extends Partial<IProfile> {
 }
 
 const CommonProfile = ({
+  uid,
   fullName,
   username,
   avatarUrl,
@@ -57,6 +60,8 @@ const CommonProfile = ({
   loading,
   error,
 }: Props) => {
+  const { navigate } = useNavigation();
+
   return (
     <Container>
       <ScrollView>
@@ -102,11 +107,20 @@ const CommonProfile = ({
           </Content>
         </Profile>
 
-        <PhotoListTitle>
-          <StyledTitle>My photos</StyledTitle>
-          <Photos>{numeral(photos).format('0a')}</Photos>
-          <Icon name="right" size={20} />
-        </PhotoListTitle>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            if (!photos) {
+              return;
+            }
+            navigate(HoloScreen.PHOTOS, { uid, photos });
+          }}
+        >
+          <PhotoListTitle>
+            <StyledTitle>My photos</StyledTitle>
+            <Photos>{numeral(photos).format('0a')}</Photos>
+            <Icon name="right" size={20} />
+          </PhotoListTitle>
+        </TouchableWithoutFeedback>
 
         {loading && (
           <Content>
@@ -119,16 +133,7 @@ const CommonProfile = ({
           </Content>
         )}
 
-        {error && (
-          <>
-            <Error
-              width={Dimensions.get('window').width * 0.5}
-              height={Dimensions.get('window').width * 0.5}
-              style={styles.svg}
-            />
-            <ErrorDescription>{'Error! :('}</ErrorDescription>
-          </>
-        )}
+        {error && <CommonError />}
 
         {photoList.length > 0 && !loading && !error && (
           <PhotoList>

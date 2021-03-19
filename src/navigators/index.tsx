@@ -33,7 +33,7 @@ const RootStack = () => {
         positionValue={180}
         fadeInDuration={200}
         fadeOutDuration={200}
-        opacity={0.5}
+        opacity={0.8}
         //@ts-ignore
         style={styles.toastStyle}
         textStyle={styles.toastText}

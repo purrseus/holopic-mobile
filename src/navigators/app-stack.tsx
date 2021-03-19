@@ -17,7 +17,7 @@ export interface IUploadPhotoParams {
 export type TAppStackParamsList = {
   [HoloScreen.TAB_BAR]: undefined;
   [HoloScreen.UPLOAD_PHOTO]: IUploadPhotoParams;
-  [HoloScreen.PHOTOS]: undefined;
+  [HoloScreen.PHOTOS]: { uid: string; photos: number };
 };
 
 const Stack = createStackNavigator<TAppStackParamsList>();

@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import connectionInstance from './index';
 
 export interface IPhoto {
+  _id: string;
   status: string;
   title: string;
   publicId: string;
@@ -23,6 +24,10 @@ type TUploadPhoto = (
 ) => Promise<AxiosResponse>;
 
 type TGetPhotos = (page: number) => Promise<AxiosResponse<IPhoto[]>>;
+type TGetUserPhotos = (
+  uid: string,
+  page: number,
+) => Promise<AxiosResponse<IPhoto[]>>;
 
 export const uploadPhoto: TUploadPhoto = (title, tags, photo) => {
   const data = new FormData();
@@ -45,3 +50,6 @@ export const getNewPhotos: TGetPhotos = page =>
 
 export const getMyPhotos: TGetPhotos = page =>
   connectionInstance.get(`/image/my-images?page=${page}`);
+
+export const getUserPhotos: TGetUserPhotos = (uid, page) =>
+  connectionInstance.get(`/image/images?userId=${uid}&page=${page}`);

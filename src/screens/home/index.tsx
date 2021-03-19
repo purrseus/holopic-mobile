@@ -1,5 +1,5 @@
 // import { IAccount } from '@services/user';
-import PhotoList from '@components/photos-flatlist';
+import PhotoList from '@components/photos-flat-list';
 import { getNewPhotos, IPhoto } from '@services/photo';
 import { userActions } from '@store/slices/user';
 import {
@@ -31,7 +31,7 @@ const HomeScreen = () => {
   return (
     // eslint-disable-next-line react-native/no-inline-styles
     <View style={{ flex: 1 }}>
-      <PhotoList photos={photos} />
+      <PhotoList photos={photos} loading={true} />
     </View>
   );
 };

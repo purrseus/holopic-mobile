@@ -26,6 +26,7 @@ const MyProfileScreen = () => {
 
   return (
     <CommonProfile
+      uid={user?.uid}
       fullName={user?.profile?.fullName}
       username={user?.profile?.username}
       avatarUrl={user?.profile?.avatar.url}

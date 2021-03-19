@@ -8,12 +8,14 @@ import {
   StyleSheet,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import LottieView from 'lottie-react-native';
 
 interface Props extends Partial<FlatListProps<IPhoto>> {
   photos: IPhoto[];
+  loading: boolean;
 }
 
-const PhotoList = ({ photos, ...props }: Props) => {
+const PhotoList = ({ photos, loading, ...props }: Props) => {
   const _renderItem: ListRenderItem<IPhoto> = ({ item }) => {
     return (
       <PhotoContainer>
@@ -34,8 +36,18 @@ const PhotoList = ({ photos, ...props }: Props) => {
       numColumns={2}
       data={photos}
       renderItem={_renderItem}
-      keyExtractor={item => item.publicId}
+      keyExtractor={item => item._id}
       style={styles.flatList}
+      ListFooterComponent={
+        loading ? (
+          <LottieView
+            source={require('@assets/animations/loading')}
+            style={styles.loading}
+            autoPlay
+            loop
+          />
+        ) : null
+      }
     />
   );
 };
@@ -43,6 +55,11 @@ const PhotoList = ({ photos, ...props }: Props) => {
 const styles = StyleSheet.create({
   flatList: {
     padding: 4,
+  },
+  loading: {
+    width: 70,
+    height: 70,
+    alignSelf: 'center',
   },
 });
 

@@ -103,10 +103,3 @@ export const EmptyDescription = styled.Text`
   text-align: center;
   color: ${({ theme }) => theme.colors.darkGray};
 `;
-
-export const ErrorDescription = styled.Text`
-  font-family: 'Quicksand-Bold';
-  font-size: 20px;
-  text-align: center;
-  color: ${({ theme }) => theme.colors.darkGray};
-`;
