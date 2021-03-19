@@ -1,3 +1,5 @@
+import { photoActions } from '@store/slices/photo';
+import { useAppDispatch } from '@store/store';
 import theme from '@theme';
 import React, { useRef } from 'react';
 import { Pressable, Animated } from 'react-native';
@@ -5,20 +7,16 @@ import { BoxShadow } from 'react-native-shadow';
 import Icon from 'react-native-vector-icons/Feather';
 import { AnimatedUploadImageButton, StyledLinearGradient } from './styles';
 
-interface Props {
-  onPress: () => void;
-}
-
-const UploadImageButton = ({ onPress }: Props) => {
+const UploadImageButton = () => {
   const shadowOpt: any = {
     width: 46,
     height: 46,
     color: theme.colors.lightBlue1,
-    border: 12,
+    border: 10,
     radius: 23,
-    opacity: 0.5,
+    opacity: 0.6,
     x: 0,
-    y: 4,
+    y: 5,
     style: {
       transform: [{ translateY: -20 }],
       justifyContent: 'center',
@@ -26,6 +24,7 @@ const UploadImageButton = ({ onPress }: Props) => {
     },
   };
 
+  const dispatch = useAppDispatch();
   const scale = useRef(new Animated.Value(1)).current;
 
   const _onPressIn = () => {
@@ -51,7 +50,9 @@ const UploadImageButton = ({ onPress }: Props) => {
           onPressIn={_onPressIn}
           onPressOut={_onPressOut}
           onPress={() => {
-            setTimeout(onPress, 200);
+            setTimeout(() => {
+              dispatch(photoActions.showUploadBottomSheet(true));
+            }, 200);
           }}
         >
           <StyledLinearGradient

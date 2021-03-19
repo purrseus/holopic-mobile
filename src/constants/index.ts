@@ -10,12 +10,13 @@ export enum HoloScreen {
 
   APP_STACK = 'AppStack',
   UPLOAD_PHOTO = 'UploadPhoto',
+  PHOTOS = 'Photos',
 
   TAB_BAR = 'TabBar',
   HOME = 'Home',
   SEARCH = 'Search',
   LIKES = 'Likes',
-  PROFILE = 'Profile',
+  MY_PROFILE = 'MyProfile',
 }
 
 export enum AuthStatus {
@@ -24,3 +25,15 @@ export enum AuthStatus {
   UNAUTHORIZED = 'UNAUTHORIZED',
   LOGGED_IN = 'LOGGED_IN',
 }
+
+export enum LoginStatus {
+  Idle,
+  PhoneNumberVerifying,
+  SendOTPCode,
+  RequestFailed,
+  OTPCodeVerifying,
+  LoginSuccess,
+  LoginFailed,
+}
+
+export const BOTTOM_TAB_HEIGHT = 60;

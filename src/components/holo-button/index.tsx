@@ -1,4 +1,3 @@
-import theme, { HexColor } from '@theme';
 import React, { ReactNode } from 'react';
 import {
   TouchableWithoutFeedbackProps,
@@ -6,6 +5,7 @@ import {
 } from 'react-native';
 import { LinearGradientProps } from 'react-native-linear-gradient';
 
+import theme, { HexColor } from '@theme';
 import {
   Container,
   StyledLinearGradient,
@@ -19,7 +19,7 @@ export enum SizeButton {
 }
 
 interface IGradientPreset {
-  colors: string[];
+  colors: HexColor[];
   start: Record<'x' | 'y', number>;
   end: Record<'x' | 'y', number>;
 }

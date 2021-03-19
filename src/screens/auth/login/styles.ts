@@ -10,7 +10,7 @@ export const Container = styled.View`
 `;
 
 export const ContentContainer = styled.View`
-  padding-horizontal: 30px;
+  padding-horizontal: 16px;
 `;
 
 export const Title = styled.Text`
@@ -27,7 +27,6 @@ export const Heading = styled.Text`
 
 export const InputContainer = styled.View`
   flex-direction: row;
-  margin: 0px 8px;
   padding: 0px 8px;
   align-items: center;
   justify-content: center;

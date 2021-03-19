@@ -1,7 +1,7 @@
 import { createSlice, CaseReducer, PayloadAction } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
-import { AuthStatus } from '@constants';
+import { AuthStatus, LoginStatus } from '@constants';
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
 
 export interface IPhonePrefix {
@@ -9,15 +9,6 @@ export interface IPhonePrefix {
   dialCode: string;
 }
 
-enum LoginStatus {
-  Idle,
-  PhoneNumberVerifying,
-  SendOTPCode,
-  RequestFailed,
-  OTPCodeVerifying,
-  LoginSuccess,
-  LoginFailed,
-}
 export interface IAuthState {
   status: AuthStatus;
   loginStatus: LoginStatus;
@@ -105,6 +96,27 @@ const loginFailed: CaseReducer<IAuthState> = state => {
   state.loginStatus = LoginStatus.LoginFailed;
 };
 
+const logoutRequest: CaseReducer<IAuthState> = state => {
+  delete state.error;
+  state.loading = true;
+};
+
+const logoutSuccess: CaseReducer<IAuthState> = state => {
+  delete state.refreshToken;
+  state.loading = false;
+  state.status = AuthStatus.UNAUTHORIZED;
+  state.loginStatus = LoginStatus.Idle;
+  state.phonePrefix = {
+    flag: '🇦🇫',
+    dialCode: '+93',
+  };
+};
+
+const logoutFailed: CaseReducer<IAuthState> = state => {
+  state.loading = false;
+  state.error = true;
+};
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -120,6 +132,10 @@ const authSlice = createSlice({
     verifyOTPCodeRequest,
     loginSuccess,
     loginFailed,
+
+    logoutRequest,
+    logoutSuccess,
+    logoutFailed,
   },
 });
 

@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { ReactNode } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
   StyleProp,
   Text,
@@ -7,8 +7,9 @@ import {
   ViewProps,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Container, BackButton } from './styles';
 import Icon from 'react-native-vector-icons/Entypo';
+
+import { Container, BackButton } from './styles';
 
 interface Props extends ViewProps {
   headerTitle?: string;
@@ -34,7 +35,7 @@ const HoloHeader = ({
       {showBackButton && (
         <TouchableWithoutFeedback onPress={() => goBack()}>
           <BackButton>
-            <Icon name="chevron-left" size={30} />
+            <Icon name="chevron-left" size={28} />
           </BackButton>
         </TouchableWithoutFeedback>
       )}

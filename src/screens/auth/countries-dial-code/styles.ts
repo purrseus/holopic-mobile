@@ -10,7 +10,7 @@ export const Row = styled.View`
   align-items: center;
   justify-content: space-between;
   background-color: ${({ theme }) => theme.colors.lightGray};
-  margin: 10px 20px;
+  margin: 10px 16px;
   padding: 0px 14px;
   border-radius: 999px;
 `;
@@ -26,12 +26,12 @@ export const ClearButton = styled.View`
 `;
 
 export const Countries = styled.FlatList`
-  padding: 0px 10px;
+  padding: 0px 8px;
 `;
 
 export const CountryContainer = styled.View`
   flex-direction: row;
-  margin: 10px 6px;
+  margin: 10px 0px;
   padding: 8px 16px;
   justify-content: space-between;
   align-items: center;

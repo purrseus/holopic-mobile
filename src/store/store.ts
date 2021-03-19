@@ -15,10 +15,14 @@ import {
 import rootSaga from './sagas';
 import authReducer from './slices/auth';
 import commonReducer from './slices/common';
+import photoReducer from './slices/photo';
+import userReducer from './slices/user';
 
 const rootReducer = {
   auth: authReducer,
   common: commonReducer,
+  photo: photoReducer,
+  user: userReducer,
 };
 
 const sagaMiddleware = createSagaMiddleware();

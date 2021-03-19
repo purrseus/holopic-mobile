@@ -4,17 +4,17 @@ import HoloButton from '@components/holo-button';
 export const Container = styled.View`
   flex: 1;
   align-items: flex-start;
-  padding: 20px 0px 300px;
+  padding: 0px 0px 300px;
   background-color: ${({ theme }) => theme.colors.white};
 `;
 // justify-content: space-between;
 export const BackButton = styled.View`
-  padding: 10px 20px;
+  padding: 10px 8px;
   border-radius: 99px;
 `;
 
 export const ContentContainer = styled.View`
-  padding-horizontal: 30px;
+  padding-horizontal: 20px;
   margin-bottom: 40px;
 `;
 

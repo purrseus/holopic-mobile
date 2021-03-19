@@ -7,7 +7,7 @@ import { AuthStatus, HoloScreen } from '@constants';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { commonActions } from '@store/slices/common';
 import { getNavigation } from '@navigators/navigation-ref';
-import { IToken, loginWithPhoneNumber } from '@services/holopic-api';
+import { IToken, loginWithPhoneNumber, logout } from '@services/auth';
 import { AxiosResponse } from 'axios';
 import { data, setToken } from '@services';
 import i18n from 'i18next';
@@ -82,18 +82,33 @@ function* handleVerifyOTPRequest(
       });
 
       yield put(authActions.loginSuccess(response.data.token.refreshToken));
-      setToken(response.data.token.accessToken);
+      setToken(`Bearer ${response.data.token.accessToken}`);
       data.refreshToken = response.data.token.refreshToken;
       yield put(authActions.changeAuthStatus(AuthStatus.LOGGED_IN));
     } catch (error) {
       yield put(authActions.loginFailed());
       yield put(
-        // commonActions.showToast({ message: 'Invalid code', duration: 3000 }),
-        commonActions.showToast({ message: i18n.t('authCommonErrorMessage') }),
+        commonActions.showToast({ message: i18n.t('commonErrorMessage') }),
       );
     } finally {
       yield put(commonActions.hideOverlayLoading());
     }
+  }
+}
+
+function* handleLogoutRequest() {
+  try {
+    yield put(commonActions.showOverlayLoading());
+
+    yield call(logout);
+    yield put(authActions.logoutSuccess());
+  } catch (error) {
+    yield put(authActions.logoutFailed());
+    yield put(
+      commonActions.showToast({ message: i18n.t('commonErrorMessage') }),
+    );
+  } finally {
+    yield put(commonActions.hideOverlayLoading());
   }
 }
 
@@ -103,6 +118,7 @@ function* authSaga() {
     authActions.verifyPhoneNumberRequest.type,
     handleVerifyPhoneNumberRequest,
   );
+  yield takeLatest(authActions.logoutRequest.type, handleLogoutRequest);
 }
 
 export default authSaga;

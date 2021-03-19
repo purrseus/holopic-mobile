@@ -1,8 +1,9 @@
 import { HoloScreen } from '@constants';
 import { RouteProp, useRoute } from '@react-navigation/core';
 import React from 'react';
-import { Image, Text, View } from 'react-native';
 import { TAppStackParamsList } from '@navigators/app-stack';
+import PhotoForm from '@containers/photo-form';
+import { useTranslation } from 'react-i18next';
 
 type TUploadPhotoScreenRouteProp = RouteProp<
   TAppStackParamsList,
@@ -11,13 +12,14 @@ type TUploadPhotoScreenRouteProp = RouteProp<
 
 const UploadPhotoScreen = () => {
   const { params } = useRoute<TUploadPhotoScreenRouteProp>();
+  const { t } = useTranslation();
 
   return (
-    <View>
-      <Text>{params.fileName}</Text>
-      <Text>{params.type}</Text>
-      <Image source={{ uri: params.uri }} style={{ width: 100, height: 100 }} />
-    </View>
+    <PhotoForm
+      headerTitle={t('uploadHeaderTitle')}
+      photoUrl={params.uri}
+      photo={params}
+    />
   );
 };
 

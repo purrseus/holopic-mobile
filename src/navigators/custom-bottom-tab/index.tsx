@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import CustomTab from './custom-tab';
 import { HoloScreen } from '@constants';
 import theme from '@theme';
-import { Container } from './styles';
+import { AnimatedBottomSheetHeader, Container } from './styles';
 import UploadImageButton from './upload-button';
-import { StyleSheet } from 'react-native';
+import { Animated, Dimensions, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import BottomSheet from './upload-bottom-sheet';
+import { useAppDispatch, useAppSelector } from '@store/store';
+import { photoActions } from '@store/slices/photo';
 
 const CustomBottomTab = ({
   state,
@@ -15,7 +17,32 @@ const CustomBottomTab = ({
   descriptors,
   navigation,
 }: BottomTabBarProps) => {
-  const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(false);
+  const collapse = new Animated.Value(1);
+  const dispatch = useAppDispatch();
+  const uploadBottomSheetVisible = useAppSelector(
+    reduxState => reduxState.photo.uploadBottomSheetVisible,
+  );
+
+  const _onCloseBottomSheet = () => {
+    dispatch(photoActions.showUploadBottomSheet(false));
+  };
+
+  const _onBottomSheetSwipeStart = () => {
+    Animated.timing(collapse, {
+      toValue: 0,
+      duration: 150,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const _onBottomSheetSwipeCancel = () => {
+    Animated.timing(collapse, {
+      toValue: 1,
+      duration: 150,
+      useNativeDriver: false,
+    }).start();
+  };
+
   return (
     <Container>
       <CustomTab
@@ -24,7 +51,6 @@ const CustomBottomTab = ({
         activeTintColor={theme.colors.lightBlue1}
         inactiveTintColor={theme.colors.darkGray}
         iconName="home"
-        iconSize={24}
       />
 
       <CustomTab
@@ -33,14 +59,9 @@ const CustomBottomTab = ({
         activeTintColor={theme.colors.lightBlue1}
         inactiveTintColor={theme.colors.darkGray}
         iconName="search1"
-        iconSize={24}
       />
 
-      <UploadImageButton
-        onPress={() => {
-          setBottomSheetVisible(!bottomSheetVisible);
-        }}
-      />
+      <UploadImageButton />
 
       <CustomTab
         onPress={() => navigation.navigate(HoloScreen.LIKES)}
@@ -48,28 +69,43 @@ const CustomBottomTab = ({
         activeTintColor={theme.colors.lightBlue1}
         inactiveTintColor={theme.colors.darkGray}
         iconName="hearto"
-        iconSize={24}
       />
 
       <CustomTab
-        onPress={() => navigation.navigate(HoloScreen.PROFILE)}
-        focused={state.routeNames[state.index] === HoloScreen.PROFILE}
+        onPress={() => navigation.navigate(HoloScreen.MY_PROFILE)}
+        focused={state.routeNames[state.index] === HoloScreen.MY_PROFILE}
         activeTintColor={theme.colors.lightBlue1}
         inactiveTintColor={theme.colors.darkGray}
         iconName="user"
-        iconSize={24}
       />
 
       <Modal
-        isVisible={bottomSheetVisible}
-        onSwipeComplete={() => setBottomSheetVisible(!bottomSheetVisible)}
+        isVisible={uploadBottomSheetVisible}
+        onSwipeComplete={_onCloseBottomSheet}
+        onBackButtonPress={_onCloseBottomSheet}
+        onBackdropPress={_onCloseBottomSheet}
+        onSwipeStart={_onBottomSheetSwipeStart}
+        onSwipeCancel={_onBottomSheetSwipeCancel}
         swipeDirection="down"
-        backdropOpacity={0.3}
+        backdropOpacity={0.2}
+        backdropColor="#333333"
         backdropTransitionInTiming={150}
         backdropTransitionOutTiming={150}
         style={styles.bottomSheet}
       >
-        <BottomSheet setBottomSheetVisible={setBottomSheetVisible} />
+        <AnimatedBottomSheetHeader
+          style={{
+            width: collapse.interpolate({
+              inputRange: [0, 1],
+              outputRange: [8, 32],
+            }),
+            height: collapse.interpolate({
+              inputRange: [0, 1],
+              outputRange: [8, 4],
+            }),
+          }}
+        />
+        <BottomSheet />
       </Modal>
     </Container>
   );
@@ -79,7 +115,7 @@ const styles = StyleSheet.create({
   bottomSheet: {
     justifyContent: 'flex-end',
     margin: 0,
-    marginTop: 580,
+    marginTop: Dimensions.get('window').height * 0.65,
   },
 });
 

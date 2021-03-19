@@ -5,7 +5,7 @@ import axios, {
   AxiosError,
 } from 'axios';
 import Config from 'react-native-config';
-import { getNewAccessToken } from './holopic-api';
+import { getNewAccessToken } from './auth';
 
 export const data: { refreshToken: string } = {
   refreshToken: '',
@@ -42,7 +42,8 @@ connectionInstance.interceptors.response.use(
       const newAccessToken: AxiosResponse = await getNewAccessToken(
         data.refreshToken,
       );
-      originalRequest.headers.Authorization = newAccessToken;
+      originalRequest.headers.Authorization =
+        newAccessToken.headers.authorization;
       return connectionInstance.request(originalRequest);
     }
 

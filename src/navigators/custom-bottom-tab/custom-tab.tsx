@@ -10,7 +10,7 @@ interface Props {
   activeTintColor: HexColor;
   inactiveTintColor: HexColor;
   iconName: string;
-  iconSize: number;
+  iconSize?: number;
 }
 
 const CustomTab = ({
@@ -26,7 +26,7 @@ const CustomTab = ({
       <Tab {...{ activeTintColor, inactiveTintColor }}>
         <Icon
           name={iconName}
-          size={iconSize}
+          size={iconSize || 24}
           color={focused ? activeTintColor : inactiveTintColor}
         />
       </Tab>

@@ -4,7 +4,7 @@ import { HoloScreen } from '@constants';
 import HomeScreen from '@screens/home';
 import CustomBottomTab from './custom-bottom-tab';
 import SearchScreen from '@screens/search';
-import ProfileScreen from '@screens/profile';
+import MyProfileScreen from '@screens/my-profile';
 import LikesScreen from '@screens/likes';
 
 const Tab = createBottomTabNavigator();
@@ -15,7 +15,7 @@ const BottomTabBar = () => {
       <Tab.Screen name={HoloScreen.HOME} component={HomeScreen} />
       <Tab.Screen name={HoloScreen.SEARCH} component={SearchScreen} />
       <Tab.Screen name={HoloScreen.LIKES} component={LikesScreen} />
-      <Tab.Screen name={HoloScreen.PROFILE} component={ProfileScreen} />
+      <Tab.Screen name={HoloScreen.MY_PROFILE} component={MyProfileScreen} />
     </Tab.Navigator>
   );
 };

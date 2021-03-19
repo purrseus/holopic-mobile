@@ -85,7 +85,10 @@ const CountriesDialCodeScreen = () => {
 
   return (
     <Container>
-      <HoloHeader headerTitle={t('titleCountriesDialCodeScreen')} />
+      <HoloHeader
+        headerTitle={t('titleCountriesDialCodeScreen')}
+        showBackButton
+      />
       <Row>
         <SearchCountry
           autoFocus

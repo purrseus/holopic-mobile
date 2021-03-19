@@ -12,14 +12,13 @@ import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { HoloScreen } from '@constants';
+import { useAppDispatch } from '@store/store';
+import { photoActions } from '@store/slices/photo';
 
-interface Props {
-  setBottomSheetVisible: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const BottomSheet = ({ setBottomSheetVisible }: Props) => {
+const BottomSheet = () => {
   const { t } = useTranslation();
   const { navigate } = useNavigation();
+  const dispatch = useAppDispatch();
 
   const _onOpenGallery = () => {
     launchImageLibrary(
@@ -30,7 +29,7 @@ const BottomSheet = ({ setBottomSheetVisible }: Props) => {
       },
       response => {
         if (response.uri) {
-          setBottomSheetVisible(false);
+          dispatch(photoActions.showUploadBottomSheet(false));
           navigate(HoloScreen.UPLOAD_PHOTO, {
             fileName: response.fileName,
             type: response.type,
@@ -50,7 +49,7 @@ const BottomSheet = ({ setBottomSheetVisible }: Props) => {
       },
       response => {
         if (response.uri) {
-          setBottomSheetVisible(false);
+          dispatch(photoActions.showUploadBottomSheet(false));
           navigate(HoloScreen.UPLOAD_PHOTO, {
             fileName: response.fileName,
             type: response.type,
@@ -63,19 +62,19 @@ const BottomSheet = ({ setBottomSheetVisible }: Props) => {
 
   return (
     <BottomSheetContainer>
-      <BottomSheetTitle>{t('uploadImage')}</BottomSheetTitle>
+      <BottomSheetTitle>{t('uploadAPhoto')}</BottomSheetTitle>
 
       <BottomSheetListItem>
         <TouchableWithoutFeedback onPress={_onOpenGallery}>
           <BottomSheetItem>
-            <Icon name="picture" size={34} color="#2979e7" />
+            <Icon name="picture" size={34} color="#51bd63" />
             <BottomSheetItemTitle>{t('openGallery')}</BottomSheetItemTitle>
           </BottomSheetItem>
         </TouchableWithoutFeedback>
 
         <TouchableWithoutFeedback onPress={_onOpenCamera}>
           <BottomSheetItem>
-            <Icon name="camerao" size={34} color="#51bd63" />
+            <Icon name="camerao" size={34} color="#2979e7" />
             <BottomSheetItemTitle>{t('openCamera')}</BottomSheetItemTitle>
           </BottomSheetItem>
         </TouchableWithoutFeedback>

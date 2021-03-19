@@ -14,10 +14,16 @@
     "headingVerifyOTPScreen": "We send you an SMS code",
     "login": "Login",
     "resendOTPCodeButton": "Code not received?",
-    "authCommonErrorMessage": "Sorry, something went wrong",
+    "commonErrorMessage": "Sorry, something went wrong",
     "close": "Close",
-    "uploadImage": "Upload a photos",
+    "uploadAPhoto": "Upload a photo",
     "openGallery": "Open gallery",
-    "openCamera": "Open camera"
+    "openCamera": "Open camera",
+    "uploadHeaderTitle": "Upload photo",
+    "addATitle": "Add a title",
+    "addTags": "Add tags separated with a space",
+    "upload": "Upload",
+    "uploading": "Uploading...",
+    "uploadPhotoSuccess": "Your photo was uploaded"
   }
 }

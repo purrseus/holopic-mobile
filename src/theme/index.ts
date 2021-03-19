@@ -13,6 +13,7 @@ interface IHoloAppTheme {
     lightBlue2: HexColor;
     bluePurple: HexColor;
     primary: HexColor;
+    red: HexColor;
   };
 }
 
@@ -27,6 +28,7 @@ const theme: IHoloAppTheme = {
     lightBlue2: '#a1c4fd',
     bluePurple: '#6f86d6',
     primary: '#7aa0fa',
+    red: '#ef807a66',
   },
 };
 
