@@ -113,9 +113,8 @@ const CustomBottomTab = ({
 
 const styles = StyleSheet.create({
   bottomSheet: {
-    justifyContent: 'flex-end',
     margin: 0,
-    marginTop: Dimensions.get('window').height * 0.65,
+    marginTop: Dimensions.get('window').height * 0.7,
   },
 });
 

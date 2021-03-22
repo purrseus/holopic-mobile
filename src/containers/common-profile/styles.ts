@@ -1,19 +1,61 @@
 import styled from 'styled-components/native';
-import { BOTTOM_TAB_HEIGHT } from '@constants';
-import FastImage from 'react-native-fast-image';
-import { Dimensions } from 'react-native';
+import { Animated } from 'react-native';
+import { BACKGROUND_HEIGHT } from './index';
 
 export const Container = styled.View`
   flex: 1;
-  padding-bottom: ${BOTTOM_TAB_HEIGHT + 80}px;
   background-color: ${({ theme }) => theme.colors.white};
+`;
+
+const AvatarBackground = styled.ImageBackground`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+`;
+
+export const Header = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const AnimatedBackground = Animated.createAnimatedComponent(
+  AvatarBackground,
+);
+
+const Avatar = styled.View`
+  align-self: center;
+`;
+
+export const AnimatedAvatar = Animated.createAnimatedComponent(Avatar);
+
+const SmallAvatar = styled.View`
+  flex-direction: row;
+  padding: 0px 16px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const AnimatedSmallAvatar = Animated.createAnimatedComponent(
+  SmallAvatar,
+);
+
+export const HeaderName = styled.Text`
+  margin-left: 8px;
+  font-family: 'Quicksand-Bold';
+  font-size: 20px;
+  margin-top: 4px;
 `;
 
 export const Profile = styled.View`
   padding-bottom: 20px;
+  margin-top: ${BACKGROUND_HEIGHT}px;
 `;
 
 export const Content = styled.View`
+  margin-top: 60px;
   align-items: center;
 `;
 
@@ -77,24 +119,11 @@ export const StyledTitle = styled.Text`
 `;
 
 export const Photos = styled.Text`
-  font-family: 'Quicksand-Medium';
+  font-family: 'Quicksand-Bold';
   font-size: 16px;
   line-height: 22px;
   margin-right: 4px;
   align-self: center;
-`;
-
-export const PhotoList = styled.View`
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-`;
-
-export const Photo = styled(FastImage)`
-  width: ${Dimensions.get('window').width / 3 - 8}px;
-  height: ${Dimensions.get('window').width / 3 - 8}px;
-  margin: 2px;
-  border-radius: 12px;
 `;
 
 export const EmptyDescription = styled.Text`

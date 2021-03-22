@@ -10,7 +10,6 @@ export enum HoloScreen {
 
   APP_STACK = 'AppStack',
   UPLOAD_PHOTO = 'UploadPhoto',
-  PHOTOS = 'Photos',
 
   TAB_BAR = 'TabBar',
   HOME = 'Home',

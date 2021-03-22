@@ -6,7 +6,7 @@ import { BOTTOM_TAB_HEIGHT } from '@constants';
 export const Container = styled.View`
   flex-direction: row;
   height: ${BOTTOM_TAB_HEIGHT}px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   justify-content: space-around;
   align-items: center;
   border-top-left-radius: 20px;

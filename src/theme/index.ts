@@ -20,7 +20,7 @@ interface IHoloAppTheme {
 const theme: IHoloAppTheme = {
   colors: {
     black: '#06060C',
-    white: '#FAFAFA',
+    white: '#FFFFFF',
     disabled: '#cac9c9',
     darkGray: '#666666',
     lightGray: '#efefef',

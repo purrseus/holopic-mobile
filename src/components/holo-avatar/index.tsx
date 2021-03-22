@@ -17,7 +17,7 @@ export interface Props extends ViewProps {
   username?: string;
 }
 
-const HoloAvatar = ({ size, url, fullName, username }: Props) => {
+const HoloAvatar = ({ size, url, fullName, username, style }: Props) => {
   const profile: IProfile | undefined = useAppSelector(
     state => state.user.user?.profile,
   );
@@ -32,7 +32,7 @@ const HoloAvatar = ({ size, url, fullName, username }: Props) => {
 
   return (
     <TouchableWithoutFeedback onPress={_onPress}>
-      <Container size={size}>
+      <Container size={size} style={style}>
         {fullName === '' || profile?.avatar.publicId !== '' ? (
           <Avatar
             source={{ uri: url }}
