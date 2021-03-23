@@ -19,7 +19,6 @@ const CommonError = () => {
 const styles = StyleSheet.create({
   error: {
     alignSelf: 'center',
-    margin: 20,
   },
 });
 

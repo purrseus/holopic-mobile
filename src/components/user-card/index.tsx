@@ -1,17 +1,24 @@
 import HoloAvatar, { AvatarSize } from '@components/holo-avatar';
-import { useAppSelector } from '@store/store';
-import React from 'react';
-import { TouchableWithoutFeedback, ViewProps } from 'react-native';
+import { SizeButton } from '@components/holo-button';
+import { followUser, unfollowUser } from '@services/user';
+import { commonActions } from '@store/slices/common';
+import { useAppDispatch, useAppSelector } from '@store/store';
+import theme from '@theme';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ViewProps } from 'react-native';
 import { Container, Username, FullName, Name, FollowButton } from './styles';
 
 interface Props extends ViewProps {
-  fullName: string;
-  username: string;
-  avatarUrl: string;
+  uid: string;
+  fullName?: string;
+  username?: string;
+  avatarUrl?: string;
   following?: boolean;
 }
 
 const UserCard = ({
+  uid,
   fullName,
   username,
   avatarUrl,
@@ -19,9 +26,33 @@ const UserCard = ({
   style,
   ...props
 }: Props) => {
+  const dispatch = useAppDispatch();
   const userName: string | undefined = useAppSelector(
     state => state.user.user?.profile.username,
   );
+  const { t } = useTranslation();
+  const [follow, setFollow] = useState<boolean | undefined>(following);
+
+  const _follow = async () => {
+    if (follow) {
+      try {
+        setFollow(false);
+        await unfollowUser(uid);
+      } catch (error) {
+        setFollow(true);
+        dispatch(commonActions.showToast({ message: t('commonErrorMessage') }));
+      }
+      return;
+    }
+
+    try {
+      setFollow(true);
+      await followUser(uid);
+    } catch (error) {
+      setFollow(false);
+      dispatch(commonActions.showToast({ message: t('commonErrorMessage') }));
+    }
+  };
 
   return (
     <>
@@ -49,9 +80,17 @@ const UserCard = ({
           </Name>
 
           {userName !== username && (
-            <TouchableWithoutFeedback>
-              <FollowButton>Follow{following}</FollowButton>
-            </TouchableWithoutFeedback>
+            // <TouchableWithoutFeedback onPress={_follow}>
+            //   <FollowButton>{follow ? 'following' : 'follow'}</FollowButton>
+            // </TouchableWithoutFeedback>
+            <FollowButton
+              size={SizeButton.SMALL}
+              titleSize={16}
+              titleBold
+              title={follow ? 'following' : 'follow'}
+              onPress={_follow}
+              bgColor={theme.colors.lightBlue2}
+            />
           )}
         </Container>
       )}

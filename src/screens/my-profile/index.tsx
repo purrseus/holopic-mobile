@@ -9,15 +9,15 @@ const MyProfileScreen = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user.user);
   const [myPhotos, setMyPhotos] = useState<IPhoto[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
 
   const fetchPhotos = useCallback(async () => {
     try {
-      setLoading(true);
       const response: AxiosResponse<IPhoto[]> = await getMyPhotos(1);
       dispatch(userActions.getUserRequest());
       setMyPhotos(response.data);
+      setIsError(false);
     } catch (error) {
       setIsError(true);
     } finally {
@@ -31,6 +31,10 @@ const MyProfileScreen = () => {
     }
 
     try {
+      if (myPhotos.length < 20) {
+        return;
+      }
+
       const res: AxiosResponse<IPhoto[]> = await getMyPhotos(
         Math.floor(myPhotos.length / 20) + 1,
       );

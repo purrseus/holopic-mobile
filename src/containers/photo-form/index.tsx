@@ -123,6 +123,7 @@ const PhotoForm = ({ headerTitle, photoUrl, photo, photoId }: Props) => {
             ref={tagsInputRef}
             placeholder={t('addTags')}
             value={formik.values.tags}
+            maxLength={64}
             onChangeText={formik.handleChange('tags')}
             autoCapitalize="none"
           />

@@ -161,8 +161,8 @@ const CommonProfile = ({
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={reload} />
         }
-        photos={photoList}
-        loading={photos !== photoList.length}
+        photos={!error ? photoList : []}
+        loading={loading}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
           { useNativeDriver: false },
@@ -173,7 +173,9 @@ const CommonProfile = ({
           <>
             <Profile>
               <Content>
-                <FullName numberOfLines={1}>{fullName}</FullName>
+                {!!fullName && (
+                  <FullName numberOfLines={1}>{fullName}</FullName>
+                )}
                 <UserName>@{username}</UserName>
 
                 {!!location && (
@@ -207,24 +209,24 @@ const CommonProfile = ({
               <StyledTitle>My photos</StyledTitle>
               <Photos>{numeral(photos).format('0a')}</Photos>
             </PhotoListTitle>
+
+            {error && <CommonError />}
+
+            {photoList.length === 0 && !loading && !error && (
+              <>
+                <Empty
+                  width={Dimensions.get('window').width * 0.5}
+                  height={Dimensions.get('window').width * 0.5}
+                  style={styles.svg}
+                />
+                <EmptyDescription>
+                  You have not uploaded any photos yet
+                </EmptyDescription>
+              </>
+            )}
           </>
         }
       />
-
-      {error && <CommonError />}
-
-      {photoList.length === 0 && !loading && !error && (
-        <>
-          <Empty
-            width={Dimensions.get('window').width * 0.5}
-            height={Dimensions.get('window').width * 0.5}
-            style={styles.svg}
-          />
-          <EmptyDescription>
-            You have not uploaded any photos yet
-          </EmptyDescription>
-        </>
-      )}
     </Container>
   );
 };

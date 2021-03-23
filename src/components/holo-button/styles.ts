@@ -25,7 +25,8 @@ export const ContentContainer = styled.View`
 `;
 
 export const Title = styled.Text<Partial<Props>>`
-  font-family: 'Quicksand-Bold';
+  font-family: ${({ titleBold }) =>
+    titleBold ? 'Quicksand-Bold' : 'Quicksand-Medium'};
   margin-horizontal: 10px;
   color: ${({ titleColor, theme }) => titleColor || theme.colors.black};
   font-size: ${({ titleSize }) => titleSize || 20}px;

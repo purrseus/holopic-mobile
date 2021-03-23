@@ -10,6 +10,7 @@ export const PhotoContainer = styled.View`
 
 export const Photo = styled(FastImage)`
   border-radius: 16px;
+  background-color: ${({ theme }) => theme.colors.lightGray};
 `;
 
 export const Bottom = styled.View`

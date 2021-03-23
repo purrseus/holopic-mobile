@@ -12,9 +12,11 @@ export interface IPhoto {
   height: number;
   user: string;
   tags: string[];
-  view: number;
+  views: number;
   likes: number;
   liked: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 type TUploadPhoto = (
@@ -60,3 +62,6 @@ export const likePhoto: TLikePhoto = publicId =>
 
 export const unlikePhoto: TLikePhoto = publicId =>
   connectionInstance.get(`/image/unlike/${publicId}`);
+
+export const viewPhoto: TLikePhoto = publicId =>
+  connectionInstance.get(`image/view/${publicId}`);

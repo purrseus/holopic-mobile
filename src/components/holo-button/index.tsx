@@ -34,6 +34,7 @@ export interface Props extends TouchableWithoutFeedbackProps {
   title: string;
   titleColor?: HexColor;
   titleSize?: number;
+  titleBold?: boolean;
   bgColor?: HexColor;
   gradient?: LinearGradientProps;
   shadow?: boolean;
@@ -47,6 +48,7 @@ const HoloButton = ({
   title,
   titleColor,
   titleSize,
+  titleBold,
   bgColor = theme.colors.primary,
   gradient,
   shadow,
@@ -63,14 +65,14 @@ const HoloButton = ({
           <StyledLinearGradient {...gradient}>
             <ContentContainer>
               {leftIcon}
-              <Title {...{ titleColor, titleSize }}>{title}</Title>
+              <Title {...{ titleColor, titleSize, titleBold }}>{title}</Title>
               {rightIcon}
             </ContentContainer>
           </StyledLinearGradient>
         ) : (
           <ContentContainer>
             {leftIcon}
-            <Title {...{ titleColor, titleSize }}>{title}</Title>
+            <Title {...{ titleColor, titleSize, titleBold }}>{title}</Title>
             {rightIcon}
           </ContentContainer>
         )}

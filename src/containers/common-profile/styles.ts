@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
 import { Animated } from 'react-native';
-import { BACKGROUND_HEIGHT } from './index';
 
 export const Container = styled.View`
   flex: 1;
@@ -51,12 +50,12 @@ export const HeaderName = styled.Text`
 
 export const Profile = styled.View`
   padding-bottom: 20px;
-  margin-top: ${BACKGROUND_HEIGHT}px;
+  margin-top: 174px;
 `;
 
 export const Content = styled.View`
-  margin-top: 60px;
   align-items: center;
+  margin-top: 60px;
 `;
 
 export const FullName = styled.Text`
@@ -80,9 +79,9 @@ export const Location = styled.Text`
 export const Bio = styled.Text`
   font-family: 'Quicksand-Medium';
   font-size: 14px;
-  margin: 10px 60px 0px;
   text-align: center;
   color: ${({ theme }) => theme.colors.darkGray};
+  margin: 10px 60px 0px;
 `;
 
 export const Follow = styled.View`

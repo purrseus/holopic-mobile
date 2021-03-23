@@ -29,7 +29,23 @@ export interface IAccount {
   isFollowing?: boolean;
 }
 
+type TUserKey = 'uid' | 'images' | 'following' | 'followers';
+export interface IUser extends Pick<IAccount, TUserKey> {
+  isFollowing: boolean;
+  profile: IProfile;
+}
+
 type TGetMyAccount = () => Promise<AxiosResponse<IAccount>>;
+type TGetUser = (uid: string) => Promise<AxiosResponse<IUser>>;
+type TFollowUser = (uid: string) => Promise<AxiosResponse>;
 
 export const getMyAccount: TGetMyAccount = () =>
   connectionInstance.get('/user/my-account');
+
+export const getUser: TGetUser = uid => connectionInstance.get(`/user/${uid}`);
+
+export const followUser: TFollowUser = uid =>
+  connectionInstance.get(`/user/follow/${uid}`);
+
+export const unfollowUser: TFollowUser = uid =>
+  connectionInstance.get(`/user/unfollow/${uid}`);

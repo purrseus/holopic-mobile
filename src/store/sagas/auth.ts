@@ -49,9 +49,12 @@ function* handleVerifyPhoneNumberRequest({ payload }: PayloadAction<string>) {
     getNavigation()?.navigate(HoloScreen.VERIFY_OTP, { phoneNumber });
     yield handleVerifyOTPRequest(confirmation);
   } catch (error) {
+    if (__DEV__) {
+      console.error(error);
+    }
     yield put(authActions.verifyPhoneNumberFailed());
     yield put(
-      commonActions.showToast({ message: i18n.t('authCommonErrorMessage') }),
+      commonActions.showToast({ message: i18n.t('commonErrorMessage') }),
     );
   } finally {
     yield put(commonActions.hideOverlayLoading());
@@ -86,6 +89,9 @@ function* handleVerifyOTPRequest(
       data.refreshToken = response.data.token.refreshToken;
       yield put(authActions.changeAuthStatus(AuthStatus.LOGGED_IN));
     } catch (error) {
+      if (__DEV__) {
+        console.error(error);
+      }
       yield put(authActions.loginFailed());
       yield put(
         commonActions.showToast({ message: i18n.t('commonErrorMessage') }),
