@@ -1,52 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@store/store';
 import CommonProfile from '@containers/common-profile';
-import { getMyPhotos, IPhoto } from '@services/photo';
-import { AxiosResponse } from 'axios';
 import { userActions } from '@store/slices/user';
+import { photoActions } from '@store/slices/photo';
 
 const MyProfileScreen = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user.user);
-  const [myPhotos, setMyPhotos] = useState<IPhoto[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isError, setIsError] = useState<boolean>(false);
-
-  const fetchPhotos = useCallback(async () => {
-    try {
-      const response: AxiosResponse<IPhoto[]> = await getMyPhotos(1);
-      dispatch(userActions.getUserRequest());
-      setMyPhotos(response.data);
-      setIsError(false);
-    } catch (error) {
-      setIsError(true);
-    } finally {
-      setLoading(false);
-    }
-  }, [dispatch]);
-
-  const fetchMorePhotos = async () => {
-    if (myPhotos.length === user?.images) {
-      return;
-    }
-
-    try {
-      if (myPhotos.length < 20) {
-        return;
-      }
-
-      const res: AxiosResponse<IPhoto[]> = await getMyPhotos(
-        Math.floor(myPhotos.length / 20) + 1,
-      );
-      setMyPhotos([...myPhotos, ...res.data]);
-    } catch (error) {
-      setIsError(true);
-    }
-  };
+  const { photos, loading, error } = useAppSelector(
+    state => state.photo.myPhotos,
+  );
 
   useEffect(() => {
-    fetchPhotos();
-  }, [fetchPhotos]);
+    dispatch(photoActions.getMyPhotosRequest());
+    dispatch(userActions.getUserRequest());
+  }, [dispatch]);
 
   return (
     <CommonProfile
@@ -58,11 +26,16 @@ const MyProfileScreen = () => {
       photos={user?.images}
       location={user?.profile.location}
       bio={user?.profile.bio}
-      photoList={myPhotos}
+      photoList={photos}
       loading={loading}
-      error={isError}
-      reload={fetchPhotos}
-      loadMore={fetchMorePhotos}
+      error={error}
+      reload={() => {
+        dispatch(photoActions.getMyPhotosRequest());
+        dispatch(userActions.getUserRequest());
+      }}
+      loadMore={() => {
+        dispatch(photoActions.getMoreMyPhotosRequest());
+      }}
     />
   );
 };

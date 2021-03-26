@@ -6,8 +6,10 @@ import {
 import BottomTabBar from './tab-bar';
 import { HoloScreen } from '@constants';
 import UploadPhotoScreen from '@screens/upload-photo';
+import ProfileScreen from '@screens/profile';
 import PhotoScreen from '@screens/photo';
 import { IPhoto } from '@services/photo';
+import FollowScreen, { ScreenName } from '@screens/follow';
 
 export interface IUploadPhotoParams {
   fileName: string;
@@ -18,7 +20,9 @@ export interface IUploadPhotoParams {
 export type TAppStackParamsList = {
   [HoloScreen.TAB_BAR]: undefined;
   [HoloScreen.UPLOAD_PHOTO]: IUploadPhotoParams;
-  [HoloScreen.PHOTO]: { photo: IPhoto; isLiked: boolean };
+  [HoloScreen.PHOTO]: { photo: IPhoto };
+  [HoloScreen.PROFILE]: { uid: string };
+  [HoloScreen.FOLLOW]: { screenName: ScreenName };
 };
 
 const Stack = createStackNavigator<TAppStackParamsList>();
@@ -35,6 +39,8 @@ const AppStack = () => {
         component={UploadPhotoScreen}
       />
       <Stack.Screen name={HoloScreen.PHOTO} component={PhotoScreen} />
+      <Stack.Screen name={HoloScreen.PROFILE} component={ProfileScreen} />
+      <Stack.Screen name={HoloScreen.FOLLOW} component={FollowScreen} />
     </Stack.Navigator>
   );
 };

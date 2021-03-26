@@ -10,6 +10,8 @@ export const Container = styled.View<Partial<Props>>`
   background-color: ${({ disabled, bgColor, theme }) =>
     disabled ? theme.colors.disabled : bgColor};
   ${({ shadow }) => shadow && 'elevation: 2;'}
+  ${({ borderColor }) =>
+    !!borderColor && `border-width: 2px; border-color: ${borderColor};`}
 `;
 
 export const StyledLinearGradient = styled(LinearGradient)`

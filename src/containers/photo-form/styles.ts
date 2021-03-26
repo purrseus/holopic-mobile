@@ -8,7 +8,7 @@ import { BOTTOM_TAB_HEIGHT } from '@constants';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const StyledHoloHeader = styled(HoloHeader)`

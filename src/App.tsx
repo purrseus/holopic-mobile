@@ -19,7 +19,10 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider theme={theme}>
-          <StatusBar backgroundColor="white" barStyle="dark-content" />
+          <StatusBar
+            backgroundColor={theme.colors.background}
+            barStyle="dark-content"
+          />
           <NavigationContainer ref={navigationRef}>
             <RootStack />
           </NavigationContainer>

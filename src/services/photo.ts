@@ -31,6 +31,7 @@ type TGetUserPhotos = (
   page: number,
 ) => Promise<AxiosResponse<IPhoto[]>>;
 type TLikePhoto = (publicId: string) => Promise<AxiosResponse>;
+type TGetPhoto = (publicId: string) => Promise<AxiosResponse<IPhoto>>;
 
 export const uploadPhoto: TUploadPhoto = (title, tags, photo) => {
   const data = new FormData();
@@ -56,6 +57,9 @@ export const getMyPhotos: TGetPhotos = page =>
 
 export const getUserPhotos: TGetUserPhotos = (uid, page) =>
   connectionInstance.get(`/image/images?userId=${uid}&page=${page}`);
+
+export const getPhoto: TGetPhoto = publicId =>
+  connectionInstance.get(`/image/${publicId}`);
 
 export const likePhoto: TLikePhoto = publicId =>
   connectionInstance.get(`/image/like/${publicId}`);

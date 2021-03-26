@@ -38,6 +38,7 @@ export interface IUser extends Pick<IAccount, TUserKey> {
 type TGetMyAccount = () => Promise<AxiosResponse<IAccount>>;
 type TGetUser = (uid: string) => Promise<AxiosResponse<IUser>>;
 type TFollowUser = (uid: string) => Promise<AxiosResponse>;
+type TGetFollow = (page: number) => Promise<AxiosResponse<IUser[]>>;
 
 export const getMyAccount: TGetMyAccount = () =>
   connectionInstance.get('/user/my-account');
@@ -49,3 +50,9 @@ export const followUser: TFollowUser = uid =>
 
 export const unfollowUser: TFollowUser = uid =>
   connectionInstance.get(`/user/unfollow/${uid}`);
+
+export const getFollowing: TGetFollow = page =>
+  connectionInstance.get(`/user/get-following?page=${page}`);
+
+export const getFollowers: TGetFollow = page =>
+  connectionInstance.get(`/user/get-followers?page=${page}`);

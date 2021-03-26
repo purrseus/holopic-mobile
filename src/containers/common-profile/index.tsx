@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { IProfile } from '@services/user';
 import {
   Container,
@@ -8,7 +8,7 @@ import {
   UserName,
   Follow,
   Dot,
-  FollowButton,
+  FollowButtons,
   Location,
   Bio,
   PhotoListTitle,
@@ -20,6 +20,7 @@ import {
   Header,
   HeaderName,
   AnimatedSmallAvatar,
+  IconsLeft,
 } from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {
@@ -36,9 +37,13 @@ import Empty from '@assets/images/empty.svg';
 import CommonError from '@components/common-error';
 import PhotoList from '@components/photos-flat-list';
 import { useAppSelector } from '@store/store';
+import { useNavigation } from '@react-navigation/native';
+import FollowButton from '@components/follow-button';
+import { HoloScreen } from '@constants';
+import { ScreenName } from '@screens/follow';
 
 export const BACKGROUND_HEIGHT: number = AvatarSize.LARGE + 54;
-const BACKGROUND_COLLAPSE_HEIGHT: number = 60;
+const BACKGROUND_COLLAPSE_HEIGHT: number = 56;
 
 interface Props extends Partial<IProfile> {
   avatarUrl?: string;
@@ -47,9 +52,11 @@ interface Props extends Partial<IProfile> {
   photos?: number;
   photoList: IPhoto[];
   loading: boolean;
-  error: boolean;
+  error?: boolean;
   reload: () => void;
   loadMore: () => void;
+  uid?: string;
+  follow?: boolean;
 }
 
 const CommonProfile = ({
@@ -66,9 +73,13 @@ const CommonProfile = ({
   error,
   reload,
   loadMore,
+  follow,
+  uid,
 }: Props) => {
   const scrollY = useRef(new Animated.Value(0)).current;
+  const { goBack, navigate } = useNavigation();
   const userName = useAppSelector(state => state.user.user?.profile.username);
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   return (
     <Container>
@@ -84,27 +95,38 @@ const CommonProfile = ({
         }}
       >
         <Header>
-          <AnimatedSmallAvatar
-            style={{
-              opacity: scrollY.interpolate({
-                inputRange: [
-                  0,
-                  BACKGROUND_HEIGHT - BACKGROUND_COLLAPSE_HEIGHT - 8,
-                  BACKGROUND_HEIGHT - BACKGROUND_COLLAPSE_HEIGHT,
-                ],
-                outputRange: [0, 0, 1],
-                extrapolate: 'clamp',
-              }),
-            }}
-          >
-            <HoloAvatar
-              size={AvatarSize.SMALL}
-              url={avatarUrl}
-              fullName={fullName}
-              username={username}
-            />
-            <HeaderName>{fullName}</HeaderName>
-          </AnimatedSmallAvatar>
+          <IconsLeft>
+            {username !== userName && (
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  goBack();
+                }}
+              >
+                <Icon name="left" size={28} style={styles.back} />
+              </TouchableWithoutFeedback>
+            )}
+            <AnimatedSmallAvatar
+              style={{
+                opacity: scrollY.interpolate({
+                  inputRange: [
+                    0,
+                    BACKGROUND_HEIGHT - BACKGROUND_COLLAPSE_HEIGHT - 8,
+                    BACKGROUND_HEIGHT - BACKGROUND_COLLAPSE_HEIGHT,
+                  ],
+                  outputRange: [0, 0, 1],
+                  extrapolate: 'clamp',
+                }),
+              }}
+            >
+              <HoloAvatar
+                size={AvatarSize.SMALL}
+                url={avatarUrl}
+                fullName={fullName}
+              />
+              <HeaderName>{fullName}</HeaderName>
+            </AnimatedSmallAvatar>
+          </IconsLeft>
+
           {username !== userName ? (
             <Icon name="ellipsis1" size={30} style={styles.iconHeader} />
           ) : (
@@ -152,14 +174,20 @@ const CommonProfile = ({
             size={AvatarSize.LARGE}
             url={avatarUrl}
             fullName={fullName}
-            username={username}
           />
         </AnimatedAvatar>
       </AnimatedBackground>
 
       <PhotoList
         refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={reload} />
+          <RefreshControl
+            refreshing={refresh}
+            onRefresh={() => {
+              setRefresh(true);
+              reload();
+              setRefresh(false);
+            }}
+          />
         }
         photos={!error ? photoList : []}
         loading={loading}
@@ -168,7 +196,11 @@ const CommonProfile = ({
           { useNativeDriver: false },
         )}
         onEndReachedThreshold={0.5}
-        onEndReached={() => loadMore()}
+        onEndReached={() => {
+          if (!loading && photoList.length !== photos) {
+            loadMore();
+          }
+        }}
         ListHeaderComponent={
           <>
             <Profile>
@@ -184,29 +216,49 @@ const CommonProfile = ({
                     {location}
                   </Location>
                 )}
-                {!!bio && (
-                  <TouchableWithoutFeedback>
-                    <Bio ellipsizeMode="tail">{bio}</Bio>
-                  </TouchableWithoutFeedback>
-                )}
+                {!!bio && <Bio ellipsizeMode="tail">{bio}</Bio>}
                 <Follow>
-                  <TouchableWithoutFeedback>
-                    <FollowButton>
+                  <TouchableWithoutFeedback
+                    onPress={() => {
+                      if (username !== userName) {
+                        return;
+                      }
+                      navigate(HoloScreen.FOLLOW, {
+                        screenName: ScreenName.FOLLOWERS,
+                      });
+                    }}
+                  >
+                    <FollowButtons>
                       {numeral(followers).format('0a')} followers
-                    </FollowButton>
+                    </FollowButtons>
                   </TouchableWithoutFeedback>
                   <Dot />
-                  <TouchableWithoutFeedback>
-                    <FollowButton>
+                  <TouchableWithoutFeedback
+                    onPress={() => {
+                      if (username !== userName) {
+                        return;
+                      }
+                      navigate(HoloScreen.FOLLOW, {
+                        screenName: ScreenName.FOLLOWING,
+                      });
+                    }}
+                  >
+                    <FollowButtons>
                       {numeral(following).format('0a')} following
-                    </FollowButton>
+                    </FollowButtons>
                   </TouchableWithoutFeedback>
                 </Follow>
+
+                {typeof follow === 'boolean' && (
+                  <FollowButton following={follow} uid={uid} />
+                )}
               </Content>
             </Profile>
 
             <PhotoListTitle>
-              <StyledTitle>My photos</StyledTitle>
+              <StyledTitle>
+                {username === userName ? 'My photos' : 'Photos'}
+              </StyledTitle>
               <Photos>{numeral(photos).format('0a')}</Photos>
             </PhotoListTitle>
 
@@ -232,6 +284,9 @@ const CommonProfile = ({
 };
 
 const styles = StyleSheet.create({
+  back: {
+    paddingLeft: 12,
+  },
   iconHeader: {
     alignSelf: 'flex-end',
     padding: 12,

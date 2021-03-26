@@ -5,8 +5,8 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 function* handleGetUserRequest() {
   try {
-    const user: AxiosResponse<IAccount> = yield call(getMyAccount);
-    yield put(userActions.getUserSuccess(user.data));
+    const response: AxiosResponse<IAccount> = yield call(getMyAccount);
+    yield put(userActions.getUserSuccess(response.data));
   } catch (error) {
     yield put(userActions.getUserFailed());
   }

@@ -3,7 +3,7 @@ import { Animated } from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 const AvatarBackground = styled.ImageBackground`
@@ -17,6 +17,12 @@ const AvatarBackground = styled.ImageBackground`
 export const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  padding: 0px 4px;
+`;
+
+export const IconsLeft = styled.View`
+  flex-direction: row;
   align-items: center;
 `;
 
@@ -32,9 +38,9 @@ export const AnimatedAvatar = Animated.createAnimatedComponent(Avatar);
 
 const SmallAvatar = styled.View`
   flex-direction: row;
-  padding: 0px 16px;
   justify-content: center;
   align-items: center;
+  padding: 0px 16px;
 `;
 
 export const AnimatedSmallAvatar = Animated.createAnimatedComponent(
@@ -49,7 +55,6 @@ export const HeaderName = styled.Text`
 `;
 
 export const Profile = styled.View`
-  padding-bottom: 20px;
   margin-top: 174px;
 `;
 
@@ -97,18 +102,18 @@ export const Dot = styled.View`
   border-radius: 999px;
 `;
 
-export const FollowButton = styled.Text`
+export const FollowButtons = styled.Text`
   font-family: 'Quicksand-Medium';
   font-size: 16px;
   padding: 4px;
-  margin-horizontal: 2px;
+  margin: 0px 2px 4px;
 `;
 
 export const PhotoListTitle = styled.View`
   padding: 16px;
   flex-direction: row;
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const StyledTitle = styled.Text`

@@ -5,6 +5,7 @@ export type HexColor = string;
 interface IHoloAppTheme {
   colors: {
     black: HexColor;
+    background: HexColor;
     white: HexColor;
     disabled: HexColor;
     darkGray: HexColor;
@@ -20,6 +21,7 @@ interface IHoloAppTheme {
 const theme: IHoloAppTheme = {
   colors: {
     black: '#06060C',
+    background: '#FBFBFB',
     white: '#FFFFFF',
     disabled: '#cac9c9',
     darkGray: '#666666',

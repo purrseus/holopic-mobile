@@ -8,7 +8,7 @@ import {
 import { TAppStackParamsList } from '@navigators/app-stack';
 import { HoloScreen } from '@constants';
 import { getUser, IUser } from '@services/user';
-import { getUserPhotos, IPhoto, viewPhoto } from '@services/photo';
+import { getPhoto, getUserPhotos, IPhoto, viewPhoto } from '@services/photo';
 import {
   Container,
   OverlayHeader,
@@ -25,6 +25,8 @@ import {
   OverviewPhotos,
   OverviewPhoto,
   Bottom,
+  Content,
+  StyledUserCard,
 } from './styles';
 import {
   Dimensions,
@@ -34,10 +36,10 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import theme from '@theme';
-import UserCard from '@components/user-card';
 import moment from 'moment';
 import numeral from 'numeral';
 import CommonError from '@components/common-error';
+import LikeButton from './like-button';
 
 type PhotoScreenRouteProp = RouteProp<TAppStackParamsList, HoloScreen.PHOTO>;
 const { width } = Dimensions.get('window');
@@ -49,6 +51,7 @@ const PhotoScreen = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [user, setUser] = useState<IUser | null>(null);
+  const [mainPhoto, setMainPhoto] = useState<IPhoto | null>(null);
   const [photos, setPhotos] = useState<IPhoto[]>([]);
 
   useEffect(() => {
@@ -56,12 +59,14 @@ const PhotoScreen = () => {
       try {
         setLoading(true);
         const res = await Promise.all([
+          getPhoto(params.photo.publicId),
           getUser(params.photo.user),
           getUserPhotos(params.photo.user, 1),
           viewPhoto(params.photo.publicId),
         ]);
-        setUser(res[0].data);
-        setPhotos(res[1].data);
+        setMainPhoto(res[0].data);
+        setUser(res[1].data);
+        setPhotos(res[2].data);
       } catch (error) {
         setIsError(true);
       } finally {
@@ -79,7 +84,7 @@ const PhotoScreen = () => {
             <TouchableWithoutFeedback onPress={() => goBack()}>
               <Icon
                 name="left"
-                size={28}
+                size={24}
                 color={theme.colors.white}
                 style={styles.icon}
               />
@@ -89,13 +94,13 @@ const PhotoScreen = () => {
             <IconsRight>
               <Icon
                 name="sharealt"
-                size={28}
+                size={24}
                 color={theme.colors.white}
                 style={styles.icon}
               />
               <Icon
                 name="ellipsis1"
-                size={28}
+                size={24}
                 color={theme.colors.white}
                 style={styles.icon}
               />
@@ -112,24 +117,28 @@ const PhotoScreen = () => {
         />
 
         <PhotoInfo>
-          <Info>
-            <StyledText>{moment(params.photo.createdAt).fromNow()}</StyledText>
-            <StyledText>
-              <BoldText>{numeral(params.photo.views).format('0a')} </BoldText>
-              Views
-            </StyledText>
-            <StyledText>
-              <BoldText>
-                {numeral(params.photo.likes + +params.isLiked).format('0a')}{' '}
-              </BoldText>
-              Likes
-            </StyledText>
-          </Info>
+          <Content>
+            <Info>
+              <StyledText>
+                {moment(params.photo.createdAt).fromNow()}
+              </StyledText>
+              <StyledText>
+                <BoldText>{numeral(mainPhoto?.views).format('0a')} </BoldText>
+                Views
+              </StyledText>
+              <StyledText>
+                <BoldText>{numeral(mainPhoto?.likes).format('0a')} </BoldText>
+                Likes
+              </StyledText>
+            </Info>
 
-          <Title>{params.photo.title}</Title>
+            {!!mainPhoto && <LikeButton photo={mainPhoto} />}
+          </Content>
+
+          <Title>{mainPhoto?.title}</Title>
 
           <Tags>
-            {params.photo.tags.map((tag, index) => (
+            {mainPhoto?.tags.map((tag, index) => (
               <Tag key={index}>#{tag}</Tag>
             ))}
           </Tags>
@@ -139,8 +148,8 @@ const PhotoScreen = () => {
 
         {!loading && !isError && !!photos && !!user && (
           <>
-            <UserCard
-              uid={user?.uid}
+            <StyledUserCard
+              uid={user.uid}
               fullName={user?.profile.fullName}
               username={user?.profile.username}
               avatarUrl={user?.profile.avatar.url}
@@ -152,12 +161,7 @@ const PhotoScreen = () => {
                 <TouchableWithoutFeedback
                   key={photo._id}
                   onPress={() => {
-                    dispatch(
-                      StackActions.push(HoloScreen.PHOTO, {
-                        photo,
-                        isLiked: photo.liked,
-                      }),
-                    );
+                    dispatch(StackActions.push(HoloScreen.PHOTO, { photo }));
                   }}
                 >
                   <OverviewPhoto source={{ uri: photo.url }} />

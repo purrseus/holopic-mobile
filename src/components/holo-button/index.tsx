@@ -35,6 +35,7 @@ export interface Props extends TouchableWithoutFeedbackProps {
   titleColor?: HexColor;
   titleSize?: number;
   titleBold?: boolean;
+  borderColor?: HexColor;
   bgColor?: HexColor;
   gradient?: LinearGradientProps;
   shadow?: boolean;
@@ -49,6 +50,7 @@ const HoloButton = ({
   titleColor,
   titleSize,
   titleBold,
+  borderColor,
   bgColor = theme.colors.primary,
   gradient,
   shadow,
@@ -60,7 +62,7 @@ const HoloButton = ({
 }: Props) => {
   return (
     <TouchableWithoutFeedback disabled={disabled} {...props}>
-      <Container {...{ bgColor, shadow, style, size, disabled }}>
+      <Container {...{ bgColor, borderColor, shadow, style, size, disabled }}>
         {gradient && !disabled ? (
           <StyledLinearGradient {...gradient}>
             <ContentContainer>
