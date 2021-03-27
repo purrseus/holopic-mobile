@@ -87,6 +87,7 @@ export const OverviewPhoto = styled(FastImage)`
   width: ${width * 0.31}px;
   height: ${width * 0.31}px;
   border-radius: 12px;
+  background-color: ${({ theme }) => theme.colors.lightGray};
 `;
 
 export const Bottom = styled.View`

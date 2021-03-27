@@ -21,6 +21,7 @@ import { commonActions } from '@store/slices/common';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { photoActions } from '@store/slices/photo';
 
 interface Props {
   headerTitle: string;
@@ -66,6 +67,7 @@ const PhotoForm = ({ headerTitle, photoUrl, photo, photoId }: Props) => {
             setPhotoStatus({ ...photoStatus, loading: true });
             const res = await uploadPhoto(values.title, values.tags, photo);
             if (res.status === 201) {
+              dispatch(photoActions.uploadAPhoto(res.data));
               setPhotoStatus({ ...photoStatus, loading: false, success: true });
               goBack();
               dispatch(

@@ -10,6 +10,7 @@ import ProfileScreen from '@screens/profile';
 import PhotoScreen from '@screens/photo';
 import { IPhoto } from '@services/photo';
 import FollowScreen, { ScreenName } from '@screens/follow';
+import PhotoViewerScreen from '@screens/photo-viewer';
 
 export interface IUploadPhotoParams {
   fileName: string;
@@ -22,7 +23,8 @@ export type TAppStackParamsList = {
   [HoloScreen.UPLOAD_PHOTO]: IUploadPhotoParams;
   [HoloScreen.PHOTO]: { photo: IPhoto };
   [HoloScreen.PROFILE]: { uid: string };
-  [HoloScreen.FOLLOW]: { screenName: ScreenName };
+  [HoloScreen.FOLLOW]: { screenName: ScreenName; follow: number };
+  [HoloScreen.PHOTO_VIEWER]: { url: string };
 };
 
 const Stack = createStackNavigator<TAppStackParamsList>();
@@ -41,6 +43,10 @@ const AppStack = () => {
       <Stack.Screen name={HoloScreen.PHOTO} component={PhotoScreen} />
       <Stack.Screen name={HoloScreen.PROFILE} component={ProfileScreen} />
       <Stack.Screen name={HoloScreen.FOLLOW} component={FollowScreen} />
+      <Stack.Screen
+        name={HoloScreen.PHOTO_VIEWER}
+        component={PhotoViewerScreen}
+      />
     </Stack.Navigator>
   );
 };

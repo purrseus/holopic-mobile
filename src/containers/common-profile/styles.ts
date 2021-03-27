@@ -65,13 +65,14 @@ export const Content = styled.View`
 
 export const FullName = styled.Text`
   font-family: 'Quicksand-Bold';
-  font-size: 28px;
-  margin-top: 4px;
+  font-size: 24px;
+  margin: 4px 8px 0px;
 `;
 
 export const UserName = styled.Text`
   font-family: 'Quicksand-Medium';
   font-size: 16px;
+  margin: 0px 8px;
   color: ${({ theme }) => theme.colors.darkGray};
 `;
 
@@ -107,6 +108,11 @@ export const FollowButtons = styled.Text`
   font-size: 16px;
   padding: 4px;
   margin: 0px 2px 4px;
+`;
+
+export const BoldText = styled.Text`
+  font-family: 'Quicksand-Bold';
+  font-size: 16px;
 `;
 
 export const PhotoListTitle = styled.View`

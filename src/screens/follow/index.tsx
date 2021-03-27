@@ -25,7 +25,7 @@ interface IFollowState {
 
 const FollowScreen = () => {
   const {
-    params: { screenName },
+    params: { screenName, follow },
   } = useRoute<FollowScreenRouteProp>();
   const [followList, setFollowList] = useState<IFollowState>({
     list: [],
@@ -56,7 +56,6 @@ const FollowScreen = () => {
     }
   }, [screenName]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _fetchMoreFollowList = async () => {
     const getFollow =
       screenName === ScreenName.FOLLOWERS ? getFollowers : getFollowing;
@@ -124,6 +123,12 @@ const FollowScreen = () => {
           data={followList.list}
           renderItem={_renderItem}
           keyExtractor={item => item.uid}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            if (!followList.loading && followList.list.length < follow) {
+              _fetchMoreFollowList();
+            }
+          }}
           ListFooterComponent={
             followList.loading ? (
               <LottieView

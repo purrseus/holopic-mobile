@@ -8,7 +8,7 @@ import { TouchableWithoutFeedback, ViewProps } from 'react-native';
 import { Container, Username, FullName, Name } from './styles';
 
 interface Props extends ViewProps {
-  uid: string;
+  uid?: string;
   fullName?: string;
   username?: string;
   avatarUrl?: string;
@@ -59,7 +59,9 @@ const UserCard = ({
                   <Username>{`@${username}`}</Username>
                 </>
               ) : (
-                <FullName>{`@${username}`}</FullName>
+                <FullName numberOfLines={1} ellipsizeMode="tail">
+                  {`@${username}`}
+                </FullName>
               )}
             </Name>
 

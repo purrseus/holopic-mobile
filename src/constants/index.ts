@@ -13,6 +13,7 @@ export enum HoloScreen {
   PHOTO = 'Photo',
   PROFILE = 'Profile',
   FOLLOW = 'Follow',
+  PHOTO_VIEWER = 'PhotoViewer',
 
   TAB_BAR = 'TabBar',
   HOME = 'Home',

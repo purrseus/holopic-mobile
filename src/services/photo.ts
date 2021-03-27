@@ -23,7 +23,7 @@ type TUploadPhoto = (
   title: string,
   tags: string,
   photo: IUploadPhotoParams,
-) => Promise<AxiosResponse>;
+) => Promise<AxiosResponse<IPhoto>>;
 
 type TGetPhotos = (page: number) => Promise<AxiosResponse<IPhoto[]>>;
 type TGetUserPhotos = (

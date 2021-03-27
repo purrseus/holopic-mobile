@@ -21,6 +21,7 @@ import {
   HeaderName,
   AnimatedSmallAvatar,
   IconsLeft,
+  BoldText,
 } from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {
@@ -225,11 +226,13 @@ const CommonProfile = ({
                       }
                       navigate(HoloScreen.FOLLOW, {
                         screenName: ScreenName.FOLLOWERS,
+                        follow: followers,
                       });
                     }}
                   >
                     <FollowButtons>
-                      {numeral(followers).format('0a')} followers
+                      <BoldText>{numeral(followers).format('0a')} </BoldText>
+                      followers
                     </FollowButtons>
                   </TouchableWithoutFeedback>
                   <Dot />
@@ -240,11 +243,13 @@ const CommonProfile = ({
                       }
                       navigate(HoloScreen.FOLLOW, {
                         screenName: ScreenName.FOLLOWING,
+                        follow: following,
                       });
                     }}
                   >
                     <FollowButtons>
-                      {numeral(following).format('0a')} following
+                      <BoldText>{numeral(following).format('0a')} </BoldText>
+                      following
                     </FollowButtons>
                   </TouchableWithoutFeedback>
                 </Follow>

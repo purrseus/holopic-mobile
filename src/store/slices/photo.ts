@@ -16,7 +16,7 @@ const initialState: IPhotoState = {
   uploadBottomSheetVisible: false,
   myPhotos: {
     photos: [],
-    loading: false,
+    loading: true,
     error: false,
   },
 };
@@ -26,6 +26,14 @@ const showUploadBottomSheet: CaseReducer<
   PayloadAction<boolean>
 > = (state, { payload }) => {
   state.uploadBottomSheetVisible = payload;
+};
+
+const uploadAPhoto: CaseReducer<IPhotoState, PayloadAction<IPhoto>> = (
+  state,
+  { payload },
+) => {
+  state.myPhotos.photos.unshift(payload);
+  state.myPhotos.photos.length = 20;
 };
 
 const getMyPhotosRequest: CaseReducer<IPhotoState> = state => {
@@ -68,6 +76,7 @@ const photoSlice = createSlice({
   name: 'photo',
   initialState,
   reducers: {
+    uploadAPhoto,
     showUploadBottomSheet,
 
     getMyPhotosRequest,

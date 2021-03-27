@@ -3,6 +3,7 @@ import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IAccount } from '@services/user';
 import { persistReducer } from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
+import { photoActions } from './photo';
 
 interface IUserState {
   user?: IAccount;
@@ -41,6 +42,13 @@ const userSlice = createSlice({
     getUserRequest,
     getUserSuccess,
     getUserFailed,
+  },
+  extraReducers: {
+    [photoActions.uploadAPhoto.type]: state => {
+      if (typeof state.user?.images === 'number') {
+        state.user.images += 1;
+      }
+    },
   },
 });
 

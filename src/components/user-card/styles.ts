@@ -10,7 +10,7 @@ export const Container = styled.View`
 
 export const Name = styled.View`
   margin-left: 12px;
-  flex-grow: 1;
+  flex: 1;
   justify-content: center;
 `;
 

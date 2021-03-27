@@ -46,7 +46,7 @@ const { width } = Dimensions.get('window');
 
 const PhotoScreen = () => {
   const { params } = useRoute<PhotoScreenRouteProp>();
-  const { goBack, dispatch } = useNavigation();
+  const { goBack, dispatch, navigate } = useNavigation();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -108,13 +108,19 @@ const PhotoScreen = () => {
           }
         />
         <OverlayHeader />
-        <Photo
-          source={{ uri: params.photo.url }}
-          style={{
-            aspectRatio:
-              width / params.photo.height / (width / params.photo.width),
+        <TouchableWithoutFeedback
+          onPress={() => {
+            navigate(HoloScreen.PHOTO_VIEWER, { url: params.photo.url });
           }}
-        />
+        >
+          <Photo
+            source={{ uri: params.photo.url }}
+            style={{
+              aspectRatio:
+                width / params.photo.height / (width / params.photo.width),
+            }}
+          />
+        </TouchableWithoutFeedback>
 
         <PhotoInfo>
           <Content>
