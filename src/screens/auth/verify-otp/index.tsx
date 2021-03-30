@@ -1,5 +1,5 @@
 import { HoloScreen } from '@constants';
-import { LoginStackParamsList } from '@navigators/login-stack';
+import { TLoginStackParamsList } from '@navigators/login-stack';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,7 +22,7 @@ import { authActions } from '@store/slices/auth';
 import { commonActions } from '@store/slices/common';
 
 type TVerifyOTPScreenRouteProp = RouteProp<
-  LoginStackParamsList,
+  TLoginStackParamsList,
   HoloScreen.VERIFY_OTP
 >;
 
@@ -92,7 +92,7 @@ const VerifyOTPScreen = () => {
       <ResendOTPCode
         size={SizeButton.SMALL}
         {...(resendCount === 3 && { titleColor: theme.colors.disabled })}
-        bgColor={'white'}
+        bgColor={theme.colors.background}
         title={t('resendOTPCodeButton')}
         titleSize={16}
         onPress={_resendOTPCode}

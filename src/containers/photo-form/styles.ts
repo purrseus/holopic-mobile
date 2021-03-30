@@ -17,6 +17,7 @@ export const StyledHoloHeader = styled(HoloHeader)`
 
 export const StyledUserCard = styled(UserCard)`
   padding: 16px;
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const Image = styled(FastImage)`
@@ -42,5 +43,10 @@ export const StyledTextInput = styled.TextInput<{ error: any }>`
 
 export const UploadButton = styled(HoloButton)`
   margin: 0px 40px;
+  margin-bottom: ${BOTTOM_TAB_HEIGHT / 2}px;
+`;
+
+export const RemoveButton = styled(HoloButton)`
+  margin: 0px 60px;
   margin-bottom: ${BOTTOM_TAB_HEIGHT}px;
 `;

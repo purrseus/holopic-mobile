@@ -14,6 +14,9 @@ export enum HoloScreen {
   PROFILE = 'Profile',
   FOLLOW = 'Follow',
   PHOTO_VIEWER = 'PhotoViewer',
+  SETTINGS = 'Settings',
+  EDIT_PROFILE = 'EditProfile',
+  EDIT_PHOTO = 'EditPhoto',
 
   TAB_BAR = 'TabBar',
   HOME = 'Home',

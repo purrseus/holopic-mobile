@@ -10,7 +10,7 @@ const PhotoComponent = ({ photo }: { photo: IPhoto }) => {
   const { navigate } = useNavigation();
 
   const url = [...photo.url.split('/')];
-  url.splice(-2, 0, 'q_60');
+  url.splice(-2, 0, 'c_fill,h_300,w_300');
 
   return (
     <TouchableWithoutFeedback

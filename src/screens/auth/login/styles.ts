@@ -6,7 +6,7 @@ export const Container = styled.View`
   padding: 20px 0px 300px;
   align-items: center;
   justify-content: space-between;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const ContentContainer = styled.View`
@@ -31,7 +31,6 @@ export const InputContainer = styled.View`
   align-items: center;
   justify-content: center;
   height: 50px;
-  background-color: ${({ theme }) => theme.colors.white};
   border-bottom-width: 1px;
   border-bottom-color: ${({ theme }) => theme.colors.darkGray};
 `;
@@ -59,7 +58,6 @@ export const DialCode = styled.Text`
 
 export const PhoneNumberInput = styled.TextInput`
   width: 65%;
-  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 export const SubmitPhoneNumberButton = styled(HoloButton)`

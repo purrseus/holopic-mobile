@@ -1,10 +1,16 @@
+import { IUploadPhotoParams } from '@navigators/app-stack';
 import AsyncStorage from '@react-native-community/async-storage';
 import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IAccount } from '@services/user';
+import { IAccount, IProfile } from '@services/user';
 import { persistReducer } from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
 import { photoActions } from './photo';
 
+export interface IEditProfilePayloadAction {
+  values: Partial<IProfile>;
+  publicId?: string;
+  newAvatar?: IUploadPhotoParams;
+}
 interface IUserState {
   user?: IAccount;
   loading: boolean;
@@ -35,6 +41,23 @@ const getUserFailed: CaseReducer<IUserState> = state => {
   state.error = true;
 };
 
+const editProfileRequest: CaseReducer<
+  IUserState,
+  PayloadAction<IEditProfilePayloadAction>
+> = state => {
+  state.loading = true;
+};
+
+const editProfileSuccess: CaseReducer<IUserState> = state => {
+  state.loading = false;
+  state.error = false;
+};
+
+const editProfileFailed: CaseReducer<IUserState> = state => {
+  state.loading = false;
+  state.error = true;
+};
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -42,6 +65,10 @@ const userSlice = createSlice({
     getUserRequest,
     getUserSuccess,
     getUserFailed,
+
+    editProfileRequest,
+    editProfileSuccess,
+    editProfileFailed,
   },
   extraReducers: {
     [photoActions.uploadAPhoto.type]: state => {

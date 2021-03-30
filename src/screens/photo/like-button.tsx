@@ -2,10 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { IPhoto, likePhoto, unlikePhoto } from '@services/photo';
+import { useAppDispatch } from '@store/store';
+import { photoActions } from '@store/slices/photo';
 
 const LikeButton = ({ photo }: { photo: IPhoto }) => {
   const likeAnimation = useRef<any>();
   const [isLiked, setIsLiked] = useState<boolean>(photo.liked);
+  const dispatch = useAppDispatch();
 
   const _onLike = async () => {
     if (!isLiked) {
@@ -13,6 +16,7 @@ const LikeButton = ({ photo }: { photo: IPhoto }) => {
         likeAnimation.current.play(0, 12);
         await likePhoto(photo.publicId);
         setIsLiked(true);
+        dispatch(photoActions.likeAPhoto(photo));
       } catch (error) {
         likeAnimation.current.reset();
       }

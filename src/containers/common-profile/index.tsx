@@ -14,7 +14,6 @@ import {
   PhotoListTitle,
   StyledTitle,
   Photos,
-  EmptyDescription,
   AnimatedAvatar,
   AnimatedBackground,
   Header,
@@ -26,7 +25,6 @@ import {
 import Icon from 'react-native-vector-icons/AntDesign';
 import {
   Animated,
-  Dimensions,
   RefreshControl,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -34,14 +32,15 @@ import {
 import HoloAvatar, { AvatarSize } from '@components/holo-avatar';
 import numeral from 'numeral';
 import { IPhoto } from '@services/photo';
-import Empty from '@assets/images/empty.svg';
-import CommonError from '@components/common-error';
+import CommonError from '@components/common/error';
 import PhotoList from '@components/photos-flat-list';
 import { useAppSelector } from '@store/store';
 import { useNavigation } from '@react-navigation/native';
 import FollowButton from '@components/follow-button';
 import { HoloScreen } from '@constants';
 import { ScreenName } from '@screens/follow';
+import CommonEmpty from '@components/common/empty';
+import theme from '@theme';
 
 export const BACKGROUND_HEIGHT: number = AvatarSize.LARGE + 54;
 const BACKGROUND_COLLAPSE_HEIGHT: number = 56;
@@ -86,7 +85,7 @@ const CommonProfile = ({
     <Container>
       <AnimatedBackground
         source={{ uri: avatarUrl }}
-        blurRadius={4}
+        blurRadius={6}
         style={{
           height: scrollY.interpolate({
             inputRange: [0, BACKGROUND_HEIGHT - BACKGROUND_COLLAPSE_HEIGHT],
@@ -103,7 +102,12 @@ const CommonProfile = ({
                   goBack();
                 }}
               >
-                <Icon name="left" size={28} style={styles.back} />
+                <Icon
+                  name="left"
+                  size={28}
+                  color={theme.colors.white}
+                  style={styles.back}
+                />
               </TouchableWithoutFeedback>
             )}
             <AnimatedSmallAvatar
@@ -111,7 +115,7 @@ const CommonProfile = ({
                 opacity: scrollY.interpolate({
                   inputRange: [
                     0,
-                    BACKGROUND_HEIGHT - BACKGROUND_COLLAPSE_HEIGHT - 8,
+                    BACKGROUND_HEIGHT - BACKGROUND_COLLAPSE_HEIGHT - 2,
                     BACKGROUND_HEIGHT - BACKGROUND_COLLAPSE_HEIGHT,
                   ],
                   outputRange: [0, 0, 1],
@@ -129,10 +133,24 @@ const CommonProfile = ({
           </IconsLeft>
 
           {username !== userName ? (
-            <Icon name="ellipsis1" size={30} style={styles.iconHeader} />
+            <Icon
+              name="ellipsis1"
+              size={30}
+              color={theme.colors.white}
+              style={styles.iconHeader}
+            />
           ) : (
-            <TouchableWithoutFeedback onPress={() => {}}>
-              <Icon name="setting" size={28} style={styles.iconHeader} />
+            <TouchableWithoutFeedback
+              onPress={() => {
+                navigate(HoloScreen.SETTINGS);
+              }}
+            >
+              <Icon
+                name="setting"
+                size={28}
+                color={theme.colors.white}
+                style={styles.iconHeader}
+              />
             </TouchableWithoutFeedback>
           )}
         </Header>
@@ -270,16 +288,7 @@ const CommonProfile = ({
             {error && <CommonError />}
 
             {photoList.length === 0 && !loading && !error && (
-              <>
-                <Empty
-                  width={Dimensions.get('window').width * 0.5}
-                  height={Dimensions.get('window').width * 0.5}
-                  style={styles.svg}
-                />
-                <EmptyDescription>
-                  You have not uploaded any photos yet
-                </EmptyDescription>
-              </>
+              <CommonEmpty description="You have not uploaded any photos yet." />
             )}
           </>
         }
@@ -291,14 +300,16 @@ const CommonProfile = ({
 const styles = StyleSheet.create({
   back: {
     paddingLeft: 12,
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowColor: theme.colors.darkGray,
+    textShadowRadius: 2,
   },
   iconHeader: {
     alignSelf: 'flex-end',
     padding: 12,
-  },
-  svg: {
-    alignSelf: 'center',
-    margin: 20,
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowColor: theme.colors.black,
+    textShadowRadius: 2,
   },
   loading: {
     width: 70,

@@ -21,6 +21,7 @@ import theme from '@theme';
 import { useTranslation } from 'react-i18next';
 import HoloHeader from '@components/holo-header';
 import Icon from 'react-native-vector-icons/AntDesign';
+import useDebounce from '@hooks/useDebounce';
 
 interface ICountriesCode {
   name: string;
@@ -35,16 +36,15 @@ const CountriesDialCodeScreen = () => {
   const dispatch = useAppDispatch();
   const { goBack } = useNavigation();
   const [value, setValue] = useState<string>('');
-  const [countryCode, setCountryCode] = useState<ICountriesCode[]>(
-    countriesCode,
-  );
+  const [countryCode, setCountryCode] = useState<ICountriesCode[]>([]);
+  const debounce = useDebounce();
+
   const _selectDialCode = (payload: IPhonePrefix) => {
     dispatch(authActions.setDialCode(payload));
     goBack();
   };
 
   const _onChangeText = (text: string) => {
-    setValue(text);
     if (text.toLowerCase().trim()) {
       const result = countriesCode.filter(ele => {
         return (
@@ -54,7 +54,6 @@ const CountriesDialCodeScreen = () => {
       });
       setCountryCode(result);
     }
-    return;
   };
 
   const _clearTextInput = () => {
@@ -95,7 +94,10 @@ const CountriesDialCodeScreen = () => {
           placeholder={t('searchCountry')}
           // eslint-disable-next-line react-native/no-inline-styles
           style={{ fontSize: 16 }}
-          onChangeText={_onChangeText}
+          onChangeText={text => {
+            setValue(text);
+            debounce<string>(text, 500, _onChangeText);
+          }}
           selectionColor={theme.colors.black}
           value={value}
           ref={inputRef}

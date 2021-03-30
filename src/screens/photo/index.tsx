@@ -38,13 +38,15 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import theme from '@theme';
 import moment from 'moment';
 import numeral from 'numeral';
-import CommonError from '@components/common-error';
+import CommonError from '@components/common/error';
 import LikeButton from './like-button';
+import { useAppSelector } from '@store/store';
 
 type PhotoScreenRouteProp = RouteProp<TAppStackParamsList, HoloScreen.PHOTO>;
 const { width } = Dimensions.get('window');
 
 const PhotoScreen = () => {
+  const myUid = useAppSelector(state => state.user.user?.uid);
   const { params } = useRoute<PhotoScreenRouteProp>();
   const { goBack, dispatch, navigate } = useNavigation();
 
@@ -98,12 +100,32 @@ const PhotoScreen = () => {
                 color={theme.colors.white}
                 style={styles.icon}
               />
-              <Icon
-                name="ellipsis1"
-                size={24}
-                color={theme.colors.white}
-                style={styles.icon}
-              />
+              {myUid === user?.uid ? (
+                <TouchableWithoutFeedback
+                  onPress={() => {
+                    navigate(HoloScreen.EDIT_PHOTO, {
+                      title: mainPhoto?.title,
+                      tags: mainPhoto?.tags.join(' '),
+                      publicId: mainPhoto?.publicId,
+                      photoUrl: mainPhoto?.url,
+                    });
+                  }}
+                >
+                  <Icon
+                    name="edit"
+                    size={24}
+                    color={theme.colors.white}
+                    style={styles.icon}
+                  />
+                </TouchableWithoutFeedback>
+              ) : (
+                <Icon
+                  name="ellipsis1"
+                  size={24}
+                  color={theme.colors.white}
+                  style={styles.icon}
+                />
+              )}
             </IconsRight>
           }
         />

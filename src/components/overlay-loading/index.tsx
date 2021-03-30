@@ -21,7 +21,7 @@ const OverlayLoading = () => {
         <Container>
           <LottieView
             source={require('@assets/animations/loading')}
-            style={{ transform: [{ scale: 0.6 }] }}
+            style={{ transform: [{ scale: 0.4 }] }}
             autoPlay
             loop
           />

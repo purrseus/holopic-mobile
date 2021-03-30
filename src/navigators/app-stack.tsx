@@ -11,6 +11,9 @@ import PhotoScreen from '@screens/photo';
 import { IPhoto } from '@services/photo';
 import FollowScreen, { ScreenName } from '@screens/follow';
 import PhotoViewerScreen from '@screens/photo-viewer';
+import SettingsScreen from '@screens/setting';
+import EditProfileScreen from '@screens/edit-profile';
+import EditPhotoScreen from '@screens/edit-photo';
 
 export interface IUploadPhotoParams {
   fileName: string;
@@ -25,6 +28,12 @@ export type TAppStackParamsList = {
   [HoloScreen.PROFILE]: { uid: string };
   [HoloScreen.FOLLOW]: { screenName: ScreenName; follow: number };
   [HoloScreen.PHOTO_VIEWER]: { url: string };
+  [HoloScreen.SETTINGS]: undefined;
+  [HoloScreen.EDIT_PROFILE]: undefined;
+  [HoloScreen.EDIT_PHOTO]: Record<
+    'title' | 'tags' | 'publicId' | 'photoUrl',
+    string
+  >;
 };
 
 const Stack = createStackNavigator<TAppStackParamsList>();
@@ -47,6 +56,12 @@ const AppStack = () => {
         name={HoloScreen.PHOTO_VIEWER}
         component={PhotoViewerScreen}
       />
+      <Stack.Screen name={HoloScreen.SETTINGS} component={SettingsScreen} />
+      <Stack.Screen
+        name={HoloScreen.EDIT_PROFILE}
+        component={EditProfileScreen}
+      />
+      <Stack.Screen name={HoloScreen.EDIT_PHOTO} component={EditPhotoScreen} />
     </Stack.Navigator>
   );
 };

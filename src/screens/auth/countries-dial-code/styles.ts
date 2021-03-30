@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const Row = styled.View`
@@ -35,7 +35,6 @@ export const CountryContainer = styled.View`
   padding: 8px 16px;
   justify-content: space-between;
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 export const Flag = styled.Text`

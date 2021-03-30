@@ -1,11 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HoloScreen } from '@constants';
-import HomeScreen from '@screens/home';
+import HomeScreen from '@screens/bottom-tab/home';
 import CustomBottomTab from './custom-bottom-tab';
-import SearchScreen from '@screens/search';
-import MyProfileScreen from '@screens/my-profile';
-import LikesScreen from '@screens/likes';
+import SearchScreen from '@screens/bottom-tab/search';
+import MyProfileScreen from '@screens/bottom-tab/my-profile';
+import LikesScreen from '@screens/bottom-tab/likes';
 
 const Tab = createBottomTabNavigator();
 

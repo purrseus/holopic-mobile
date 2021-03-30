@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Dimensions, FlatList, ListRenderItem, StyleSheet } from 'react-native';
 import { Container, StyledUserCard, Center, EmptyDescription } from './styles';
 import LottieView from 'lottie-react-native';
-import CommonError from '@components/common-error';
+import CommonError from '@components/common/error';
 import Void from '@assets/images/void.svg';
 
 export enum ScreenName {
@@ -107,7 +107,7 @@ const FollowScreen = () => {
         </Center>
       )}
 
-      {!followList.loading && !followList.list.length && (
+      {!followList.loading && !followList.list.length && !followList.error && (
         <Center>
           <Void
             width={Dimensions.get('window').width * 0.5}

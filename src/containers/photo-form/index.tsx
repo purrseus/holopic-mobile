@@ -7,6 +7,7 @@ import {
   Form,
   StyledTextInput,
   UploadButton,
+  RemoveButton,
 } from './styles';
 import FastImage from 'react-native-fast-image';
 import { useAppDispatch, useAppSelector } from '@store/store';
@@ -16,21 +17,29 @@ import { IUploadPhotoParams } from '@navigators/app-stack';
 import { ActivityIndicator, ScrollView, TextInput } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { uploadPhoto } from '@services/photo';
+import { editPhoto, uploadPhoto } from '@services/photo';
 import { commonActions } from '@store/slices/common';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { photoActions } from '@store/slices/photo';
+import { HoloScreen } from '@constants';
 
 interface Props {
   headerTitle: string;
   photoUrl: string;
   photo?: IUploadPhotoParams;
+  photoInfo?: { title: string; tags: string };
   photoId?: string;
 }
 
-const PhotoForm = ({ headerTitle, photoUrl, photo, photoId }: Props) => {
+const PhotoForm = ({
+  headerTitle,
+  photoUrl,
+  photo,
+  photoInfo,
+  photoId,
+}: Props) => {
   const tagsInputRef = useRef<TextInput | null>(null);
   const [photoStatus, setPhotoStatus] = useState({
     loading: false,
@@ -38,7 +47,7 @@ const PhotoForm = ({ headerTitle, photoUrl, photo, photoId }: Props) => {
     error: false,
   });
 
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const user: IProfile | undefined = useAppSelector(
@@ -56,8 +65,8 @@ const PhotoForm = ({ headerTitle, photoUrl, photo, photoId }: Props) => {
 
   const formik = useFormik({
     initialValues: {
-      title: '',
-      tags: '',
+      title: photoInfo?.title || '',
+      tags: photoInfo?.tags || '',
     },
     validationSchema: photoFormSchema,
     onSubmit: values => {
@@ -86,8 +95,24 @@ const PhotoForm = ({ headerTitle, photoUrl, photo, photoId }: Props) => {
           return;
         }
 
-        if (photoId) {
-          // ...
+        if (photoId && photoInfo) {
+          try {
+            dispatch(commonActions.showOverlayLoading());
+            await editPhoto(values.title, values.tags, photoId);
+            navigate(HoloScreen.TAB_BAR, { screen: HoloScreen.PROFILE });
+            dispatch(
+              commonActions.showToast({
+                message: 'Your photo has been updated',
+              }),
+            );
+          } catch (error) {
+            setPhotoStatus({ ...photoStatus, error: true });
+            dispatch(
+              commonActions.showToast({ message: t('commonErrorMessage') }),
+            );
+          } finally {
+            dispatch(commonActions.hideOverlayLoading());
+          }
           return;
         }
       })();
@@ -115,6 +140,7 @@ const PhotoForm = ({ headerTitle, photoUrl, photo, photoId }: Props) => {
             placeholder={t('addATitle')}
             value={formik.values.title}
             maxLength={64}
+            selectionColor={theme.colors.black}
             onChangeText={formik.handleChange('title')}
             onSubmitEditing={() => {
               tagsInputRef?.current?.focus();
@@ -126,30 +152,52 @@ const PhotoForm = ({ headerTitle, photoUrl, photo, photoId }: Props) => {
             placeholder={t('addTags')}
             value={formik.values.tags}
             maxLength={64}
+            selectionColor={theme.colors.black}
             onChangeText={formik.handleChange('tags')}
             autoCapitalize="none"
           />
         </Form>
-        <UploadButton
-          title={photoStatus.loading ? t('uploading') : t('upload')}
-          disabled={!!formik.errors.tags || !!formik.errors.title}
-          titleColor={theme.colors.white}
-          bgColor={
-            photoStatus.error ? theme.colors.red : theme.colors.lightBlue2
-          }
-          onPress={
-            photoStatus.success || photoStatus.loading
-              ? undefined
-              : formik.handleSubmit
-          }
-          leftIcon={
-            photoStatus.loading ? (
-              <ActivityIndicator size={20} color={theme.colors.white} />
-            ) : (
-              <Icon name="upload" size={20} color={theme.colors.white} />
-            )
-          }
-        />
+
+        {!photoInfo && !photoId ? (
+          <UploadButton
+            title={photoStatus.loading ? t('uploading') : t('upload')}
+            disabled={!!formik.errors.tags || !!formik.errors.title}
+            titleColor={theme.colors.white}
+            bgColor={
+              photoStatus.error ? theme.colors.red : theme.colors.lightBlue2
+            }
+            onPress={
+              photoStatus.success || photoStatus.loading
+                ? undefined
+                : formik.handleSubmit
+            }
+            leftIcon={
+              photoStatus.loading ? (
+                <ActivityIndicator size={20} color={theme.colors.white} />
+              ) : (
+                <Icon name="upload" size={20} color={theme.colors.white} />
+              )
+            }
+          />
+        ) : (
+          <>
+            <UploadButton
+              title="Done"
+              disabled={!!formik.errors.tags || !!formik.errors.title}
+              titleColor={theme.colors.white}
+              bgColor={
+                photoStatus.error ? theme.colors.red : theme.colors.lightBlue2
+              }
+              onPress={formik.handleSubmit}
+            />
+            <RemoveButton
+              title="Remove photo"
+              titleColor={theme.colors.white}
+              bgColor={theme.colors.red}
+              onPress={() => {}}
+            />
+          </>
+        )}
       </ScrollView>
     </Container>
   );

@@ -1,17 +1,23 @@
 import { AxiosResponse } from 'axios';
 import connectionInstance from './index';
 
-interface IAvatar {
+export interface IAvatar {
   _id: string;
   url: string;
   publicId: string;
+}
+
+export enum Gender {
+  NA = 'N/A',
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
 }
 
 export interface IProfile {
   fullName: string;
   username: string;
   avatar: IAvatar;
-  gender: 'N/A' | 'MALE' | 'FEMALE';
+  gender: Gender;
   bio: string;
   location: string;
 }
@@ -36,12 +42,24 @@ export interface IUser extends Pick<IAccount, TUserKey> {
 }
 
 type TGetMyAccount = () => Promise<AxiosResponse<IAccount>>;
+type TEditProfile = (
+  data: Partial<IProfile>,
+) => Promise<AxiosResponse<IAccount>>;
 type TGetUser = (uid: string) => Promise<AxiosResponse<IUser>>;
 type TFollowUser = (uid: string) => Promise<AxiosResponse>;
 type TGetFollow = (page: number) => Promise<AxiosResponse<IUser[]>>;
 
 export const getMyAccount: TGetMyAccount = () =>
   connectionInstance.get('/user/my-account');
+
+export const editProfile: TEditProfile = data =>
+  connectionInstance.patch('/user/edit-profile', {
+    fullName: data.fullName,
+    username: data.username,
+    gender: data.gender,
+    bio: data.bio,
+    location: data.location,
+  });
 
 export const getUser: TGetUser = uid => connectionInstance.get(`/user/${uid}`);
 

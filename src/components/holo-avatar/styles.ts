@@ -1,15 +1,18 @@
 import styled from 'styled-components/native';
 import FastImage from 'react-native-fast-image';
-import { Props } from './index';
+import { AvatarSize, Props } from './index';
 
 export const Container = styled.View<Pick<Props, 'size'>>`
   border-radius: 999px;
-  border-width: 1.5px;
+  border-width: ${({ size }) => (size === AvatarSize.LARGE ? '4px' : '1px')};
   justify-content: center;
   align-items: center;
   position: relative;
   background-color: ${({ theme }) => theme.colors.lightGray};
-  border-color: ${({ theme }) => theme.colors.lightGray};
+  border-color: ${({ theme, size }) =>
+    size === AvatarSize.LARGE
+      ? theme.colors.background
+      : theme.colors.lightGray};
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
 `;

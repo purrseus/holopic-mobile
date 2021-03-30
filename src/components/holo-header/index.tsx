@@ -47,7 +47,8 @@ const HoloHeader = ({
             fontFamily: 'Quicksand-Bold',
             fontSize: 20,
             lineHeight: 26,
-            marginLeft: 5,
+            marginLeft: 8,
+            flex: 1,
           },
           headerTitleStyle,
         ]}

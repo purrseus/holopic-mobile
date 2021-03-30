@@ -6,7 +6,7 @@ export const Container = styled.View`
   flex: 1;
   justify-content: space-between;
   padding: 40px 0px;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const Content = styled.View`

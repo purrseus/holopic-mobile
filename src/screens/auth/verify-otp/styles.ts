@@ -5,7 +5,7 @@ export const Container = styled.View`
   flex: 1;
   align-items: flex-start;
   padding: 0px 0px 300px;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 // justify-content: space-between;
 export const BackButton = styled.View`

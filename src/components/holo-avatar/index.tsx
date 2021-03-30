@@ -14,20 +14,26 @@ export interface Props extends ViewProps {
   size: AvatarSize;
   url?: string;
   fullName?: string;
+  hideDefaultAvatar?: boolean;
 }
 
-const HoloAvatar = ({ size, url, fullName, style }: Props) => {
+const HoloAvatar = ({
+  size,
+  url,
+  fullName,
+  hideDefaultAvatar = false,
+  style,
+}: Props) => {
   const profile: IProfile | undefined = useAppSelector(
     state => state.user.user?.profile,
   );
 
   return (
     <Container size={size} style={style}>
-      {fullName === '' || profile?.avatar.publicId !== '' ? (
-        <Avatar
-          source={{ uri: url }}
-          resizeMode={FastImage.resizeMode.contain}
-        />
+      {hideDefaultAvatar ||
+      fullName === '' ||
+      profile?.avatar.publicId !== '' ? (
+        <Avatar source={{ uri: url }} resizeMode={FastImage.resizeMode.cover} />
       ) : (
         <StyledText size={size}>{fullName?.charAt(0).toUpperCase()}</StyledText>
       )}

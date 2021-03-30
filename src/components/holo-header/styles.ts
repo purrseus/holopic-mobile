@@ -8,5 +8,5 @@ export const Container = styled.View`
 `;
 
 export const BackButton = styled.View`
-  padding: 10px 6px;
+  padding: 12px 8px;
 `;

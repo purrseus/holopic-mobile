@@ -1,6 +1,7 @@
 import { IUploadPhotoParams } from '@navigators/app-stack';
 import { AxiosResponse } from 'axios';
 import connectionInstance from './index';
+import { IAvatar } from './user';
 
 export interface IPhoto {
   _id: string;
@@ -17,6 +18,7 @@ export interface IPhoto {
   liked: boolean;
   createdAt: string;
   updatedAt: string;
+  likeIndex?: number;
 }
 
 type TUploadPhoto = (
@@ -24,6 +26,17 @@ type TUploadPhoto = (
   tags: string,
   photo: IUploadPhotoParams,
 ) => Promise<AxiosResponse<IPhoto>>;
+
+type TChangeAvatar = (
+  publicId: string,
+  photo: IUploadPhotoParams,
+) => Promise<AxiosResponse<IAvatar>>;
+
+type TEditPhoto = (
+  title: string,
+  tags: string,
+  publicId: string,
+) => Promise<AxiosResponse>;
 
 type TGetPhotos = (page: number) => Promise<AxiosResponse<IPhoto[]>>;
 type TGetUserPhotos = (
@@ -49,6 +62,24 @@ export const uploadPhoto: TUploadPhoto = (title, tags, photo) => {
   });
 };
 
+export const changeAvatar: TChangeAvatar = (publicId, photo) => {
+  const data = new FormData();
+  data.append('publicId', publicId);
+
+  data.append('avatar', {
+    name: photo.fileName,
+    type: photo.type,
+    uri: photo.uri,
+  });
+
+  return connectionInstance.post('/image/change-avatar', data, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+};
+
+export const editPhoto: TEditPhoto = (title, tags, publicId) =>
+  connectionInstance.patch(`/image/edit-image/${publicId}`, { title, tags });
+
 export const getNewPhotos: TGetPhotos = page =>
   connectionInstance.get(`/image/new-images?page=${page}`);
 
@@ -69,3 +100,6 @@ export const unlikePhoto: TLikePhoto = publicId =>
 
 export const viewPhoto: TLikePhoto = publicId =>
   connectionInstance.get(`image/view/${publicId}`);
+
+export const getLikedPhotos: TGetPhotos = page =>
+  connectionInstance.get(`/image/my-likes?page=${page}`);

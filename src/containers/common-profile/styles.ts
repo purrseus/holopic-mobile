@@ -40,7 +40,7 @@ const SmallAvatar = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 0px 16px;
+  padding: 2px 16px 0px;
 `;
 
 export const AnimatedSmallAvatar = Animated.createAnimatedComponent(
@@ -51,7 +51,10 @@ export const HeaderName = styled.Text`
   margin-left: 8px;
   font-family: 'Quicksand-Bold';
   font-size: 20px;
-  margin-top: 4px;
+  color: ${({ theme }) => theme.colors.white};
+  text-shadow-color: ${({ theme }) => theme.colors.black};
+  text-shadow-radius: 2px;
+  text-shadow-offset: 0px 0px;
 `;
 
 export const Profile = styled.View`
@@ -134,11 +137,4 @@ export const Photos = styled.Text`
   line-height: 22px;
   margin-right: 4px;
   align-self: center;
-`;
-
-export const EmptyDescription = styled.Text`
-  font-family: 'Quicksand-Medium';
-  font-size: 16px;
-  text-align: center;
-  color: ${({ theme }) => theme.colors.darkGray};
 `;
