@@ -119,7 +119,7 @@ const EditProfileScreen = () => {
             error={formik.errors.fullName}
             placeholder="Add..."
             maxLength={64}
-            selectionColor={theme.colors.black}
+            selectionColor={theme.colors.primary}
             value={formik.values.fullName}
             onChangeText={formik.handleChange('fullName')}
           />
@@ -129,7 +129,7 @@ const EditProfileScreen = () => {
             error={formik.errors.username}
             placeholder="Add..."
             maxLength={32}
-            selectionColor={theme.colors.black}
+            selectionColor={theme.colors.primary}
             value={formik.values.username}
             onChangeText={formik.handleChange('username')}
             autoCapitalize="none"
@@ -137,6 +137,7 @@ const EditProfileScreen = () => {
 
           <Label>Gender</Label>
           <RNPickerSelect
+            value={formik.values.gender}
             onValueChange={formik.handleChange('gender')}
             placeholder={{}}
             items={genderList}
@@ -159,8 +160,8 @@ const EditProfileScreen = () => {
           <StyledTextInput
             error={formik.errors.bio}
             placeholder="Add..."
-            maxLength={256}
-            selectionColor={theme.colors.black}
+            maxLength={255}
+            selectionColor={theme.colors.primary}
             value={formik.values.bio}
             multiline
             onChangeText={formik.handleChange('bio')}
@@ -171,7 +172,7 @@ const EditProfileScreen = () => {
             error={formik.errors.location}
             placeholder="Add..."
             maxLength={64}
-            selectionColor={theme.colors.black}
+            selectionColor={theme.colors.primary}
             value={formik.values.location}
             onChangeText={formik.handleChange('location')}
           />

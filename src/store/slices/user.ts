@@ -76,6 +76,11 @@ const userSlice = createSlice({
         state.user.images += 1;
       }
     },
+    [photoActions.deletePhotoSuccess.type]: state => {
+      if (typeof state.user?.images === 'number') {
+        state.user.images -= 1;
+      }
+    },
   },
 });
 

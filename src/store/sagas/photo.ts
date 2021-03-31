@@ -1,4 +1,13 @@
-import { getMyPhotos, getLikedPhotos, IPhoto } from '@services/photo';
+import { HoloScreen } from '@constants';
+import { getNavigation } from '@navigators/navigation-ref';
+import { PayloadAction } from '@reduxjs/toolkit';
+import {
+  getMyPhotos,
+  getLikedPhotos,
+  IPhoto,
+  deletePhoto,
+} from '@services/photo';
+import { commonActions } from '@store/slices/common';
 import { photoActions } from '@store/slices/photo';
 import { RootState } from '@store/store';
 import { AxiosResponse } from 'axios';
@@ -44,16 +53,17 @@ function* handleGetLikedPhotosRequest() {
 }
 
 function* handleGetMoreLikedPhotosRequest() {
-  const totalPhotos: number | undefined = yield select(
-    (state: RootState) => state.user.user?.myLikes,
+  const full: boolean | undefined = yield select(
+    (state: RootState) => state.photo.likedPhotos.full,
   );
+
+  if (full) {
+    return;
+  }
+
   const currentPhotos: number = yield select(
     (state: RootState) => state.photo.likedPhotos.photos.length,
   );
-
-  if (totalPhotos === currentPhotos || currentPhotos < 20) {
-    return;
-  }
 
   try {
     const nextPage: number = Math.floor(currentPhotos / 20) + 1;
@@ -64,6 +74,23 @@ function* handleGetMoreLikedPhotosRequest() {
     yield put(photoActions.getMoreLikedPhotosSuccess(response.data));
   } catch (error) {
     yield put(photoActions.getMoreLikedPhotosFailed());
+  }
+}
+
+function* handleDeletePhotoRequest({ payload }: PayloadAction<string>) {
+  try {
+    yield put(commonActions.showOverlayLoading());
+
+    yield call(deletePhoto, payload);
+    yield put(photoActions.deletePhotoSuccess(payload));
+    getNavigation()?.navigate(HoloScreen.TAB_BAR, {
+      screen: HoloScreen.MY_PROFILE,
+    });
+    yield put(commonActions.showToast({ message: 'Deleted!', duration: 4000 }));
+  } catch (error) {
+    yield put(photoActions.deletePhotoFailed());
+  } finally {
+    yield put(commonActions.hideOverlayLoading());
   }
 }
 
@@ -83,6 +110,10 @@ function* photoSaga() {
   yield takeLatest(
     photoActions.getMoreLikedPhotosRequest.type,
     handleGetMoreLikedPhotosRequest,
+  );
+  yield takeLatest(
+    photoActions.deletePhotoRequest.type,
+    handleDeletePhotoRequest,
   );
 }
 

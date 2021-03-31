@@ -52,7 +52,7 @@ const LoginScreen = () => {
           // eslint-disable-next-line react-native/no-inline-styles
           style={{ fontSize: 18, fontFamily: 'Quicksand-Bold' }}
           placeholder={t('phoneNumber')}
-          selectionColor={theme.colors.black}
+          selectionColor={theme.colors.primary}
           keyboardType="number-pad"
           onChangeText={_onChangeText}
           value={phoneNumber}

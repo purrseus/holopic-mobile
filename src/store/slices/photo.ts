@@ -3,6 +3,7 @@ import { IPhoto } from '@services/photo';
 
 interface IMyPhotos {
   photos: IPhoto[];
+  full?: boolean;
   loading: boolean;
   error?: boolean;
 }
@@ -22,6 +23,7 @@ const initialState: IPhotoState = {
   },
   likedPhotos: {
     photos: [],
+    full: false,
     loading: true,
     error: false,
   },
@@ -101,6 +103,9 @@ const getLikedPhotosSuccess: CaseReducer<
   state.likedPhotos.loading = false;
   delete state.likedPhotos.error;
   state.likedPhotos.photos = payload;
+  if (!payload.length || payload.length < 20) {
+    state.likedPhotos.full = true;
+  }
 };
 
 const getLikedPhotosFailed: CaseReducer<IPhotoState> = state => {
@@ -119,11 +124,40 @@ const getMoreLikedPhotosSuccess: CaseReducer<
   state.likedPhotos.loading = false;
   delete state.likedPhotos.error;
   state.likedPhotos.photos = [...state.likedPhotos.photos, ...payload];
+  if (!payload.length) {
+    state.likedPhotos.full = true;
+  }
 };
 
 const getMoreLikedPhotosFailed: CaseReducer<IPhotoState> = state => {
   state.likedPhotos.loading = false;
   state.likedPhotos.error = true;
+};
+
+const deletePhotoRequest: CaseReducer<
+  IPhotoState,
+  PayloadAction<string>
+> = state => {
+  state.myPhotos.loading = true;
+};
+
+const deletePhotoSuccess: CaseReducer<IPhotoState, PayloadAction<string>> = (
+  state,
+  { payload },
+) => {
+  state.myPhotos.loading = false;
+  delete state.myPhotos.error;
+  const deletedPhotoIndex = state.myPhotos.photos.findIndex(
+    photo => photo.publicId === payload,
+  );
+  if (deletedPhotoIndex >= 0) {
+    state.myPhotos.photos.splice(deletedPhotoIndex, 1);
+  }
+};
+
+const deletePhotoFailed: CaseReducer<IPhotoState> = state => {
+  state.myPhotos.loading = false;
+  state.myPhotos.error = true;
 };
 
 const photoSlice = createSlice({
@@ -147,6 +181,10 @@ const photoSlice = createSlice({
     getMoreLikedPhotosRequest,
     getMoreLikedPhotosSuccess,
     getMoreLikedPhotosFailed,
+
+    deletePhotoRequest,
+    deletePhotoSuccess,
+    deletePhotoFailed,
   },
 });
 

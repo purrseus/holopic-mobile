@@ -7,14 +7,25 @@ import {
   Form,
   StyledTextInput,
   UploadButton,
-  RemoveButton,
+  DeleteButton,
+  ModalContainer,
+  DeleteBottomSheetHeading,
+  DeleteBottomSheetDescription,
+  StyledHoloButton,
+  Row,
 } from './styles';
 import FastImage from 'react-native-fast-image';
 import { useAppDispatch, useAppSelector } from '@store/store';
 import { IProfile } from '@services/user';
 import theme from '@theme';
 import { IUploadPhotoParams } from '@navigators/app-stack';
-import { ActivityIndicator, ScrollView, TextInput } from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+} from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { editPhoto, uploadPhoto } from '@services/photo';
@@ -24,6 +35,8 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { photoActions } from '@store/slices/photo';
 import { HoloScreen } from '@constants';
+import Modal from 'react-native-modal';
+import { SizeButton } from '@components/holo-button';
 
 interface Props {
   headerTitle: string;
@@ -53,6 +66,14 @@ const PhotoForm = ({
   const user: IProfile | undefined = useAppSelector(
     state => state.user.user?.profile,
   );
+  const [
+    deleteBottomSheetVisible,
+    setDeleteBottomSheetVisible,
+  ] = useState<boolean>(false);
+
+  const _onCloseDeleteBottomSheet = () => {
+    setDeleteBottomSheetVisible(false);
+  };
 
   const photoFormSchema = yup.object().shape({
     title: yup.string().optional().trim(),
@@ -142,6 +163,7 @@ const PhotoForm = ({
             maxLength={64}
             selectionColor={theme.colors.black}
             onChangeText={formik.handleChange('title')}
+            multiline
             onSubmitEditing={() => {
               tagsInputRef?.current?.focus();
             }}
@@ -152,6 +174,7 @@ const PhotoForm = ({
             placeholder={t('addTags')}
             value={formik.values.tags}
             maxLength={64}
+            multiline
             selectionColor={theme.colors.black}
             onChangeText={formik.handleChange('tags')}
             autoCapitalize="none"
@@ -190,17 +213,71 @@ const PhotoForm = ({
               }
               onPress={formik.handleSubmit}
             />
-            <RemoveButton
-              title="Remove photo"
+            <DeleteButton
+              title="Delete"
               titleColor={theme.colors.white}
               bgColor={theme.colors.red}
-              onPress={() => {}}
+              leftIcon={
+                <Icon name="delete" size={20} color={theme.colors.white} />
+              }
+              onPress={() => {
+                setDeleteBottomSheetVisible(true);
+              }}
             />
+            <Modal
+              isVisible={deleteBottomSheetVisible}
+              style={styles.bottomSheet}
+              backdropOpacity={0.2}
+              backdropColor="#333333"
+              onBackButtonPress={_onCloseDeleteBottomSheet}
+              onBackdropPress={_onCloseDeleteBottomSheet}
+              backdropTransitionInTiming={150}
+              backdropTransitionOutTiming={150}
+            >
+              <ModalContainer>
+                <DeleteBottomSheetHeading>
+                  Delete photo?
+                </DeleteBottomSheetHeading>
+                <DeleteBottomSheetDescription>
+                  You won't able to get it back.
+                </DeleteBottomSheetDescription>
+                <Row>
+                  <StyledHoloButton
+                    title="Cancel"
+                    size={SizeButton.SMALL}
+                    titleSize={18}
+                    titleColor={theme.colors.white}
+                    bgColor={theme.colors.disabled}
+                    onPress={_onCloseDeleteBottomSheet}
+                  />
+                  <StyledHoloButton
+                    title="Delete"
+                    size={SizeButton.SMALL}
+                    titleSize={18}
+                    titleColor={theme.colors.white}
+                    bgColor={theme.colors.red}
+                    onPress={() => {
+                      setDeleteBottomSheetVisible(false);
+                      dispatch(
+                        photoActions.deletePhotoRequest(photoId as string),
+                      );
+                    }}
+                  />
+                </Row>
+              </ModalContainer>
+            </Modal>
           </>
         )}
       </ScrollView>
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  bottomSheet: {
+    margin: 0,
+    marginTop: Dimensions.get('window').height * 0.7,
+  },
+});
 
 export default PhotoForm;

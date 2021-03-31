@@ -30,7 +30,7 @@ const theme: IHoloAppTheme = {
     lightBlue2: '#a1c4fd',
     bluePurple: '#6f86d6',
     primary: '#7aa0fa',
-    red: '#ef807a66',
+    red: '#ef807a99',
   },
 };
 

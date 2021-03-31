@@ -28,12 +28,7 @@ import {
   Content,
   StyledUserCard,
 } from './styles';
-import {
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import theme from '@theme';
 import moment from 'moment';
@@ -43,7 +38,6 @@ import LikeButton from './like-button';
 import { useAppSelector } from '@store/store';
 
 type PhotoScreenRouteProp = RouteProp<TAppStackParamsList, HoloScreen.PHOTO>;
-const { width } = Dimensions.get('window');
 
 const PhotoScreen = () => {
   const myUid = useAppSelector(state => state.user.user?.uid);
@@ -138,8 +132,7 @@ const PhotoScreen = () => {
           <Photo
             source={{ uri: params.photo.url }}
             style={{
-              aspectRatio:
-                width / params.photo.height / (width / params.photo.width),
+              aspectRatio: params.photo.width / params.photo.height,
             }}
           />
         </TouchableWithoutFeedback>

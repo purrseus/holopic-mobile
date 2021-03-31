@@ -46,7 +46,40 @@ export const UploadButton = styled(HoloButton)`
   margin-bottom: ${BOTTOM_TAB_HEIGHT / 2}px;
 `;
 
-export const RemoveButton = styled(HoloButton)`
+export const DeleteButton = styled(HoloButton)`
   margin: 0px 60px;
   margin-bottom: ${BOTTOM_TAB_HEIGHT}px;
+`;
+
+export const ModalContainer = styled.View`
+  flex: 1;
+  padding: 12px 16px;
+  background-color: ${({ theme }) => theme.colors.white};
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+`;
+
+export const DeleteBottomSheetHeading = styled.Text`
+  font-family: 'Quicksand-Bold';
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 12px;
+`;
+
+export const DeleteBottomSheetDescription = styled.Text`
+  font-family: 'Quicksand-Medium';
+  font-size: 16px;
+  text-align: center;
+`;
+
+export const Row = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+`;
+
+export const StyledHoloButton = styled(HoloButton)`
+  margin: 0px 32px;
+  padding: 0px 12px;
 `;

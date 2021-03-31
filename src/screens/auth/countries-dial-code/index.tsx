@@ -98,7 +98,7 @@ const CountriesDialCodeScreen = () => {
             setValue(text);
             debounce<string>(text, 500, _onChangeText);
           }}
-          selectionColor={theme.colors.black}
+          selectionColor={theme.colors.primary}
           value={value}
           ref={inputRef}
         />

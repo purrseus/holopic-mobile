@@ -45,6 +45,7 @@ type TGetUserPhotos = (
 ) => Promise<AxiosResponse<IPhoto[]>>;
 type TLikePhoto = (publicId: string) => Promise<AxiosResponse>;
 type TGetPhoto = (publicId: string) => Promise<AxiosResponse<IPhoto>>;
+type TDeletePhoto = (publicId: string) => Promise<AxiosResponse>;
 
 export const uploadPhoto: TUploadPhoto = (title, tags, photo) => {
   const data = new FormData();
@@ -79,6 +80,9 @@ export const changeAvatar: TChangeAvatar = (publicId, photo) => {
 
 export const editPhoto: TEditPhoto = (title, tags, publicId) =>
   connectionInstance.patch(`/image/edit-image/${publicId}`, { title, tags });
+
+export const deletePhoto: TDeletePhoto = publicId =>
+  connectionInstance.delete(`/image/delete-image/${publicId}`);
 
 export const getNewPhotos: TGetPhotos = page =>
   connectionInstance.get(`/image/new-images?page=${page}`);

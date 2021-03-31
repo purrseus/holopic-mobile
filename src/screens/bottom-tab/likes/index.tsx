@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { RefreshControl } from 'react-native';
 import { Container, ErrorContainer, Description, Heading } from './styles';
 const LikesScreen = () => {
-  const { photos, loading, error } = useAppSelector(
+  const { photos, loading, error, full } = useAppSelector(
     state => state.photo.likedPhotos,
   );
   const dispatch = useAppDispatch();
@@ -48,6 +48,13 @@ const LikesScreen = () => {
               }}
             />
           }
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            if (full) {
+              return;
+            }
+            dispatch(photoActions.getMoreLikedPhotosRequest());
+          }}
           photos={photos}
           loading={loading}
         />
