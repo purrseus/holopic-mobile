@@ -1,49 +1,74 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  ViewStyle,
+} from 'react-native';
 import LottieView from 'lottie-react-native';
 import { IPhoto, likePhoto, unlikePhoto } from '@services/photo';
 import { useAppDispatch } from '@store/store';
 import { photoActions } from '@store/slices/photo';
 
-const LikeButton = ({ photo }: { photo: IPhoto }) => {
+const LikeButton = ({
+  photo,
+  style,
+  callback,
+}: {
+  photo: IPhoto;
+  style?: StyleProp<ViewStyle>;
+  callback?: () => void;
+}) => {
   const likeAnimation = useRef<any>();
-  const [isLiked, setIsLiked] = useState<boolean>(photo.liked);
+  const [isLiked, setIsLiked] = useState<boolean>();
+  const [disabled, setDisabled] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   const _onLike = async () => {
+    setDisabled(true);
     if (!isLiked) {
+      likeAnimation.current.play(0, 12);
+      dispatch(photoActions.likeAPhoto(photo));
+      !!callback && callback();
       try {
-        likeAnimation.current.play(0, 12);
         await likePhoto(photo.publicId);
         setIsLiked(true);
-        dispatch(photoActions.likeAPhoto(photo));
       } catch (error) {
         likeAnimation.current.reset();
+        dispatch(photoActions.unlikeAPhoto(photo));
       }
+      setDisabled(false);
       return;
     }
 
     try {
       likeAnimation.current.play(0, 0);
+      dispatch(photoActions.unlikeAPhoto(photo));
+      !!callback && callback();
       await unlikePhoto(photo.publicId);
       setIsLiked(false);
     } catch (error) {
       likeAnimation.current.play(0, 12);
+      dispatch(photoActions.likeAPhoto(photo));
     }
+    setDisabled(false);
   };
 
   useEffect(() => {
     if (photo.liked) {
       likeAnimation.current.play(12, 12);
+    } else {
+      likeAnimation.current.play(0, 0);
     }
+    setIsLiked(photo.liked);
   }, [photo.liked]);
 
   return (
-    <TouchableWithoutFeedback onPress={_onLike}>
+    <TouchableWithoutFeedback onPress={_onLike} disabled={disabled}>
       <LottieView
         ref={likeAnimation}
         source={require('@assets/animations/like')}
-        style={styles.like}
+        style={[styles.like, style]}
         loop={false}
         speed={1.5}
       />
@@ -53,9 +78,9 @@ const LikeButton = ({ photo }: { photo: IPhoto }) => {
 
 const styles = StyleSheet.create({
   like: {
-    width: 40,
-    height: 40,
-    marginRight: 16,
+    width: 32,
+    height: 32,
+    marginRight: 8,
     transform: [{ scale: 1.4 }],
   },
 });

@@ -7,7 +7,6 @@ export const Container = styled.View`
 `;
 
 export const StyledHoloButton = styled(HoloButton)`
-  padding: 0px 8px;
   margin: 0px 12px;
   height: 36px;
 `;

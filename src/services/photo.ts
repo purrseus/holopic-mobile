@@ -1,7 +1,7 @@
 import { IUploadPhotoParams } from '@navigators/app-stack';
 import { AxiosResponse } from 'axios';
 import connectionInstance from './index';
-import { IAvatar } from './user';
+import { IAvatar, IUser } from './user';
 
 export interface IPhoto {
   _id: string;
@@ -19,6 +19,7 @@ export interface IPhoto {
   createdAt: string;
   updatedAt: string;
   likeIndex?: number;
+  userInfo: IUser[];
 }
 
 type TUploadPhoto = (
@@ -46,6 +47,10 @@ type TGetUserPhotos = (
 type TLikePhoto = (publicId: string) => Promise<AxiosResponse>;
 type TGetPhoto = (publicId: string) => Promise<AxiosResponse<IPhoto>>;
 type TDeletePhoto = (publicId: string) => Promise<AxiosResponse>;
+type TSearchPhotos = (
+  query: string,
+  page: number,
+) => Promise<AxiosResponse<IUser[]>>;
 
 export const uploadPhoto: TUploadPhoto = (title, tags, photo) => {
   const data = new FormData();
@@ -107,3 +112,9 @@ export const viewPhoto: TLikePhoto = publicId =>
 
 export const getLikedPhotos: TGetPhotos = page =>
   connectionInstance.get(`/image/my-likes?page=${page}`);
+
+export const getFollowingPhotos: TGetPhotos = page =>
+  connectionInstance.get(`/image/newest-by-followed?page=${page}`);
+
+export const searchPhotos: TSearchPhotos = (query, page) =>
+  connectionInstance.get(`/image/search?q=${query}&page=${page}`);

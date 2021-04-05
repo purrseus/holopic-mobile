@@ -7,7 +7,6 @@ import {
 } from '@react-navigation/native';
 import { TAppStackParamsList } from '@navigators/app-stack';
 import { HoloScreen } from '@constants';
-import { getUser, IUser } from '@services/user';
 import { getPhoto, getUserPhotos, IPhoto, viewPhoto } from '@services/photo';
 import {
   Container,
@@ -27,6 +26,7 @@ import {
   Bottom,
   Content,
   StyledUserCard,
+  Icons,
 } from './styles';
 import { ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -46,7 +46,6 @@ const PhotoScreen = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
-  const [user, setUser] = useState<IUser | null>(null);
   const [mainPhoto, setMainPhoto] = useState<IPhoto | null>(null);
   const [photos, setPhotos] = useState<IPhoto[]>([]);
 
@@ -56,13 +55,11 @@ const PhotoScreen = () => {
         setLoading(true);
         const res = await Promise.all([
           getPhoto(params.photo.publicId),
-          getUser(params.photo.user),
           getUserPhotos(params.photo.user, 1),
           viewPhoto(params.photo.publicId),
         ]);
         setMainPhoto(res[0].data);
-        setUser(res[1].data);
-        setPhotos(res[2].data);
+        setPhotos(res[1].data);
       } catch (error) {
         setIsError(true);
       } finally {
@@ -88,13 +85,7 @@ const PhotoScreen = () => {
           }
           headerRight={
             <IconsRight>
-              <Icon
-                name="sharealt"
-                size={24}
-                color={theme.colors.white}
-                style={styles.icon}
-              />
-              {myUid === user?.uid ? (
+              {myUid === params.photo.user ? (
                 <TouchableWithoutFeedback
                   onPress={() => {
                     navigate(HoloScreen.EDIT_PHOTO, {
@@ -139,21 +130,29 @@ const PhotoScreen = () => {
 
         <PhotoInfo>
           <Content>
+            {!!mainPhoto && (
+              <Icons>
+                <LikeButton photo={mainPhoto} />
+                <Icon
+                  name="sharealt"
+                  size={24}
+                  color={theme.colors.darkGray + 'cc'}
+                />
+              </Icons>
+            )}
             <Info>
               <StyledText>
-                {moment(params.photo.createdAt).fromNow()}
+                <BoldText>{numeral(mainPhoto?.likes).format('0a')} </BoldText>
+                Likes
               </StyledText>
               <StyledText>
                 <BoldText>{numeral(mainPhoto?.views).format('0a')} </BoldText>
                 Views
               </StyledText>
               <StyledText>
-                <BoldText>{numeral(mainPhoto?.likes).format('0a')} </BoldText>
-                Likes
+                {moment(params.photo.createdAt).fromNow()}
               </StyledText>
             </Info>
-
-            {!!mainPhoto && <LikeButton photo={mainPhoto} />}
           </Content>
 
           <Title>{mainPhoto?.title}</Title>
@@ -167,14 +166,14 @@ const PhotoScreen = () => {
 
         {isError && <CommonError />}
 
-        {!loading && !isError && !!photos && !!user && (
+        {!loading && !isError && !!photos && (
           <>
             <StyledUserCard
-              uid={user.uid}
-              fullName={user?.profile.fullName}
-              username={user?.profile.username}
-              avatarUrl={user?.profile.avatar.url}
-              following={user?.isFollowing}
+              uid={mainPhoto?.userInfo[0].uid}
+              fullName={mainPhoto?.userInfo[0].profile.fullName}
+              username={mainPhoto?.userInfo[0].profile.username}
+              avatarUrl={mainPhoto?.userInfo[0].profile.avatar.url}
+              following={mainPhoto?.userInfo[0].isFollowing}
             />
 
             <OverviewPhotos>

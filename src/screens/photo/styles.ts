@@ -30,13 +30,22 @@ export const IconsRight = styled.View`
   flex-direction: row;
 `;
 
+export const Icons = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex: 0.5;
+`;
+
 export const PhotoInfo = styled.View`
   padding: 16px 8px;
 `;
 
 export const Content = styled.View`
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
+  margin: 0px 8px 16px;
 `;
 
 export const Info = styled.View`
@@ -58,7 +67,7 @@ export const BoldText = styled.Text`
 
 export const Title = styled.Text`
   font-family: 'Quicksand-Bold';
-  font-size: 16px;
+  font-size: 20px;
   margin-top: 4px;
   padding: 0px 8px;
   color: ${({ theme }) => theme.colors.black};
@@ -84,8 +93,8 @@ export const OverviewPhotos = styled.View`
 `;
 
 export const OverviewPhoto = styled(FastImage)`
-  width: ${width * 0.31}px;
-  height: ${width * 0.31}px;
+  width: ${width * 0.32}px;
+  height: ${width * 0.32}px;
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.lightGray};
 `;

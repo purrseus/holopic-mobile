@@ -14,6 +14,7 @@ import PhotoViewerScreen from '@screens/photo-viewer';
 import SettingsScreen from '@screens/setting';
 import EditProfileScreen from '@screens/edit-profile';
 import EditPhotoScreen from '@screens/edit-photo';
+import { IUser } from '@services/user';
 
 export interface IUploadPhotoParams {
   fileName: string;
@@ -25,8 +26,8 @@ export type TAppStackParamsList = {
   [HoloScreen.TAB_BAR]: undefined;
   [HoloScreen.UPLOAD_PHOTO]: IUploadPhotoParams;
   [HoloScreen.PHOTO]: { photo: IPhoto };
-  [HoloScreen.PROFILE]: { uid: string };
-  [HoloScreen.FOLLOW]: { screenName: ScreenName; follow: number };
+  [HoloScreen.PROFILE]: { user: IUser };
+  [HoloScreen.FOLLOW]: { screenName: ScreenName };
   [HoloScreen.PHOTO_VIEWER]: { url: string };
   [HoloScreen.SETTINGS]: undefined;
   [HoloScreen.EDIT_PROFILE]: undefined;

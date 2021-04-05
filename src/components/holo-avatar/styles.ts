@@ -20,7 +20,7 @@ export const Container = styled.View<Pick<Props, 'size'>>`
 export const StyledText = styled.Text<Pick<Props, 'size'>>`
   font-family: 'Quicksand-Medium';
   color: ${({ theme }) => theme.colors.darkGray};
-  font-size: ${({ size }) => size * 0.4}px;
+  font-size: ${({ size }) => size || 0 * 0.4}px;
 `;
 
 export const Avatar = styled(FastImage)`

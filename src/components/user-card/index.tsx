@@ -13,6 +13,7 @@ interface Props extends ViewProps {
   username?: string;
   avatarUrl?: string;
   following?: boolean;
+  showFollowButton?: boolean;
 }
 
 const UserCard = ({
@@ -21,6 +22,7 @@ const UserCard = ({
   username,
   avatarUrl,
   following,
+  showFollowButton = true,
   style,
   ...props
 }: Props) => {
@@ -56,7 +58,10 @@ const UserCard = ({
                     {fullName}
                     {/* issue: fullName too long */}
                   </FullName>
-                  <Username>{`@${username}`}</Username>
+                  <Username
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >{`@${username}`}</Username>
                 </>
               ) : (
                 <FullName numberOfLines={1} ellipsizeMode="tail">
@@ -65,7 +70,7 @@ const UserCard = ({
               )}
             </Name>
 
-            {userName !== username && (
+            {showFollowButton && userName !== username && (
               <FollowButton following={following} uid={uid} />
             )}
           </Container>

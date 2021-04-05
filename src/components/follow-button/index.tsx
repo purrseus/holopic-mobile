@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { commonActions } from '@store/slices/common';
-import { SizeButton } from '@components/holo-button';
+import { gradientPreset, SizeButton } from '@components/holo-button';
 import { Follow } from './styles';
 import theme from '@theme';
 import { useAppDispatch } from '@store/store';
@@ -44,10 +44,11 @@ const FollowButton = ({ following, uid }: Props) => {
       size={SizeButton.SMALL}
       titleSize={16}
       titleBold={follow}
-      title={follow ? 'following' : 'follow'}
+      title={follow ? ' following ' : ' follow '}
       titleColor={follow ? theme.colors.white : theme.colors.lightBlue1}
       onPress={_follow}
-      bgColor={follow ? theme.colors.lightBlue1 : theme.colors.white}
+      bgColor={follow ? undefined : theme.colors.white}
+      gradient={follow ? gradientPreset : undefined}
       borderColor={!follow ? theme.colors.lightBlue1 : undefined}
     />
   );

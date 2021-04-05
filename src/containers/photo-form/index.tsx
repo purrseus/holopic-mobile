@@ -36,7 +36,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { photoActions } from '@store/slices/photo';
 import { HoloScreen } from '@constants';
 import Modal from 'react-native-modal';
-import { SizeButton } from '@components/holo-button';
+import { gradientPreset, SizeButton } from '@components/holo-button';
 
 interface Props {
   headerTitle: string;
@@ -143,7 +143,7 @@ const PhotoForm = ({
   return (
     <Container>
       <StyledHoloHeader headerTitle={headerTitle} showBackButton />
-      <ScrollView>
+      <ScrollView keyboardDismissMode="on-drag">
         {!!user && (
           <StyledUserCard
             fullName={user.fullName}
@@ -186,9 +186,8 @@ const PhotoForm = ({
             title={photoStatus.loading ? t('uploading') : t('upload')}
             disabled={!!formik.errors.tags || !!formik.errors.title}
             titleColor={theme.colors.white}
-            bgColor={
-              photoStatus.error ? theme.colors.red : theme.colors.lightBlue2
-            }
+            bgColor={photoStatus.error ? theme.colors.red : undefined}
+            gradient={photoStatus.error ? undefined : gradientPreset}
             onPress={
               photoStatus.success || photoStatus.loading
                 ? undefined
@@ -206,11 +205,14 @@ const PhotoForm = ({
           <>
             <UploadButton
               title="Done"
-              disabled={!!formik.errors.tags || !!formik.errors.title}
-              titleColor={theme.colors.white}
-              bgColor={
-                photoStatus.error ? theme.colors.red : theme.colors.lightBlue2
+              disabled={
+                !!formik.errors.tags ||
+                !!formik.errors.title ||
+                (!formik.values.title.length && !formik.values.tags.length)
               }
+              titleColor={theme.colors.white}
+              bgColor={photoStatus.error ? theme.colors.red : undefined}
+              gradient={photoStatus.error ? undefined : gradientPreset}
               onPress={formik.handleSubmit}
             />
             <DeleteButton

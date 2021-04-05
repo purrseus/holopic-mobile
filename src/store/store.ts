@@ -17,12 +17,18 @@ import authReducer from './slices/auth';
 import commonReducer from './slices/common';
 import photoReducer from './slices/photo';
 import userReducer from './slices/user';
+import newestPhotoReducer from './slices/newest-photo';
+import followingPhotoReducer from './slices/following-photo';
+import searchReducer from './slices/search';
 
 const rootReducer = {
   auth: authReducer,
   common: commonReducer,
   photo: photoReducer,
   user: userReducer,
+  newestPhoto: newestPhotoReducer,
+  followingPhoto: followingPhotoReducer,
+  search: searchReducer,
 };
 
 const sagaMiddleware = createSagaMiddleware();

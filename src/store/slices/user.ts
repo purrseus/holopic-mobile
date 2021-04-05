@@ -84,7 +84,7 @@ const userSlice = createSlice({
   },
 });
 
-const authPersistConfig: any = {
+const userPersistConfig: any = {
   key: 'user',
   storage: AsyncStorage,
   whitelist: ['user'],
@@ -92,4 +92,4 @@ const authPersistConfig: any = {
 };
 
 export const userActions = userSlice.actions;
-export default persistReducer<IUserState>(authPersistConfig, userSlice.reducer);
+export default persistReducer<IUserState>(userPersistConfig, userSlice.reducer);

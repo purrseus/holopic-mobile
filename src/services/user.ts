@@ -48,6 +48,10 @@ type TEditProfile = (
 type TGetUser = (uid: string) => Promise<AxiosResponse<IUser>>;
 type TFollowUser = (uid: string) => Promise<AxiosResponse>;
 type TGetFollow = (page: number) => Promise<AxiosResponse<IUser[]>>;
+type TSearchUsers = (
+  query: string,
+  page: number,
+) => Promise<AxiosResponse<IUser[]>>;
 
 export const getMyAccount: TGetMyAccount = () =>
   connectionInstance.get('/user/my-account');
@@ -74,3 +78,6 @@ export const getFollowing: TGetFollow = page =>
 
 export const getFollowers: TGetFollow = page =>
   connectionInstance.get(`/user/get-followers?page=${page}`);
+
+export const searchUsers: TSearchUsers = (query, page) =>
+  connectionInstance.get(`/user/search?q=${query}&page=${page}`);

@@ -21,11 +21,11 @@ interface IHoloAppTheme {
 const theme: IHoloAppTheme = {
   colors: {
     black: '#06060C',
-    background: '#FBFBFB',
+    background: '#FDFDFD',
     white: '#FFFFFF',
     disabled: '#cac9c9',
     darkGray: '#666666',
-    lightGray: '#efefef',
+    lightGray: '#e3e5ea',
     lightBlue1: '#7fbfff',
     lightBlue2: '#a1c4fd',
     bluePurple: '#6f86d6',

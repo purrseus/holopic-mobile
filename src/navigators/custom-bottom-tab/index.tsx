@@ -46,7 +46,17 @@ const CustomBottomTab = ({
   return (
     <Container>
       <CustomTab
-        onPress={() => navigation.navigate(HoloScreen.HOME)}
+        onPress={() => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: state.routes[0].key,
+            canPreventDefault: true,
+          });
+
+          if (!(state.index === 0) && !event.defaultPrevented) {
+            navigation.navigate(HoloScreen.HOME);
+          }
+        }}
         focused={state.routeNames[state.index] === HoloScreen.HOME}
         activeTintColor={theme.colors.lightBlue1}
         inactiveTintColor={theme.colors.darkGray}
@@ -54,7 +64,17 @@ const CustomBottomTab = ({
       />
 
       <CustomTab
-        onPress={() => navigation.navigate(HoloScreen.SEARCH)}
+        onPress={() => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: state.routes[1].key,
+            canPreventDefault: true,
+          });
+
+          if (!(state.index === 1) && !event.defaultPrevented) {
+            navigation.navigate(HoloScreen.SEARCH);
+          }
+        }}
         focused={state.routeNames[state.index] === HoloScreen.SEARCH}
         activeTintColor={theme.colors.lightBlue1}
         inactiveTintColor={theme.colors.darkGray}
@@ -64,7 +84,17 @@ const CustomBottomTab = ({
       <UploadImageButton />
 
       <CustomTab
-        onPress={() => navigation.navigate(HoloScreen.LIKES)}
+        onPress={() => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: state.routes[2].key,
+            canPreventDefault: true,
+          });
+
+          if (!(state.index === 2) && !event.defaultPrevented) {
+            navigation.navigate(HoloScreen.LIKES);
+          }
+        }}
         focused={state.routeNames[state.index] === HoloScreen.LIKES}
         activeTintColor={theme.colors.lightBlue1}
         inactiveTintColor={theme.colors.darkGray}
@@ -72,7 +102,17 @@ const CustomBottomTab = ({
       />
 
       <CustomTab
-        onPress={() => navigation.navigate(HoloScreen.MY_PROFILE)}
+        onPress={() => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: state.routes[3].key,
+            canPreventDefault: true,
+          });
+
+          if (!(state.index === 3) && !event.defaultPrevented) {
+            navigation.navigate(HoloScreen.MY_PROFILE);
+          }
+        }}
         focused={state.routeNames[state.index] === HoloScreen.MY_PROFILE}
         activeTintColor={theme.colors.lightBlue1}
         inactiveTintColor={theme.colors.darkGray}

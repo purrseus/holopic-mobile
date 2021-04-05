@@ -53,11 +53,11 @@ function* handleGetLikedPhotosRequest() {
 }
 
 function* handleGetMoreLikedPhotosRequest() {
-  const full: boolean | undefined = yield select(
-    (state: RootState) => state.photo.likedPhotos.full,
+  const { full, photos } = yield select(
+    (state: RootState) => state.photo.likedPhotos,
   );
 
-  if (full) {
+  if (full || photos.length < 20) {
     return;
   }
 

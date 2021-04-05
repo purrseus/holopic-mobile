@@ -50,11 +50,22 @@ const likeAPhoto: CaseReducer<IPhotoState, PayloadAction<IPhoto>> = (
   state,
   { payload },
 ) => {
-  state.likedPhotos.photos.unshift(payload);
-  if (state.likedPhotos.photos.length > 20) {
-    state.likedPhotos.photos.length = 20;
+  if (
+    state.likedPhotos.photos.find(
+      photo => photo.publicId === payload.publicId,
+    ) === undefined
+  ) {
+    state.likedPhotos.photos.unshift(payload);
+    if (state.likedPhotos.photos.length > 20) {
+      state.likedPhotos.photos.length = 20;
+    }
   }
 };
+
+const unlikeAPhoto: CaseReducer<
+  IPhotoState,
+  PayloadAction<IPhoto>
+> = _state => {};
 
 const getMyPhotosRequest: CaseReducer<IPhotoState> = state => {
   state.myPhotos.loading = true;
@@ -94,6 +105,7 @@ const getMoreMyPhotosFailed: CaseReducer<IPhotoState> = state => {
 
 const getLikedPhotosRequest: CaseReducer<IPhotoState> = state => {
   state.likedPhotos.loading = true;
+  state.likedPhotos.full = false;
 };
 
 const getLikedPhotosSuccess: CaseReducer<
@@ -166,6 +178,7 @@ const photoSlice = createSlice({
   reducers: {
     uploadAPhoto,
     likeAPhoto,
+    unlikeAPhoto,
     showUploadBottomSheet,
 
     getMyPhotosRequest,

@@ -11,14 +11,14 @@ export enum AvatarSize {
 }
 
 export interface Props extends ViewProps {
-  size: AvatarSize;
+  size?: AvatarSize;
   url?: string;
   fullName?: string;
   hideDefaultAvatar?: boolean;
 }
 
 const HoloAvatar = ({
-  size,
+  size = AvatarSize.SMALL,
   url,
   fullName,
   hideDefaultAvatar = false,

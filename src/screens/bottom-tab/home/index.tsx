@@ -1,39 +1,62 @@
-// import { IAccount } from '@services/user';
-import PhotoList from '@components/photos-flat-list';
-import { getNewPhotos, IPhoto } from '@services/photo';
+import HomeTopTab from '@navigators/home-top-tab';
 import { userActions } from '@store/slices/user';
-import {
-  useAppDispatch,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  useAppSelector,
-} from '@store/store';
-import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { useAppDispatch, useAppSelector } from '@store/store';
+import React, { useEffect } from 'react';
+import { Welcome, MainContainer, NavBar, IconsRight, Avatar } from './styles';
+import Icon from 'react-native-vector-icons/AntDesign';
+import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import HoloAvatar, { AvatarSize } from '@components/holo-avatar';
+import { useNavigation } from '@react-navigation/native';
+import { HoloScreen } from '@constants';
 
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
-  const [photos, setPhotos] = useState<IPhoto[]>([]);
-  // const user: IAccount | undefined = useAppSelector(state => state.user.user);
+  const user = useAppSelector(state => state.user.user);
+  const { navigate } = useNavigation();
 
   useEffect(() => {
     dispatch(userActions.getUserRequest());
-    (async () => {
-      try {
-        const res = await getNewPhotos(Math.floor(photos.length / 20) + 1);
-        setPhotos(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (
-    // eslint-disable-next-line react-native/no-inline-styles
-    <View style={{ flex: 1 }}>
-      <PhotoList photos={photos} loading={true} />
-    </View>
+    <MainContainer>
+      <NavBar>
+        <Welcome>Holopic</Welcome>
+        <IconsRight>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              navigate(HoloScreen.SEARCH);
+            }}
+          >
+            <Icon name="search1" size={24} style={styles.search} />
+          </TouchableWithoutFeedback>
+
+          <TouchableWithoutFeedback
+            onPress={() => {
+              navigate(HoloScreen.MY_PROFILE);
+            }}
+          >
+            <Avatar>
+              <HoloAvatar
+                size={AvatarSize.SMALL - 12}
+                url={user?.profile.avatar.url}
+                fullName={user?.profile.fullName}
+              />
+            </Avatar>
+          </TouchableWithoutFeedback>
+        </IconsRight>
+      </NavBar>
+
+      <HomeTopTab />
+    </MainContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  search: {
+    padding: 10,
+    marginHorizontal: 8,
+  },
+});
 
 export default HomeScreen;

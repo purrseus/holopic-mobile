@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import theme from '@theme';
 import { Keyboard, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import HoloHeader from '@components/holo-header';
-import { SizeButton } from '@components/holo-button';
+import { gradientPreset, SizeButton } from '@components/holo-button';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -36,7 +36,7 @@ const EditProfileScreen = () => {
 
   const editProfileSchema = yup.object().shape({
     fullName: yup.string().trim().required(),
-    username: yup.string().min(4).trim().required(),
+    username: yup.string().min(4).trim().matches(/^\S+$/gi).required(),
     bio: yup.string().trim().optional(),
     location: yup.string().trim().optional(),
   });
@@ -88,11 +88,11 @@ const EditProfileScreen = () => {
         headerRight={
           <StyledHoloButton
             size={SizeButton.SMALL}
-            title="Done"
-            bgColor={theme.colors.lightBlue2}
+            title="  Done  "
+            gradient={gradientPreset}
             titleBold
             titleColor={theme.colors.white}
-            titleSize={14}
+            titleSize={15}
             onPress={formik.handleSubmit}
             disabled={Object.keys(formik.errors).length !== 0}
           />

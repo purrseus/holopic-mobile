@@ -23,6 +23,9 @@ export enum HoloScreen {
   SEARCH = 'Search',
   LIKES = 'Likes',
   MY_PROFILE = 'MyProfile',
+
+  NEWEST = 'Newest',
+  FOLLOWING = 'Following',
 }
 
 export enum AuthStatus {

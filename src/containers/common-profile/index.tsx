@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import { IProfile } from '@services/user';
 import {
   Container,
@@ -25,6 +25,7 @@ import {
 import Icon from 'react-native-vector-icons/AntDesign';
 import {
   Animated,
+  FlatList,
   RefreshControl,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -59,23 +60,26 @@ interface Props extends Partial<IProfile> {
   follow?: boolean;
 }
 
-const CommonProfile = ({
-  fullName,
-  username,
-  avatarUrl,
-  bio,
-  location,
-  followers,
-  following,
-  photos,
-  photoList,
-  loading,
-  error,
-  reload,
-  loadMore,
-  follow,
-  uid,
-}: Props) => {
+const CommonProfile = (
+  {
+    fullName,
+    username,
+    avatarUrl,
+    bio,
+    location,
+    followers,
+    following,
+    photos,
+    photoList,
+    loading,
+    error,
+    reload,
+    loadMore,
+    follow,
+    uid,
+  }: Props,
+  ref: React.Ref<FlatList<IPhoto>> | undefined,
+) => {
   const scrollY = useRef(new Animated.Value(0)).current;
   const { goBack, navigate } = useNavigation();
   const userName = useAppSelector(state => state.user.user?.profile.username);
@@ -198,6 +202,7 @@ const CommonProfile = ({
       </AnimatedBackground>
 
       <PhotoList
+        ref={ref}
         refreshControl={
           <RefreshControl
             refreshing={refresh}
@@ -244,7 +249,6 @@ const CommonProfile = ({
                       }
                       navigate(HoloScreen.FOLLOW, {
                         screenName: ScreenName.FOLLOWERS,
-                        follow: followers,
                       });
                     }}
                   >
@@ -261,7 +265,6 @@ const CommonProfile = ({
                       }
                       navigate(HoloScreen.FOLLOW, {
                         screenName: ScreenName.FOLLOWING,
-                        follow: following,
                       });
                     }}
                   >
@@ -317,4 +320,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(CommonProfile);
+export default forwardRef(CommonProfile);

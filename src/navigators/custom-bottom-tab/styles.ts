@@ -15,6 +15,7 @@ export const Container = styled.View`
   bottom: 0;
   left: 0;
   right: 0;
+  elevation: 8;
 `;
 
 export const Tab = styled.View`

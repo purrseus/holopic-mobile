@@ -3,16 +3,16 @@ import styled from 'styled-components/native';
 import { BOTTOM_TAB_HEIGHT } from '@constants';
 
 export const PhotoContainer = styled.View`
-  flex: 0.5;
-  margin: 3px;
+  flex: 0.3333;
+  margin: 2px;
   border-radius: 16px;
 `;
 
 export const Photo = styled(FastImage)`
-  border-radius: 16px;
+  border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.lightGray};
 `;
 
 export const Bottom = styled.View`
-  height: ${BOTTOM_TAB_HEIGHT + 20}px;
+  height: ${BOTTOM_TAB_HEIGHT + 30}px;
 `;

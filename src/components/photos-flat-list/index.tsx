@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { IPhoto } from '@services/photo';
 import { Bottom } from './styles';
 import {
@@ -15,7 +15,10 @@ interface Props extends Partial<FlatListProps<IPhoto>> {
   loading: boolean;
 }
 
-const PhotoList = ({ photos, loading, ...props }: Props) => {
+const PhotoList = (
+  { photos, loading, ...props }: Props,
+  ref: React.LegacyRef<FlatList<IPhoto>> | undefined,
+) => {
   const _renderItem: ListRenderItem<IPhoto> = ({ item }) => {
     return <PhotoComponent photo={item} />;
   };
@@ -23,7 +26,8 @@ const PhotoList = ({ photos, loading, ...props }: Props) => {
   return (
     <FlatList
       {...props}
-      numColumns={2}
+      ref={ref}
+      numColumns={3}
       data={photos}
       renderItem={_renderItem}
       keyExtractor={item => item._id}
@@ -55,4 +59,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PhotoList;
+export default forwardRef(PhotoList);

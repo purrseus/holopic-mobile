@@ -19,16 +19,18 @@ type FollowScreenRouteProp = RouteProp<TAppStackParamsList, HoloScreen.FOLLOW>;
 
 interface IFollowState {
   list: IUser[];
+  full: boolean;
   loading: boolean;
   error: boolean;
 }
 
 const FollowScreen = () => {
   const {
-    params: { screenName, follow },
+    params: { screenName },
   } = useRoute<FollowScreenRouteProp>();
   const [followList, setFollowList] = useState<IFollowState>({
     list: [],
+    full: false,
     loading: false,
     error: false,
   });
@@ -42,6 +44,13 @@ const FollowScreen = () => {
       });
 
       const response = await getFollow(1);
+
+      if (!response.data.length || response.data.length < 20) {
+        setFollowList(prevState => {
+          return { ...prevState, list: response.data, full: true };
+        });
+      }
+
       setFollowList(prevState => {
         return { ...prevState, list: response.data };
       });
@@ -67,6 +76,17 @@ const FollowScreen = () => {
       const response = await getFollow(
         Math.floor(followList.list.length / 20) + 1,
       );
+
+      if (!response.data.length || response.data.length < 20) {
+        setFollowList(prevState => {
+          return {
+            ...prevState,
+            list: [...prevState.list, ...response.data],
+            full: true,
+          };
+        });
+      }
+
       setFollowList(prevState => {
         return { ...prevState, list: [...prevState.list, ...response.data] };
       });
@@ -125,7 +145,7 @@ const FollowScreen = () => {
           keyExtractor={item => item.uid}
           onEndReachedThreshold={0.5}
           onEndReached={() => {
-            if (!followList.loading && followList.list.length < follow) {
+            if (!followList.loading && !followList.full) {
               _fetchMoreFollowList();
             }
           }}

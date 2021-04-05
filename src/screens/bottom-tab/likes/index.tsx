@@ -1,10 +1,11 @@
 import CommonEmpty from '@components/common/empty';
 import CommonError from '@components/common/error';
 import PhotoList from '@components/photos-flat-list';
+import { useScrollToTop } from '@react-navigation/native';
 import { photoActions } from '@store/slices/photo';
 import { useAppDispatch, useAppSelector } from '@store/store';
 import theme from '@theme';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { RefreshControl } from 'react-native';
 import { Container, ErrorContainer, Description, Heading } from './styles';
 const LikesScreen = () => {
@@ -13,6 +14,9 @@ const LikesScreen = () => {
   );
   const dispatch = useAppDispatch();
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const listRef = useRef(null);
+
+  useScrollToTop(listRef);
 
   useEffect(() => {
     dispatch(photoActions.getLikedPhotosRequest());
@@ -37,6 +41,7 @@ const LikesScreen = () => {
 
       {!error && !!photos.length && (
         <PhotoList
+          ref={listRef}
           refreshControl={
             <RefreshControl
               colors={[theme.colors.lightBlue1]}
@@ -50,10 +55,12 @@ const LikesScreen = () => {
           }
           onEndReachedThreshold={0.5}
           onEndReached={() => {
-            if (full) {
+            if (full || !photos.length) {
               return;
             }
-            dispatch(photoActions.getMoreLikedPhotosRequest());
+            if (photos.length >= 20) {
+              dispatch(photoActions.getMoreLikedPhotosRequest());
+            }
           }}
           photos={photos}
           loading={loading}
