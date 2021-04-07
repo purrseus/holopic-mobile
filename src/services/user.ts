@@ -43,7 +43,7 @@ export interface IUser extends Pick<IAccount, TUserKey> {
 
 type TGetMyAccount = () => Promise<AxiosResponse<IAccount>>;
 type TEditProfile = (
-  data: Partial<IProfile>,
+  data: Pick<IProfile, 'fullName' | 'username' | 'gender' | 'bio' | 'location'>,
 ) => Promise<AxiosResponse<IAccount>>;
 type TGetUser = (uid: string) => Promise<AxiosResponse<IUser>>;
 type TFollowUser = (uid: string) => Promise<AxiosResponse>;

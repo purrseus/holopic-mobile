@@ -7,7 +7,10 @@ import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
 import { photoActions } from './photo';
 
 export interface IEditProfilePayloadAction {
-  values: Partial<IProfile>;
+  values: Pick<
+    IProfile,
+    'fullName' | 'username' | 'gender' | 'bio' | 'location'
+  >;
   publicId?: string;
   newAvatar?: IUploadPhotoParams;
 }

@@ -11,29 +11,44 @@ export const StyledListView = styled(FlatList as new () => FlatList<IPhoto>)`
 `;
 
 export const PostContainer = styled.View`
-  padding: 0px 4px 12px;
-  margin: 12px 4px;
-  background-color: ${({ theme }) => theme.colors.white};
-  border-radius: 16px;
-  elevation: 2;
+  padding: 20px 0px;
+  border-bottom-width: 1px;
+  border-color: ${({ theme }) => theme.colors.lightGray};
+  margin: 0px 12px;
+  background-color: ${({ theme }) => theme.colors.background};
+`;
+
+export const HeaderPost = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 4px 8px;
 `;
 
 export const UserContainer = styled.View`
   flex-direction: row;
   align-items: center;
-  padding: 12px 4px;
-  align-self: flex-start;
 `;
 
 export const StyledAvatar = styled(HoloAvatar)`
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
+`;
+
+export const Name = styled.View`
+  margin-left: 8px;
+  justify-content: center;
+`;
+
+export const FullName = styled.Text`
+  font-family: 'Quicksand-Bold';
+  font-size: 16px;
 `;
 
 export const UserName = styled.Text`
-  font-family: 'Quicksand-Bold';
-  font-size: 15px;
-  margin-left: 8px;
+  font-family: 'Quicksand-Medium';
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.darkGray};
 `;
 
 export const Photo = styled(FastImage)`
@@ -45,23 +60,36 @@ export const ContentWrapper = styled.View`
   padding: 0px 4px;
 `;
 
-export const Icons = styled.View`
-  padding: 8px 0px;
+export const Icon = styled.View`
+  margin: 8px 8px 8px 0px;
+  padding: 2px 8px;
+  height: 30px;
+  border-radius: 16px;
   flex-direction: row;
   align-items: center;
+  align-self: flex-start;
+  background-color: ${({ theme }) => theme.colors.lightGray};
 `;
 
 export const PostInfo = styled.View`
-  padding: 0px 4px;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 `;
 
 export const BoldText = styled.Text`
+  margin-right: 8px;
   font-family: 'Quicksand-Bold';
   font-size: 14px;
   color: ${({ theme }) => theme.colors.black};
-  margin-right: 8px;
+`;
+
+export const StyledText = styled.Text`
+  font-family: 'Quicksand-Medium';
+  line-height: 18px;
+  font-size: 14px;
+  margin-left: 6px;
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 export const Title = styled.Text`

@@ -12,6 +12,11 @@ interface SearchStatus<T> {
   error?: boolean;
 }
 
+interface SearchKeywordSuccessPayloadAction {
+  users: IUser[];
+  photos: IPhoto[];
+}
+
 interface ISearchState {
   keywords: string[];
   users: SearchStatus<IUser>;
@@ -52,19 +57,52 @@ const searchKeywordRequest: CaseReducer<ISearchState, PayloadAction<string>> = (
   state,
   { payload },
 ) => {
-  state.keywords.unshift(payload);
+  if (state.keywords.includes(payload)) {
+    state.keywords.splice(
+      state.keywords.findIndex(keyword => keyword === payload),
+      1,
+    );
+
+    state.keywords.unshift(payload);
+  } else {
+    state.keywords.unshift(payload);
+  }
   if (state.keywords.length > 20) {
     state.keywords.length = 20;
   }
+  state.photos.loading = true;
+  state.users.loading = true;
+};
+
+const searchKeywordSuccess: CaseReducer<
+  ISearchState,
+  PayloadAction<SearchKeywordSuccessPayloadAction>
+> = (state, { payload }) => {
+  state.photos.loading = false;
+  state.users.loading = false;
+  delete state.photos.error;
+  delete state.users.error;
+  state.photos.result = payload.photos;
+  state.users.result = payload.users;
+};
+
+const searchKeywordFailed: CaseReducer<ISearchState> = state => {
+  state.photos.loading = false;
+  state.users.loading = false;
+  state.photos.error = true;
+  state.users.error = true;
 };
 
 const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    searchKeywordRequest,
     removeASearchKeyword,
     clearSearchKeywords,
+
+    searchKeywordRequest,
+    searchKeywordSuccess,
+    searchKeywordFailed,
   },
 });
 

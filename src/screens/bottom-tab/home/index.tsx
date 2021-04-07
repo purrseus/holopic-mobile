@@ -40,6 +40,7 @@ const HomeScreen = () => {
               <HoloAvatar
                 size={AvatarSize.SMALL - 12}
                 url={user?.profile.avatar.url}
+                publicId={user?.profile.avatar.publicId}
                 fullName={user?.profile.fullName}
               />
             </Avatar>

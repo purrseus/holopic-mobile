@@ -9,16 +9,21 @@ import numeral from 'numeral';
 import React from 'react';
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import Icon from 'react-native-vector-icons/AntDesign';
+import AntIcons from 'react-native-vector-icons/AntDesign';
+import Octicons from 'react-native-vector-icons/Octicons';
 import {
-  Icons,
+  Icon,
   Photo,
   PostContainer,
   PostInfo,
+  HeaderPost,
   StyledAvatar,
   UserContainer,
+  Name,
+  FullName,
   UserName,
   BoldText,
+  StyledText,
   ContentWrapper,
   Title,
   Tags,
@@ -32,25 +37,38 @@ const Post = ({ photo }: { photo: IPhoto }) => {
 
   return (
     <PostContainer>
-      <TouchableWithoutFeedback
-        onPress={() => {
-          if (userName === photo.userInfo[0].profile.username) {
-            navigate(HoloScreen.TAB_BAR, {
-              screen: HoloScreen.MY_PROFILE,
-            });
-            return;
-          }
-          navigate(HoloScreen.PROFILE, { user: photo.userInfo[0] });
-        }}
-      >
-        <UserContainer>
-          <StyledAvatar
-            url={photo.userInfo[0].profile.avatar.url}
-            fullName={photo.userInfo[0].profile.fullName}
-          />
-          <UserName>@{photo.userInfo[0].profile.username}</UserName>
-        </UserContainer>
-      </TouchableWithoutFeedback>
+      <HeaderPost>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            if (userName === photo.userInfo[0].profile.username) {
+              navigate(HoloScreen.TAB_BAR, {
+                screen: HoloScreen.MY_PROFILE,
+              });
+              return;
+            }
+            navigate(HoloScreen.PROFILE, { uid: photo.userInfo[0].uid });
+          }}
+        >
+          <UserContainer>
+            <StyledAvatar
+              url={photo.userInfo[0].profile.avatar.url}
+              fullName={photo.userInfo[0].profile.fullName}
+            />
+            <Name>
+              {!!photo.userInfo[0].profile.fullName && (
+                <FullName>{photo.userInfo[0].profile.fullName}</FullName>
+              )}
+              <UserName>@{photo.userInfo[0].profile.username}</UserName>
+            </Name>
+          </UserContainer>
+        </TouchableWithoutFeedback>
+
+        <Octicons
+          name="kebab-vertical"
+          size={24}
+          color={theme.colors.darkGray + 'cc'}
+        />
+      </HeaderPost>
 
       <TouchableWithoutFeedback
         onPress={async () => {
@@ -62,24 +80,43 @@ const Post = ({ photo }: { photo: IPhoto }) => {
           source={{ uri: photo.url }}
           resizeMode={FastImage.resizeMode.cover}
           style={{
-            aspectRatio: photo.width * 1.5 >= photo.height ? 1 / 1 : 3 / 4.2,
+            aspectRatio:
+              photo.width / 2 > photo.height
+                ? 4.2 / 3
+                : photo.width > photo.height
+                ? photo.width / photo.height
+                : 3 / 4.2,
           }}
         />
       </TouchableWithoutFeedback>
 
       <ContentWrapper>
-        <Icons>
-          <LikeButton photo={photo} style={styles.like} />
-          <Icon
+        <PostInfo>
+          <PostInfo>
+            <Icon>
+              <LikeButton
+                photo={photo}
+                style={styles.like}
+                text={
+                  <StyledText>{numeral(photo.likes).format('0a')}</StyledText>
+                }
+              />
+            </Icon>
+
+            <Icon>
+              <AntIcons
+                name="eye"
+                size={16}
+                color={theme.colors.darkGray + 'cc'}
+              />
+              <StyledText>{numeral(photo.views).format('0a')}</StyledText>
+            </Icon>
+          </PostInfo>
+          <AntIcons
             name="sharealt"
-            size={24}
+            size={22}
             color={theme.colors.darkGray + 'cc'}
           />
-        </Icons>
-
-        <PostInfo>
-          <BoldText>{numeral(photo.likes).format('0a')} likes</BoldText>
-          <BoldText>{numeral(photo.views).format('0a')} views</BoldText>
         </PostInfo>
 
         <Title>
@@ -101,9 +138,9 @@ const Post = ({ photo }: { photo: IPhoto }) => {
 
 const styles = StyleSheet.create({
   like: {
-    width: 30,
-    height: 30,
-    marginRight: 16,
+    width: 22,
+    height: 22,
+    marginRight: -1,
   },
 });
 

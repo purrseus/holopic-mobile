@@ -143,7 +143,7 @@ const PhotoForm = ({
   return (
     <Container>
       <StyledHoloHeader headerTitle={headerTitle} showBackButton />
-      <ScrollView keyboardDismissMode="on-drag">
+      <ScrollView keyboardShouldPersistTaps="handled">
         {!!user && (
           <StyledUserCard
             fullName={user.fullName}
@@ -161,7 +161,7 @@ const PhotoForm = ({
             placeholder={t('addATitle')}
             value={formik.values.title}
             maxLength={64}
-            selectionColor={theme.colors.black}
+            selectionColor={theme.colors.lightBlue1}
             onChangeText={formik.handleChange('title')}
             multiline
             onSubmitEditing={() => {
@@ -174,8 +174,7 @@ const PhotoForm = ({
             placeholder={t('addTags')}
             value={formik.values.tags}
             maxLength={64}
-            multiline
-            selectionColor={theme.colors.black}
+            selectionColor={theme.colors.lightBlue1}
             onChangeText={formik.handleChange('tags')}
             autoCapitalize="none"
           />

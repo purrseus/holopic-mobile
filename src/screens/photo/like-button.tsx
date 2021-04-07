@@ -3,6 +3,7 @@ import {
   StyleProp,
   StyleSheet,
   TouchableWithoutFeedback,
+  View,
   ViewStyle,
 } from 'react-native';
 import LottieView from 'lottie-react-native';
@@ -13,10 +14,12 @@ import { photoActions } from '@store/slices/photo';
 const LikeButton = ({
   photo,
   style,
+  text,
   callback,
 }: {
   photo: IPhoto;
   style?: StyleProp<ViewStyle>;
+  text?: React.ReactNode;
   callback?: () => void;
 }) => {
   const likeAnimation = useRef<any>();
@@ -65,18 +68,26 @@ const LikeButton = ({
 
   return (
     <TouchableWithoutFeedback onPress={_onLike} disabled={disabled}>
-      <LottieView
-        ref={likeAnimation}
-        source={require('@assets/animations/like')}
-        style={[styles.like, style]}
-        loop={false}
-        speed={1.5}
-      />
+      <View style={styles.container}>
+        <LottieView
+          ref={likeAnimation}
+          source={require('@assets/animations/like')}
+          style={[styles.like, style]}
+          loop={false}
+          speed={1.5}
+        />
+        {text}
+      </View>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   like: {
     width: 32,
     height: 32,

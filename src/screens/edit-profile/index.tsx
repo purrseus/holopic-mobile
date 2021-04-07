@@ -35,7 +35,7 @@ const EditProfileScreen = () => {
   ];
 
   const editProfileSchema = yup.object().shape({
-    fullName: yup.string().trim().required(),
+    fullName: yup.string().min(1).trim().required(),
     username: yup.string().min(4).trim().matches(/^\S+$/gi).required(),
     bio: yup.string().trim().optional(),
     location: yup.string().trim().optional(),
@@ -43,11 +43,11 @@ const EditProfileScreen = () => {
 
   const formik = useFormik({
     initialValues: {
-      fullName: user?.profile.fullName,
-      username: user?.profile.username,
-      gender: user?.profile.gender,
-      bio: user?.profile.bio,
-      location: user?.profile.location,
+      fullName: user?.profile.fullName as string,
+      username: user?.profile.username as string,
+      gender: user?.profile.gender as Gender,
+      bio: user?.profile.bio as string,
+      location: user?.profile.location as string,
     },
     validationSchema: editProfileSchema,
     onSubmit: values => {
@@ -98,7 +98,7 @@ const EditProfileScreen = () => {
           />
         }
       />
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="handled">
         <TouchableWithoutFeedback onPress={_onChangeAvatar}>
           <AvatarWrapper>
             <HoloAvatar

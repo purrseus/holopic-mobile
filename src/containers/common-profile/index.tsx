@@ -291,7 +291,13 @@ const CommonProfile = (
             {error && <CommonError />}
 
             {photoList.length === 0 && !loading && !error && (
-              <CommonEmpty description="You have not uploaded any photos yet." />
+              <CommonEmpty
+                description={
+                  username === userName
+                    ? 'You have not uploaded any photos yet.'
+                    : 'Nothing here.'
+                }
+              />
             )}
           </>
         }

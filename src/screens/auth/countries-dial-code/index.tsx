@@ -111,6 +111,7 @@ const CountriesDialCodeScreen = () => {
         )}
       </Row>
       <Countries
+        keyboardShouldPersistTaps="handled"
         data={countryCode}
         renderItem={_renderItem}
         keyExtractor={(_, i) => '' + i}

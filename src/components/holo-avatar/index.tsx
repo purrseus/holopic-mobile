@@ -1,9 +1,7 @@
-import { useAppSelector } from '@store/store';
 import React from 'react';
 import { ViewProps } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { Container, Avatar, StyledText } from './styles';
-import { IProfile } from '@services/user';
 
 export enum AvatarSize {
   LARGE = 120,
@@ -13,6 +11,7 @@ export enum AvatarSize {
 export interface Props extends ViewProps {
   size?: AvatarSize;
   url?: string;
+  publicId?: string;
   fullName?: string;
   hideDefaultAvatar?: boolean;
 }
@@ -20,19 +19,14 @@ export interface Props extends ViewProps {
 const HoloAvatar = ({
   size = AvatarSize.SMALL,
   url,
+  publicId,
   fullName,
   hideDefaultAvatar = false,
   style,
 }: Props) => {
-  const profile: IProfile | undefined = useAppSelector(
-    state => state.user.user?.profile,
-  );
-
   return (
     <Container size={size} style={style}>
-      {hideDefaultAvatar ||
-      fullName === '' ||
-      profile?.avatar.publicId !== '' ? (
+      {hideDefaultAvatar || fullName === '' || publicId !== '' ? (
         <Avatar source={{ uri: url }} resizeMode={FastImage.resizeMode.cover} />
       ) : (
         <StyledText size={size}>{fullName?.charAt(0).toUpperCase()}</StyledText>
