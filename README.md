@@ -1,10 +1,14 @@
 # Holopic mobile
 
-## Công nghệ sử dụng
+Holopic is a photo sharing mobile app using React Native.
 
-1. Typescript
-2. React Navigation
-3. Redux Toolkit
-4. Redux Saga
-5. RN Firebase Authentication
-6. Styled Component
+- [Holopic API](https://github.com/thiendo261/holopic-api)
+
+## Screenshots
+
+| ![](screenshots/screenshot4.jpg) | ![](screenshots/screenshot3.jpg) | ![](screenshots/screenshot2.jpg) | ![](screenshots/screenshot1.jpg) |
+| :------------------------------: | :------------------------------: | :------------------------------: | :------------------------------: |
+
+## Author
+
+- [Do Ngoc Thien](https://github.com/thiendo261)

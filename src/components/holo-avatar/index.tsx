@@ -26,7 +26,7 @@ const HoloAvatar = ({
 }: Props) => {
   return (
     <Container size={size} style={style}>
-      {hideDefaultAvatar || fullName === '' || publicId !== '' ? (
+      {!hideDefaultAvatar || fullName === '' || publicId !== '' ? (
         <Avatar source={{ uri: url }} resizeMode={FastImage.resizeMode.cover} />
       ) : (
         <StyledText size={size}>{fullName?.charAt(0).toUpperCase()}</StyledText>
